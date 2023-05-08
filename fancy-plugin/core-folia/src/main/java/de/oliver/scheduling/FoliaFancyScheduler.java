@@ -19,7 +19,11 @@ public class FoliaFancyScheduler implements FancyScheduler {
 
     @Override
     public @NotNull FancyScheduler runTask(Location location, Runnable task) {
-        scheduledTask = plugin.getServer().getRegionScheduler().run(plugin, location, scheduledTask1 -> task.run());
+        if (location != null) {
+            scheduledTask = plugin.getServer().getRegionScheduler().run(plugin, location, scheduledTask1 -> task.run());
+        } else {
+            scheduledTask = plugin.getServer().getGlobalRegionScheduler().run(plugin, scheduledTask1 -> task.run());
+        }
         return this;
     }
 
@@ -31,7 +35,11 @@ public class FoliaFancyScheduler implements FancyScheduler {
 
     @Override
     public @NotNull FancyScheduler runTaskLater(Location location, long delay, Runnable task) {
-        scheduledTask = plugin.getServer().getRegionScheduler().runDelayed(plugin, location, scheduledTask1 -> task.run(), delay);
+        if (location != null) {
+            scheduledTask = plugin.getServer().getRegionScheduler().runDelayed(plugin, location, scheduledTask1 -> task.run(), delay);
+        } else {
+            scheduledTask = plugin.getServer().getGlobalRegionScheduler().runDelayed(plugin, scheduledTask1 -> task.run(), delay);
+        }
         return this;
     }
 
