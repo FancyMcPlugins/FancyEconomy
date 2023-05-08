@@ -1,0 +1,21 @@
+name: FancyCoins
+main: de.oliver.fancycoins.FancyCoins
+authors: [ OliverHD ]
+contributors: [ mani1232 ]
+version: ${projectVersion}
+description: ${projectDescription}
+api-version: 1.19
+website: https://github.com/FancyMcPlugins/FancyCoins
+loadbefore:
+  - Vault
+commands:
+  FancyCoins:
+    permission: FancyCoins.admin
+  Coins:
+    permission: FancyCoins.coins
+    aliases:
+      - money
+      - bal
+      - balance
+  Pay:
+    permission: FancyCoins.pay
