@@ -1,0 +1,14 @@
+name: FancyCoins
+version: ${projectVersion}
+main: de.oliver.fancycoins.FancyCoins
+description: ${projectDescription}
+authors: [ OliverHD ]
+contributors: [ mani1232 ]
+loader: de.oliver.fancycoins.FancyCoinsLoader
+website: https://github.com/FancyMcPlugins/FancyCoins
+api-version: 1.19
+folia-supported: true
+
+load-after:
+  - name: Vault
+    bootstrap: false
