@@ -107,7 +107,7 @@ public class FancyCoins extends JavaPlugin {
             getServer().getServicesManager().register(net.milkbowl.vault.economy.Economy.class, new VaultHook(this), this, ServicePriority.Normal);
         } else {
             getLogger().warning("--------------------------------------------------");
-            getLogger().warning("Plugin need install Vault for others plugins.");
+            getLogger().warning("You must install the Vault plugin so that other plugins can use the default economy.");
             getLogger().warning("--------------------------------------------------");
         }
     }
