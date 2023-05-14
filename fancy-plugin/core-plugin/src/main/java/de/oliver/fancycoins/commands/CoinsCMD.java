@@ -43,6 +43,25 @@ public class CoinsCMD {
 
     }
 
+    @Subcommand({"top"})
+    @Permission("fancycoins.top.others")
+    public static void topOthers(
+            Player player,
+            @APlayerArgument Player toPlayer,
+            String vault
+    ) {
+
+    }
+
+    @Subcommand({"top"})
+    @Permission("fancycoins.top")
+    public static void top(
+            Player player,
+            String vault
+    ) {
+
+    }
+
     @Subcommand({"decrease", "remove"})
     @Permission("fancycoins.manage.decrease")
     public static void decrease(
