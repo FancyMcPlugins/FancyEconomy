@@ -3,6 +3,6 @@ version = rootProject.version
 
 subprojects {
     dependencies {
-        compileOnly(project(":fancy-api"))
+        compileOnly("com.github.FancyMcPlugins:FancyLib:225ba14e03")
     }
 }

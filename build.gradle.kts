@@ -18,19 +18,16 @@ allprojects {
     repositories {
         mavenLocal()
         mavenCentral()
+        maven("https://repo.codemc.org/repository/maven-public/")
         maven("https://repo.papermc.io/repository/maven-public/")
         maven("https://jitpack.io")
         maven("https://repo.alessiodp.com/releases/")
     }
 
     dependencies {
-        //compileOnly("io.papermc.paper:paper-api:1.19.4-R0.1-SNAPSHOT")
-
         compileOnly("net.kyori:adventure-text-minimessage:4.13.1")
-        compileOnly("com.github.MilkBowl:VaultAPI:1.7.1")
 
         //implementation("net.byteflux:libby-bukkit:1.2.0")
-        compileOnly("com.github.FancyMcPlugins:FancyLib:25458c9930")
     }
 
     java {
@@ -39,9 +36,7 @@ allprojects {
 }
 
 dependencies {
-    implementation(project(":fancy-api"))
     implementation(project(path = ":fancy-plugin:core-plugin", configuration = "shadow"))
-    implementation(project(":fancy-plugin:core-folia"))
 }
 
 tasks {
@@ -51,6 +46,7 @@ tasks {
 
     shadowJar{
         archiveClassifier.set("")
+        relocate("dev.jorel.commandapi", "de.oliver.fancycoins.commandapi")
     }
 
     publishing {
