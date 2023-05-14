@@ -5,6 +5,7 @@ import de.oliver.fancycoins.commands.CoinsCMD;
 import de.oliver.fancycoins.commands.FancyCoinsCMD;
 import de.oliver.fancycoins.commands.PayCMD;
 import de.oliver.fancycoins.integrations.VaultHook;
+import de.oliver.fancycoins.listeners.PlayerJoinListener;
 import de.oliver.fancycoins.utils.FoliaScheduler;
 import de.oliver.fancylib.FancyLib;
 import de.oliver.fancylib.VersionFetcher;
@@ -24,6 +25,7 @@ public class FancyCoins extends JavaPlugin {
     private final VersionFetcher versionFetcher;
     private final FancyCoinsConfig config;
     private boolean usingVault;
+    private final VaultsManager vaultsManager;
     private final FancyScheduler scheduler;
 
     public FancyCoins() {
@@ -32,6 +34,7 @@ public class FancyCoins extends JavaPlugin {
                 ? new FoliaScheduler(instance)
                 : new BukkitScheduler(instance);
         //loadDependencies(); not need for paper and forks
+        vaultsManager = new VaultsManager();
         config = new FancyCoinsConfig();
         versionFetcher = new VersionFetcher("https://api.modrinth.com/v2/project/fancycoins/version", "https://modrinth.com/plugin/fancycoins/versions");
     }
@@ -64,6 +67,9 @@ public class FancyCoins extends JavaPlugin {
             getLogger().warning("--------------------------------------------------");
         }
         config.reload();
+        vaultsManager.loadFromConfig();
+
+        Bukkit.getPluginManager().registerEvents(new PlayerJoinListener(), instance);
 
         CommandAPI.registerCommand(FancyCoinsCMD.class);
         CommandAPI.registerCommand(CoinsCMD.class);
@@ -110,6 +116,10 @@ public class FancyCoins extends JavaPlugin {
             getLogger().warning("You must install the Vault plugin so that other plugins can use the default economy.");
             getLogger().warning("--------------------------------------------------");
         }
+    }
+
+    public VaultsManager getVaultsManager() {
+        return vaultsManager;
     }
 
     public FancyCoinsConfig getFancyCoinsConfig() {

@@ -4,6 +4,7 @@ import de.oliver.fancylib.MessageHelper;
 import dev.jorel.commandapi.annotations.*;
 import dev.jorel.commandapi.annotations.arguments.ADoubleArgument;
 import dev.jorel.commandapi.annotations.arguments.APlayerArgument;
+import dev.jorel.commandapi.annotations.arguments.AStringArgument;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class CoinsCMD {
     public static void increase(
             Player player,
             @APlayerArgument Player toPlayer,
-            String vault,
+            @AStringArgument String vault,
             @ADoubleArgument(min = 0.1) double count
     ) {
 
@@ -40,7 +41,7 @@ public class CoinsCMD {
     public static void balanceOthers(
             Player player,
             @APlayerArgument Player toPlayer,
-            String vault
+            @AStringArgument String vault
     ) {
 
     }
@@ -49,7 +50,7 @@ public class CoinsCMD {
     @Permission("fancycoins.top")
     public static void top(
             Player player,
-            String vault
+            @AStringArgument String vault
     ) {
 
     }
@@ -59,7 +60,7 @@ public class CoinsCMD {
     public static void decrease(
             Player player,
             @APlayerArgument Player toPlayer,
-            String vault,
+            @AStringArgument String vault,
             @ADoubleArgument(min = 0.1) double count
     ) {
 

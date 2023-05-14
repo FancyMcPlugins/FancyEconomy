@@ -1,5 +1,8 @@
 package de.oliver.fancycoins.vaults;
 
+import de.oliver.fancycoins.FancyCoins;
+import org.bukkit.entity.Player;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +22,14 @@ public class VaultRegistry {
         }
 
         return null;
+    }
+
+    public static List<FancyVault> getDefaultVaults() {
+        return ALL_VAULTS.stream().filter(FancyVault::isDefault_currency).toList();
+    }
+
+    public static List<FancyVault> getDefaultVaultsByPlayer(Player player) {
+        return FancyCoins.getInstance().getVaultsManager().getVaults(player.getUniqueId()).stream().filter(FancyVault::isDefault_currency).toList();
     }
 
 }
