@@ -1,6 +1,7 @@
 package de.oliver.fancycoins.integrations;
 
 import de.oliver.fancycoins.FancyCoins;
+import de.oliver.fancycoins.vaults.FancyVault;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.OfflinePlayer;
@@ -60,7 +61,7 @@ public class VaultHook implements Economy {
 
     @Override
     public boolean hasAccount(OfflinePlayer offlinePlayer) {
-        return true;
+        return !fancyCoins.getVaultsManager().getVaults(offlinePlayer.getUniqueId()).stream().filter(FancyVault::isDefault_currency).toList().isEmpty();
     }
 
     @Override
@@ -82,7 +83,7 @@ public class VaultHook implements Economy {
 
     @Override
     public double getBalance(OfflinePlayer offlinePlayer) {
-        return 0;
+        return fancyCoins.getVaultsManager().getVaults(offlinePlayer.getUniqueId()).stream().filter(FancyVault::isDefault_currency).findFirst().get().getBalance();
     }
 
     @Override
@@ -104,7 +105,7 @@ public class VaultHook implements Economy {
 
     @Override
     public boolean has(OfflinePlayer offlinePlayer, double v) {
-        return false;
+        return fancyCoins.getVaultsManager().getVaults(offlinePlayer.getUniqueId()).stream().filter(FancyVault::isDefault_currency).findFirst().get().getBalance() >= v;
     }
 
     @Override
@@ -125,7 +126,14 @@ public class VaultHook implements Economy {
 
     @Override
     public EconomyResponse withdrawPlayer(OfflinePlayer offlinePlayer, double v) {
-        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, "wmUser cannot be null!");
+        if (has(offlinePlayer, v)) {
+            FancyVault fancyVault = fancyCoins.getVaultsManager().getVaults(offlinePlayer.getUniqueId()).stream().filter(FancyVault::isDefault_currency).findFirst().get();
+            fancyVault.setBalance(fancyVault.getBalance() - v);
+            fancyCoins.getVaultsManager().updateFancyVault(offlinePlayer.getUniqueId(), fancyVault);
+            return new EconomyResponse(0, 0, EconomyResponse.ResponseType.SUCCESS, null);
+        } else {
+            return new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, "User cannot withdraw!");
+        }
     }
 
     @Override
@@ -147,7 +155,10 @@ public class VaultHook implements Economy {
 
     @Override
     public EconomyResponse depositPlayer(OfflinePlayer offlinePlayer, double v) {
-        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, "wmUser cannot be null!");
+        FancyVault fancyVault = fancyCoins.getVaultsManager().getVaults(offlinePlayer.getUniqueId()).stream().filter(FancyVault::isDefault_currency).findFirst().get();
+        fancyVault.setBalance(fancyVault.getBalance() + v);
+        fancyCoins.getVaultsManager().updateFancyVault(offlinePlayer.getUniqueId(), fancyVault);
+        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.SUCCESS, null);
     }
 
     @Override
@@ -164,59 +175,59 @@ public class VaultHook implements Economy {
     @Override
     @Deprecated
     public EconomyResponse createBank(String s, String s1) {
-        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "WMCMI does not support bank accounts!");
+        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "FancyCoins does not support bank accounts!");
     }
 
     @Override
     public EconomyResponse createBank(String s, OfflinePlayer offlinePlayer) {
-        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "WMCMI does not support bank accounts!");
+        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "FancyCoins does not support bank accounts!");
     }
 
     @Override
     public EconomyResponse deleteBank(String s) {
-        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "WMCMI does not support bank accounts!");
+        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "FancyCoins does not support bank accounts!");
     }
 
     @Override
     public EconomyResponse bankBalance(String s) {
-        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "WMCMI does not support bank accounts!");
+        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "FancyCoins does not support bank accounts!");
     }
 
     @Override
     public EconomyResponse bankHas(String s, double v) {
-        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "WMCMI does not support bank accounts!");
+        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "FancyCoins does not support bank accounts!");
     }
 
     @Override
     public EconomyResponse bankWithdraw(String s, double v) {
-        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "WMCMI does not support bank accounts!");
+        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "FancyCoins does not support bank accounts!");
     }
 
     @Override
     public EconomyResponse bankDeposit(String s, double v) {
-        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "WMCMI does not support bank accounts!");
+        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "FancyCoins does not support bank accounts!");
     }
 
     @Override
     @Deprecated
     public EconomyResponse isBankOwner(String s, String s1) {
-        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "WMCMI does not support bank accounts!");
+        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "FancyCoins does not support bank accounts!");
     }
 
     @Override
     public EconomyResponse isBankOwner(String s, OfflinePlayer offlinePlayer) {
-        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "WMCMI does not support bank accounts!");
+        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "FancyCoins does not support bank accounts!");
     }
 
     @Override
     @Deprecated
     public EconomyResponse isBankMember(String s, String s1) {
-        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "WMCMI does not support bank accounts!");
+        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "FancyCoins does not support bank accounts!");
     }
 
     @Override
     public EconomyResponse isBankMember(String s, OfflinePlayer offlinePlayer) {
-        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "WMCMI does not support bank accounts!");
+        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "FancyCoins does not support bank accounts!");
     }
 
     @Override

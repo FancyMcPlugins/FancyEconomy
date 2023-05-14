@@ -4,11 +4,12 @@ import dev.jorel.commandapi.annotations.Alias;
 import dev.jorel.commandapi.annotations.Command;
 import dev.jorel.commandapi.annotations.Default;
 import dev.jorel.commandapi.annotations.Permission;
+import dev.jorel.commandapi.annotations.arguments.AStringArgument;
 import org.bukkit.entity.Player;
 
 @Command("balance")
-@Alias({"money"})
 @Permission("fancycoins.balance")
+@Alias({"money"})
 public class BalanceCMD {
 
     @Default
@@ -22,7 +23,7 @@ public class BalanceCMD {
     @Permission("fancycoins.balance.vaults")
     public static void balance(
             Player player,
-            String vault
+            @AStringArgument String vault
     ) {
 
     }

@@ -24,6 +24,18 @@ public class FancyVault {
                 '}';
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
     public boolean isDefault_currency() {
         return default_currency;
     }
