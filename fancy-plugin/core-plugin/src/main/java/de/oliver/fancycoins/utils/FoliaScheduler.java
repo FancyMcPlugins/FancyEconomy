@@ -1,5 +1,6 @@
-package de.oliver.scheduling;
+package de.oliver.fancycoins.utils;
 
+import de.oliver.fancylib.serverSoftware.schedulers.FancyScheduler;
 import io.papermc.paper.threadedregions.scheduler.ScheduledTask;
 import org.bukkit.Location;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -7,13 +8,13 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.TimeUnit;
 
-public class FoliaFancyScheduler implements FancyScheduler {
+public class FoliaScheduler implements FancyScheduler {
 
     ScheduledTask scheduledTask;
 
     JavaPlugin plugin;
 
-    public FoliaFancyScheduler(JavaPlugin plugin) {
+    public FoliaScheduler(JavaPlugin plugin) {
         this.plugin = plugin;
     }
 
@@ -67,4 +68,5 @@ public class FoliaFancyScheduler implements FancyScheduler {
             scheduledTask.cancel();
         }
     }
+
 }

@@ -8,14 +8,3 @@ api-version: 1.19
 website: https://github.com/FancyMcPlugins/FancyCoins
 loadbefore:
   - Vault
-commands:
-  FancyCoins:
-    permission: FancyCoins.admin
-  Coins:
-    permission: FancyCoins.coins
-    aliases:
-      - money
-      - bal
-      - balance
-  Pay:
-    permission: FancyCoins.pay

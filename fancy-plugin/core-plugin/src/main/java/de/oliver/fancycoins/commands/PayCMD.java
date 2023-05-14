@@ -1,23 +1,30 @@
 package de.oliver.fancycoins.commands;
 
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.jetbrains.annotations.NotNull;
+import de.oliver.fancylib.MessageHelper;
+import dev.jorel.commandapi.annotations.Command;
+import dev.jorel.commandapi.annotations.Default;
+import dev.jorel.commandapi.annotations.Permission;
+import dev.jorel.commandapi.annotations.arguments.ADoubleArgument;
+import dev.jorel.commandapi.annotations.arguments.APlayerArgument;
+import org.bukkit.entity.Player;
 
-import java.util.List;
+@Command("pay")
+@Permission("fancycoins.pay")
+public class PayCMD {
 
-public class PayCMD extends Command {
-    public PayCMD(@NotNull String name, @NotNull String description, @NotNull String usageMessage, @NotNull List<String> aliases) {
-        super(name, description, usageMessage, aliases);
+    @Default
+    public static void info(Player player) {
+        MessageHelper.success(player, " --- FancyCoins Info ---");
+        MessageHelper.success(player, "/pay <player> <count> - Send money to certain player");
     }
 
-    //@Override
-    //public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-    //    return false;
-    //}
+    @Default
+    public static void pay(
+            Player player,
+            @APlayerArgument Player toPlayer,
+            @ADoubleArgument(min = 0.1) double count
+    ) {
 
-    @Override
-    public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String[] args) {
-        return false;
     }
+
 }

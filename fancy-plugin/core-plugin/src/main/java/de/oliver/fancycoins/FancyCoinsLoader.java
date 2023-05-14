@@ -13,7 +13,7 @@ public class FancyCoinsLoader implements PluginLoader {
     public void classloader(@NotNull PluginClasspathBuilder classpathBuilder) {
         MavenLibraryResolver resolver = new MavenLibraryResolver();
         resolver.addRepository(new RemoteRepository.Builder("JitPack", "default", "https://jitpack.io/").build());
-        resolver.addDependency(new Dependency(new DefaultArtifact("com.github.FancyMcPlugins:FancyLib:25458c9930"), null));
+        resolver.addDependency(new Dependency(new DefaultArtifact("com.github.FancyMcPlugins:FancyLib:225ba14e03"), null));
 
         classpathBuilder.addLibrary(resolver);
     }
