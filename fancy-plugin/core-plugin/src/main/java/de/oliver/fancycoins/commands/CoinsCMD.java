@@ -20,6 +20,8 @@ public class CoinsCMD {
         MessageHelper.success(player, " --- FancyCoins Info ---");
         MessageHelper.success(player, "/coins increase <player> <vault_name> <count> - Increase a certain amount to a certain vault for a certain player");
         MessageHelper.success(player, "/coins decrease <player> <vault_name> <count> - Decrease a certain amount to a certain vault for a certain player");
+        MessageHelper.success(player, "/coins top <vault_name> - Show top by vault");
+        MessageHelper.success(player, "/coins balance <player> <vault_name> - Show player balance");
     }
 
     @Subcommand({"increase", "add"})
@@ -36,16 +38,6 @@ public class CoinsCMD {
     @Subcommand({"balance"})
     @Permission("fancycoins.balance.others")
     public static void balanceOthers(
-            Player player,
-            @APlayerArgument Player toPlayer,
-            String vault
-    ) {
-
-    }
-
-    @Subcommand({"top"})
-    @Permission("fancycoins.top.others")
-    public static void topOthers(
             Player player,
             @APlayerArgument Player toPlayer,
             String vault
