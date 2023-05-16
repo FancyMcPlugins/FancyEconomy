@@ -1,5 +1,6 @@
 package de.oliver.fancycoins.commands;
 
+import de.oliver.fancycoins.FancyCoins;
 import de.oliver.fancycoins.vaults.FancyVault;
 import de.oliver.fancycoins.vaults.VaultRegistry;
 import de.oliver.fancylib.MessageHelper;
@@ -16,10 +17,16 @@ import java.util.List;
 @Permission("fancycoins.pay")
 public class PayCMD {
 
+    private static FancyCoins fancyCoins = null;
+
+    public PayCMD(FancyCoins fancyCoins) {
+        PayCMD.fancyCoins = fancyCoins;
+    }
+
     @Default
     public static void info(Player player) {
-        MessageHelper.success(player, " --- FancyCoins Info ---");
-        MessageHelper.success(player, "/pay <player> <count> - Send money to certain player");
+        MessageHelper.info(player, " --- FancyCoins Info ---");
+        MessageHelper.info(player, "/pay <player> <count> - Send money to certain player (from default vault)");
     }
 
     @Default

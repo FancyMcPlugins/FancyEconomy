@@ -71,10 +71,10 @@ public class FancyCoins extends JavaPlugin {
 
         Bukkit.getPluginManager().registerEvents(new PlayerJoinListener(), instance);
 
-        CommandAPI.registerCommand(FancyCoinsCMD.class);
-        CommandAPI.registerCommand(CoinsCMD.class);
-        CommandAPI.registerCommand(PayCMD.class);
-        CommandAPI.registerCommand(BalanceCMD.class);
+        CommandAPI.registerCommand(new FancyCoinsCMD(instance).getClass());
+        CommandAPI.registerCommand(new CoinsCMD(instance).getClass());
+        CommandAPI.registerCommand(new PayCMD(instance).getClass());
+        CommandAPI.registerCommand(new BalanceCMD(instance).getClass());
     }
 
     @Override

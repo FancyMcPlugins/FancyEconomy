@@ -13,11 +13,17 @@ import org.bukkit.entity.Player;
 @Permission("fancycoins.admin")
 public class FancyCoinsCMD {
 
+    private static FancyCoins fancyCoins = null;
+
+    public FancyCoinsCMD(FancyCoins fancyCoins) {
+        FancyCoinsCMD.fancyCoins = fancyCoins;
+    }
+
     @Default
     public static void info(Player player) {
-        MessageHelper.success(player, " --- FancyCoins Info ---");
-        MessageHelper.success(player, "/fancycoins reload - plugin config reload");
-        MessageHelper.success(player, "/fancycoins version - checks for a new version of the plugin");
+        MessageHelper.info(player, " --- FancyCoins Info ---");
+        MessageHelper.info(player, "/fancycoins reload - plugin config reload");
+        MessageHelper.info(player, "/fancycoins version - checks for a new version of the plugin");
     }
 
     @Subcommand("version")
@@ -42,6 +48,7 @@ public class FancyCoinsCMD {
     @Permission("fancycoins.admin.reload")
     public static void reload(Player player) {
         FancyCoins.getInstance().getFancyCoinsConfig().reload();
+        FancyCoins.getInstance().getVaultsManager().loadFromConfig();
         MessageHelper.success(player, "Reloaded the config");
     }
 }
