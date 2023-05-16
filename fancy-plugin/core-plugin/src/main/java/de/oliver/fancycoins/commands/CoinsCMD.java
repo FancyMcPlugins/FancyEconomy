@@ -1,28 +1,33 @@
 package de.oliver.fancycoins.commands;
 
+import de.oliver.fancycoins.FancyCoins;
 import de.oliver.fancylib.MessageHelper;
-import dev.jorel.commandapi.annotations.*;
+import dev.jorel.commandapi.annotations.Command;
+import dev.jorel.commandapi.annotations.Default;
+import dev.jorel.commandapi.annotations.Permission;
+import dev.jorel.commandapi.annotations.Subcommand;
 import dev.jorel.commandapi.annotations.arguments.ADoubleArgument;
 import dev.jorel.commandapi.annotations.arguments.APlayerArgument;
 import dev.jorel.commandapi.annotations.arguments.AStringArgument;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Command("coins")
 @Permission("fancycoins.manage")
 public class CoinsCMD {
 
-    static final List<String> availableVaults = new ArrayList<>();
+    private static FancyCoins fancyCoins = null;
+
+    public CoinsCMD(FancyCoins fancyCoins) {
+        CoinsCMD.fancyCoins = fancyCoins;
+    }
 
     @Default
     public static void info(Player player) {
-        MessageHelper.success(player, " --- FancyCoins Info ---");
-        MessageHelper.success(player, "/coins increase <player> <vault_name> <count> - Increase a certain amount to a certain vault for a certain player");
-        MessageHelper.success(player, "/coins decrease <player> <vault_name> <count> - Decrease a certain amount to a certain vault for a certain player");
-        MessageHelper.success(player, "/coins top <vault_name> - Show top by vault");
-        MessageHelper.success(player, "/coins balance <player> <vault_name> - Show player balance");
+        MessageHelper.info(player, " --- FancyCoins Info ---");
+        MessageHelper.info(player, "/coins increase <player> <vault_name> <count> - Increase a certain amount to a certain vault for a certain player");
+        MessageHelper.info(player, "/coins decrease <player> <vault_name> <count> - Decrease a certain amount to a certain vault for a certain player");
+        MessageHelper.info(player, "/coins top <vault_name> - Show top by vault");
+        MessageHelper.info(player, "/coins balance <player> <vault_name> - Show player balance");
     }
 
     @Subcommand({"increase", "add"})

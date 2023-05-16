@@ -1,13 +1,17 @@
 package de.oliver.fancycoins.integrations;
 
+import com.google.common.util.concurrent.AtomicDouble;
 import de.oliver.fancycoins.FancyCoins;
 import de.oliver.fancycoins.vaults.FancyVault;
+import de.oliver.fancycoins.vaults.VaultRegistry;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.OfflinePlayer;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class VaultHook implements Economy {
 
@@ -40,7 +44,7 @@ public class VaultHook implements Economy {
 
     @Override
     public String format(double v) {
-        return "";
+        return v + VaultRegistry.ALL_VAULTS.stream().filter(FancyVault::isDefault_currency).findFirst().get().getSymbol();
     }
 
     @Override
@@ -50,7 +54,7 @@ public class VaultHook implements Economy {
 
     @Override
     public String currencyNameSingular() {
-        return "";
+        return VaultRegistry.ALL_VAULTS.stream().filter(FancyVault::isDefault_currency).findFirst().get().getSymbol();
     }
 
     @Override
@@ -83,7 +87,9 @@ public class VaultHook implements Economy {
 
     @Override
     public double getBalance(OfflinePlayer offlinePlayer) {
-        return fancyCoins.getVaultsManager().getVaults(offlinePlayer.getUniqueId()).stream().filter(FancyVault::isDefault_currency).findFirst().get().getBalance();
+        AtomicDouble result = new AtomicDouble();
+        fancyCoins.getVaultsManager().getVaults(offlinePlayer.getUniqueId()).stream().filter(FancyVault::isDefault_currency).findFirst().ifPresentOrElse(fancyVault -> result.set(fancyVault.getBalance()), () -> {});
+        return result.get();
     }
 
     @Override
@@ -105,7 +111,9 @@ public class VaultHook implements Economy {
 
     @Override
     public boolean has(OfflinePlayer offlinePlayer, double v) {
-        return fancyCoins.getVaultsManager().getVaults(offlinePlayer.getUniqueId()).stream().filter(FancyVault::isDefault_currency).findFirst().get().getBalance() >= v;
+        AtomicBoolean result = new AtomicBoolean(false);
+        fancyCoins.getVaultsManager().getVaults(offlinePlayer.getUniqueId()).stream().filter(FancyVault::isDefault_currency).findFirst().ifPresentOrElse(fancyVault -> result.set(fancyVault.getBalance() >= v), () -> {});
+        return result.get();
     }
 
     @Override
@@ -126,13 +134,16 @@ public class VaultHook implements Economy {
 
     @Override
     public EconomyResponse withdrawPlayer(OfflinePlayer offlinePlayer, double v) {
+        AtomicReference<EconomyResponse> result = new AtomicReference<>(new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, "User cannot withdraw!"));
         if (has(offlinePlayer, v)) {
-            FancyVault fancyVault = fancyCoins.getVaultsManager().getVaults(offlinePlayer.getUniqueId()).stream().filter(FancyVault::isDefault_currency).findFirst().get();
-            fancyVault.setBalance(fancyVault.getBalance() - v);
-            fancyCoins.getVaultsManager().updateFancyVault(offlinePlayer.getUniqueId(), fancyVault);
-            return new EconomyResponse(0, 0, EconomyResponse.ResponseType.SUCCESS, null);
+            fancyCoins.getVaultsManager().getVaults(offlinePlayer.getUniqueId()).stream().filter(FancyVault::isDefault_currency).findFirst().ifPresentOrElse(fancyVault -> {
+                fancyVault.setBalance(fancyVault.getBalance() - v);
+                fancyCoins.getVaultsManager().updateFancyVault(offlinePlayer.getUniqueId(), fancyVault);
+                result.set(new EconomyResponse(0, 0, EconomyResponse.ResponseType.SUCCESS, null));
+            }, () -> result.set(new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, "User cannot withdraw!")));
+            return result.get();
         } else {
-            return new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, "User cannot withdraw!");
+            return result.get();
         }
     }
 
@@ -155,10 +166,13 @@ public class VaultHook implements Economy {
 
     @Override
     public EconomyResponse depositPlayer(OfflinePlayer offlinePlayer, double v) {
-        FancyVault fancyVault = fancyCoins.getVaultsManager().getVaults(offlinePlayer.getUniqueId()).stream().filter(FancyVault::isDefault_currency).findFirst().get();
-        fancyVault.setBalance(fancyVault.getBalance() + v);
-        fancyCoins.getVaultsManager().updateFancyVault(offlinePlayer.getUniqueId(), fancyVault);
-        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.SUCCESS, null);
+        AtomicReference<EconomyResponse> result = new AtomicReference<>(new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, "User cannot withdraw!"));
+        fancyCoins.getVaultsManager().getVaults(offlinePlayer.getUniqueId()).stream().filter(FancyVault::isDefault_currency).findFirst().ifPresentOrElse(fancyVault -> {
+            fancyVault.setBalance(fancyVault.getBalance() + v);
+            fancyCoins.getVaultsManager().updateFancyVault(offlinePlayer.getUniqueId(), fancyVault);
+            result.set(new EconomyResponse(0, 0, EconomyResponse.ResponseType.SUCCESS, null));
+        }, () -> result.set(new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, "Deposit error")));
+        return result.get();
     }
 
     @Override
