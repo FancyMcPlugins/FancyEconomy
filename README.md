@@ -20,9 +20,21 @@ You can download the latest versions at the following places:
 
 ## Commands
 
-/fancycoins
-/coins
-/pay
+/fancycoins - Displays the commands for this Plugin.
+
+/fancycoins reload - plugin config reload
+
+/fancycoins version - checks for a new version of the plugin
+
+/coins increase - Increase a certain amount to a certain vault for a certain player.
+
+/coins decrease - Decrease a certain amount to a certain vault for a certain player.
+
+/coins top - Show top by vault.
+
+/coins balance - Show player balance.
+
+/pay - Pays a certain amount of coins to a specified player.
 
 ## Permissions
 
