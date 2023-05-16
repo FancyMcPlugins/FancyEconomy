@@ -38,7 +38,10 @@ public class CoinsCMD {
             @AStringArgument String vault,
             @ADoubleArgument(min = 0.1) double count
     ) {
-
+        fancyCoins.getVaultsManager().getVaults(player.getUniqueId()).stream().filter(fancyVault -> fancyVault.getName().equals(vault)).findFirst().ifPresentOrElse(fancyVault -> {
+            fancyVault.setBalance(fancyVault.getBalance() + count);
+            fancyCoins.getVaultsManager().updateFancyVault(toPlayer.getUniqueId(), fancyVault);
+        }, () -> {});
     }
 
     @Subcommand({"balance"})
@@ -48,7 +51,7 @@ public class CoinsCMD {
             @APlayerArgument Player toPlayer,
             @AStringArgument String vault
     ) {
-
+        fancyCoins.getVaultsManager().getVaults(toPlayer.getUniqueId()).stream().filter(fancyVault -> fancyVault.getName().equals(vault)).findFirst().ifPresentOrElse(fancyVault -> MessageHelper.success(player, toPlayer.getName() + " balance " + fancyVault.getName() + ": " + fancyVault.getBalance() + fancyVault.getSymbol()), () -> MessageHelper.error(player, "Player dont have " + vault));
     }
 
     @Subcommand({"top"})
@@ -57,7 +60,7 @@ public class CoinsCMD {
             Player player,
             @AStringArgument String vault
     ) {
-
+        // TODO
     }
 
     @Subcommand({"decrease", "remove"})
@@ -68,6 +71,11 @@ public class CoinsCMD {
             @AStringArgument String vault,
             @ADoubleArgument(min = 0.1) double count
     ) {
-
+        fancyCoins.getVaultsManager().getVaults(player.getUniqueId()).stream().filter(fancyVault -> fancyVault.getName().equals(vault)).findFirst().ifPresentOrElse(fancyVault -> {
+            if (fancyVault.getBalance() >= count) {
+                fancyVault.setBalance(fancyVault.getBalance() - count);
+                fancyCoins.getVaultsManager().updateFancyVault(toPlayer.getUniqueId(), fancyVault);
+            }
+        }, () -> {});
     }
 }
