@@ -7,7 +7,7 @@ import dev.jorel.commandapi.annotations.Default;
 import dev.jorel.commandapi.annotations.Permission;
 import dev.jorel.commandapi.annotations.Subcommand;
 import org.apache.maven.artifact.versioning.ComparableVersion;
-import org.bukkit.entity.Player;
+import org.bukkit.command.CommandSender;
 
 @Command("fancycoins")
 @Permission("fancycoins.admin")
@@ -20,7 +20,7 @@ public class FancyCoinsCMD {
     }
 
     @Default
-    public static void info(Player player) {
+    public static void info(CommandSender player) {
         MessageHelper.info(player, " --- FancyCoins Info ---");
         MessageHelper.info(player, "/fancycoins reload - plugin config reload");
         MessageHelper.info(player, "/fancycoins version - checks for a new version of the plugin");
@@ -28,7 +28,7 @@ public class FancyCoinsCMD {
 
     @Subcommand("version")
     @Permission("fancycoins.admin.version")
-    public static void version(Player player) {
+    public static void version(CommandSender player) {
         MessageHelper.info(player, "<i>Checking version, please wait...</i>");
         FancyCoins.getInstance().getScheduler().runTaskAsynchronously(() -> {
             ComparableVersion newestVersion = FancyCoins.getInstance().getVersionFetcher().getNewestVersion();
@@ -46,7 +46,7 @@ public class FancyCoinsCMD {
 
     @Subcommand("reload")
     @Permission("fancycoins.admin.reload")
-    public static void reload(Player player) {
+    public static void reload(CommandSender player) {
         FancyCoins.getInstance().getFancyCoinsConfig().reload();
         FancyCoins.getInstance().getVaultsManager().loadFromConfig();
         MessageHelper.success(player, "Reloaded the config");
