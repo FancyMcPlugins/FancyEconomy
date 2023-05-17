@@ -9,6 +9,7 @@ import dev.jorel.commandapi.annotations.Default;
 import dev.jorel.commandapi.annotations.Permission;
 import dev.jorel.commandapi.annotations.arguments.ADoubleArgument;
 import dev.jorel.commandapi.annotations.arguments.AOfflinePlayerArgument;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -33,7 +34,7 @@ public class PayCMD {
     @Default
     public static void pay(
             Player player,
-            @AOfflinePlayerArgument Player toPlayer,
+            @AOfflinePlayerArgument OfflinePlayer toPlayer,
             @ADoubleArgument(min = 0.1) double count
     ) {
         List<FancyVault> defaultVaults = VaultRegistry.getDefaultVaultsByPlayer(player);
@@ -49,7 +50,7 @@ public class PayCMD {
                                     otherVault.setBalance(otherVault.getBalance() + count);
                                     fancyVault.setBalance(fancyVault.getBalance() - count);
                                     MessageHelper.success(player, "You send " + count + " to " + toPlayer.getName());
-                                    MessageHelper.success(toPlayer, "You received " + count + " by " + player.getName());
+                                    MessageHelper.success(toPlayer.getPlayer(), "You received " + count + " by " + player.getName());
                                 }, () -> MessageHelper.error(player, "Error when you run command")
                         );
             });
