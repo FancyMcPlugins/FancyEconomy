@@ -39,7 +39,11 @@ public class PayCMD {
         List<FancyVault> otherDefaultVaults = VaultRegistry.getDefaultVaultsByPlayer(toPlayer);
         if (!defaultVaults.isEmpty() && !otherDefaultVaults.isEmpty()) {
             defaultVaults.forEach(fancyVault -> {
-                FancyVault otherVault = otherDefaultVaults.stream().filter(otherFancyVault -> fancyVault.getName().equals(otherFancyVault.getName())).findFirst().get();
+                FancyVault otherVault = otherDefaultVaults
+                        .stream()
+                        .filter(otherFancyVault -> fancyVault.getName().equals(otherFancyVault.getName()))
+                        .findFirst()
+                        .get();
                 otherVault.setBalance(otherVault.getBalance() + count);
                 fancyVault.setBalance(fancyVault.getBalance() - count);
             });

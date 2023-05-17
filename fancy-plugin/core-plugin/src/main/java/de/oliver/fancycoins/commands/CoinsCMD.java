@@ -38,7 +38,11 @@ public class CoinsCMD {
             @AStringArgument String vault,
             @ADoubleArgument(min = 0.1) double count
     ) {
-        fancyCoins.getVaultsManager().getVaults(player.getUniqueId()).stream().filter(fancyVault -> fancyVault.getName().equals(vault)).findFirst().ifPresentOrElse(fancyVault -> {
+        fancyCoins.getVaultsManager().getVaults(player.getUniqueId())
+                .stream()
+                .filter(fancyVault -> fancyVault.getName().equals(vault))
+                .findFirst()
+                .ifPresentOrElse(fancyVault -> {
             fancyVault.setBalance(fancyVault.getBalance() + count);
             fancyCoins.getVaultsManager().updateFancyVault(toPlayer.getUniqueId(), fancyVault);
         }, () -> {});

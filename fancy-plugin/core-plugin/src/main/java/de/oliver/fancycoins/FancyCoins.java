@@ -51,21 +51,21 @@ public class FancyCoins extends JavaPlugin {
                 getLogger().warning("Could not fetch latest plugin version");
             } else if (newestVersion.compareTo(currentVersion) > 0) {
                 getLogger().warning("-------------------------------------------------------");
-                getLogger().warning("You are not using the latest version the FancyPerks plugin.");
+                getLogger().warning("You are not using the latest version the FancyCoins plugin.");
                 getLogger().warning("Please update to the newest version (" + newestVersion + ").");
                 getLogger().warning(versionFetcher.getDownloadUrl());
                 getLogger().warning("-------------------------------------------------------");
             }
         });
 
-        String serverSoftware = Bukkit.getServer().getName();
-        if (serverSoftware.equals("Bukkit") || serverSoftware.equals("Spigot")) {
+        if (!ServerSoftware.isPaper()) {
             getLogger().warning("--------------------------------------------------");
             getLogger().warning("Plugin support Paper and its forks like Purpur or Folia.");
             getLogger().warning("Because you are using Bukkit or Spigot,");
             getLogger().warning("the plugin might not work correctly.");
             getLogger().warning("--------------------------------------------------");
         }
+
         config.reload();
         vaultsManager.loadFromConfig();
 
@@ -107,13 +107,14 @@ public class FancyCoins extends JavaPlugin {
 
     @Override
     public void onLoad() {
-        CommandAPI.onLoad(new CommandAPIBukkitConfig(this).silentLogs(true));
+        CommandAPI.onLoad(new CommandAPIBukkitConfig(instance).silentLogs(true));
         usingVault = Bukkit.getPluginManager().getPlugin("Vault") != null;
         if (isUsingVault()) {
-            getServer().getServicesManager().register(net.milkbowl.vault.economy.Economy.class, new VaultHook(this), this, ServicePriority.Normal);
+            getServer().getServicesManager().register(net.milkbowl.vault.economy.Economy.class, new VaultHook(instance), instance, ServicePriority.Normal);
         } else {
             getLogger().warning("--------------------------------------------------");
-            getLogger().warning("You must install the Vault plugin so that other plugins can use the default economy.");
+            getLogger().warning("You must install the Vault plugin so that other");
+            getLogger().warning("plugins can use the default economy.");
             getLogger().warning("--------------------------------------------------");
         }
     }

@@ -29,19 +29,26 @@ public class BalanceCMD {
     }
 
     @Default
-    public static void balance(
-            Player player
-    ) {
-       fancyCoins.getVaultsManager().getVaults(player.getUniqueId()).stream().filter(FancyVault::isDefault_currency).findFirst().ifPresentOrElse(fancyVault -> MessageHelper.success(player, "Balance: " + fancyVault.getBalance() + fancyVault.getSymbol()), () -> MessageHelper.error(player, "Player not registered"));
+    public static void balance(Player player) {
+       fancyCoins.getVaultsManager().getVaults(player.getUniqueId())
+               .stream()
+               .filter(FancyVault::isDefault_currency)
+               .findFirst()
+               .ifPresentOrElse(
+                       fancyVault -> MessageHelper.success(player, "Balance: " + fancyVault.getBalance() + fancyVault.getSymbol()),
+                       () -> MessageHelper.error(player, "Player not registered"));
     }
 
     @Default
     @Permission("fancycoins.balance.vaults")
-    public static void balance(
-            Player player,
-            @AStringArgument String vault
-    ) {
-        fancyCoins.getVaultsManager().getVaults(player.getUniqueId()).stream().filter(fancyVault -> fancyVault.getName().equals(vault)).findFirst().ifPresentOrElse(fancyVault -> MessageHelper.success(player, fancyVault.getName() + " balance: " + fancyVault.getBalance() + fancyVault.getSymbol()), () -> MessageHelper.error(player, "Player dont have " + vault));
+    public static void balance(Player player, @AStringArgument String vault) {
+        fancyCoins.getVaultsManager().getVaults(player.getUniqueId())
+                .stream()
+                .filter(fancyVault -> fancyVault.getName().equals(vault))
+                .findFirst()
+                .ifPresentOrElse(
+                        fancyVault -> MessageHelper.success(player, fancyVault.getName() + " balance: " + fancyVault.getBalance() + fancyVault.getSymbol()),
+                        () -> MessageHelper.error(player, "Player dont have " + vault));
     }
 
 }
