@@ -8,7 +8,8 @@ import dev.jorel.commandapi.annotations.Command;
 import dev.jorel.commandapi.annotations.Default;
 import dev.jorel.commandapi.annotations.Permission;
 import dev.jorel.commandapi.annotations.arguments.ADoubleArgument;
-import dev.jorel.commandapi.annotations.arguments.APlayerArgument;
+import dev.jorel.commandapi.annotations.arguments.AOfflinePlayerArgument;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public class PayCMD {
     }
 
     @Default
-    public static void info(Player player) {
+    public static void info(CommandSender player) {
         MessageHelper.info(player, " --- FancyCoins Info ---");
         MessageHelper.info(player, "/pay <player> <count> - Send money to certain player (from default vault)");
     }
@@ -32,23 +33,26 @@ public class PayCMD {
     @Default
     public static void pay(
             Player player,
-            @APlayerArgument Player toPlayer,
+            @AOfflinePlayerArgument Player toPlayer,
             @ADoubleArgument(min = 0.1) double count
     ) {
         List<FancyVault> defaultVaults = VaultRegistry.getDefaultVaultsByPlayer(player);
         List<FancyVault> otherDefaultVaults = VaultRegistry.getDefaultVaultsByPlayer(toPlayer);
         if (!defaultVaults.isEmpty() && !otherDefaultVaults.isEmpty()) {
             defaultVaults.forEach(fancyVault -> {
-                FancyVault otherVault = otherDefaultVaults
+                otherDefaultVaults
                         .stream()
                         .filter(otherFancyVault -> fancyVault.getName().equals(otherFancyVault.getName()))
                         .findFirst()
-                        .get();
-                otherVault.setBalance(otherVault.getBalance() + count);
-                fancyVault.setBalance(fancyVault.getBalance() - count);
+                        .ifPresentOrElse(
+                                otherVault -> {
+                                    otherVault.setBalance(otherVault.getBalance() + count);
+                                    fancyVault.setBalance(fancyVault.getBalance() - count);
+                                    MessageHelper.success(player, "You send " + count + " to " + toPlayer.getName());
+                                    MessageHelper.success(toPlayer, "You received " + count + " by " + player.getName());
+                                }, () -> MessageHelper.error(player, "Error when you run command")
+                        );
             });
-            MessageHelper.success(player, "You send " + count + " to " + toPlayer.getName());
-            MessageHelper.success(toPlayer, "You received " + count + " by " + player.getName());
         }
     }
 
