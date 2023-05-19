@@ -30,6 +30,7 @@ public class PayCMD {
     public static void info(CommandSender player) {
         MessageHelper.info(player, " --- FancyCoins Info ---");
         MessageHelper.info(player, "/pay <player> <count> - Send money to certain player (from default vault)");
+        MessageHelper.info(player, "/pay <player> <count> <vault> - Send money to certain player");
     }
 
     @Default
