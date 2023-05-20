@@ -1,6 +1,7 @@
 package de.oliver.fancycoins.commands;
 
 import de.oliver.fancycoins.FancyCoins;
+import de.oliver.fancycoins.currencies.CurrencyPlayerManager;
 import de.oliver.fancylib.MessageHelper;
 import dev.jorel.commandapi.annotations.Command;
 import dev.jorel.commandapi.annotations.Default;
@@ -48,7 +49,7 @@ public class FancyCoinsCMD {
     @Permission("fancycoins.admin.reload")
     public static void reload(CommandSender player) {
         FancyCoins.getInstance().getFancyCoinsConfig().reload();
-        FancyCoins.getInstance().getVaultsManager().loadFromConfig();
+        CurrencyPlayerManager.loadPlayersFromDatabase();
         MessageHelper.success(player, "Reloaded the config");
     }
 }

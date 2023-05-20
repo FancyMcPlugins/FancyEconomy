@@ -1,7 +1,8 @@
 package de.oliver.fancycoins.listeners;
 
 import de.oliver.fancycoins.FancyCoins;
-import de.oliver.fancycoins.vaults.VaultRegistry;
+import de.oliver.fancycoins.currencies.CurrencyPlayer;
+import de.oliver.fancycoins.currencies.CurrencyPlayerManager;
 import de.oliver.fancylib.MessageHelper;
 import org.apache.maven.artifact.versioning.ComparableVersion;
 import org.bukkit.entity.Player;
@@ -26,9 +27,8 @@ public class PlayerJoinListener implements Listener {
             });
         }
 
-        if (FancyCoins.getInstance().getVaultsManager().getVaults(p.getUniqueId()).isEmpty()) {
-            VaultRegistry.ALL_VAULTS.forEach(fancyVault -> FancyCoins.getInstance().getVaultsManager().updateFancyVault(p.getUniqueId(), fancyVault));
-        }
+        // load currency player
+        CurrencyPlayer currencyPlayer = CurrencyPlayerManager.getPlayer(p.getUniqueId());
+        currencyPlayer.setUsername(p.getName());
     }
-
 }

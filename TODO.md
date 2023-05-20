@@ -1,1 +1,0 @@
-Add in autocomplete list of available vaults

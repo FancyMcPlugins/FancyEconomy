@@ -20,21 +20,19 @@ You can download the latest versions at the following places:
 
 ## Commands
 
-/fancycoins - Displays the commands for this Plugin.
+- /fancycoins - displays the commands for this Plugin.
+- /fancycoins reload - plugin config reload
+- /fancycoins version - checks for a new version of the plugin
+- /balance - shows your balance (default currency)
+- /balance (target) - shows a players balance (default currency)
+- /pay (target) (amount) - pays a certain amount of (default currency) to a specified player
 
-/fancycoins reload - plugin config reload
-
-/fancycoins version - checks for a new version of the plugin
-
-/coins increase - Increase a certain amount to a certain vault for a certain player.
-
-/coins decrease - Decrease a certain amount to a certain vault for a certain player.
-
-/coins top - Show top by vault.
-
-/coins balance - Show player balance.
-
-/pay - Pays a certain amount of coins to a specified player.
+For each currency there will a command:
+- /(currency) balance - Shows your balance
+- /(currency) balance (player) - Shows a player's balance
+- /(currency) pay (player) (amount) - Pays money to a certain player
+- /(currency) add (player) (amount) - Adds money to a certain player
+- /(currency) remove (player) (amount) - Removes money to a certain player
 
 ## Permissions
 
