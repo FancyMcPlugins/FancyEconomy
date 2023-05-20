@@ -57,8 +57,6 @@ public class CurrencyPlayer {
             return;
         }
 
-        System.out.println("saving " + username);
-
         Database db = FancyCoins.getInstance().getDatabase();
 
         db.executeNonQuery("REPLACE INTO players(uuid, username) VALUES('{uuid}', '{username}')"
