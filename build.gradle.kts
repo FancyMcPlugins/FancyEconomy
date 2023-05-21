@@ -1,7 +1,7 @@
 plugins {
     id("java-library")
     id("xyz.jpenilla.run-paper") version "2.1.0" // Adds runServer and runMojangMappedServer tasks for testing
-    id("io.papermc.paperweight.userdev") version "1.5.5"
+//    id("io.papermc.paperweight.userdev") version "1.5.5"
     id("maven-publish")
     id("com.github.johnrengelman.shadow") version "8.1.1"
 }
@@ -17,14 +17,18 @@ repositories {
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://jitpack.io")
     maven("https://repo.alessiodp.com/releases/")
+    maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
 }
 
 dependencies {
-    paperweight.foliaDevBundle("1.19.4-R0.1-SNAPSHOT")
+//    paperweight.foliaDevBundle("1.19.4-R0.1-SNAPSHOT")
+    compileOnly("dev.folia:folia-api:1.19.4-R0.1-SNAPSHOT")
 
-    compileOnly("com.github.FancyMcPlugins:FancyLib:f2a7b13071")
+    implementation("com.github.FancyMcPlugins:FancyLib:f2a7b13071")
 
     compileOnly("com.github.MilkBowl:VaultAPI:1.7")
+
+    compileOnly("me.clip:placeholderapi:2.11.3")
 
     implementation("dev.jorel:commandapi-bukkit-shade:9.0.1")
     compileOnly("dev.jorel:commandapi-annotations:9.0.1")

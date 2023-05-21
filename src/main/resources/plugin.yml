@@ -2,9 +2,9 @@ name: FancyCoins
 main: de.oliver.fancycoins.FancyCoins
 authors: [ OliverHD ]
 contributors: [ mani1232 ]
-version: ${projectVersion}
-description: ${projectDescription}
+version: 1.0.0-beta1
 api-version: 1.19
 website: https://github.com/FancyMcPlugins/FancyCoins
-loadbefore:
+softdepend:
   - Vault
+  - PlaceholderAPI

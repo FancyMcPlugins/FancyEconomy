@@ -8,6 +8,7 @@ import de.oliver.fancycoins.currencies.Currency;
 import de.oliver.fancycoins.currencies.CurrencyPlayer;
 import de.oliver.fancycoins.currencies.CurrencyPlayerManager;
 import de.oliver.fancycoins.currencies.CurrencyRegistry;
+import de.oliver.fancycoins.integrations.FancyCoinsPlaceholderExpansion;
 import de.oliver.fancycoins.integrations.FancyEconomy;
 import de.oliver.fancycoins.listeners.PlayerJoinListener;
 import de.oliver.fancycoins.utils.FoliaScheduler;
@@ -39,6 +40,7 @@ public class FancyCoins extends JavaPlugin {
     private FancyEconomy vaultEconomy;
     private Database database;
     private boolean usingVault;
+    private boolean usingPlaceholderAPI;
 
     public FancyCoins() {
         instance = this;
@@ -92,6 +94,13 @@ public class FancyCoins extends JavaPlugin {
         if(usingVault){
             vaultEconomy = new FancyEconomy(CurrencyRegistry.getDefaultCurrency());
             getServer().getServicesManager().register(Economy.class, vaultEconomy, instance, ServicePriority.Normal);
+            getLogger().info("Registered Vault economy");
+        }
+
+        usingPlaceholderAPI = Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI");
+        if(usingPlaceholderAPI){
+            new FancyCoinsPlaceholderExpansion().register();
+            getLogger().info("Registered PlaceholoderAPI expansion");
         }
 
         scheduler.runTaskTimerAsynchronously(60, 60*5, () -> {
@@ -246,6 +255,10 @@ public class FancyCoins extends JavaPlugin {
 
     public boolean isUsingVault() {
         return usingVault;
+    }
+
+    public boolean isUsingPlaceholderAPI() {
+        return usingPlaceholderAPI;
     }
 
     public static FancyCoins getInstance() {
