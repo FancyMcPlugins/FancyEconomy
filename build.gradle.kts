@@ -24,6 +24,8 @@ dependencies {
 
     compileOnly("com.github.FancyMcPlugins:FancyLib:f2a7b13071")
 
+    compileOnly("com.github.MilkBowl:VaultAPI:1.7")
+
     implementation("dev.jorel:commandapi-bukkit-shade:9.0.1")
     compileOnly("dev.jorel:commandapi-annotations:9.0.1")
     annotationProcessor("dev.jorel:commandapi-annotations:9.0.1")

@@ -8,6 +8,7 @@ import de.oliver.fancycoins.currencies.Currency;
 import de.oliver.fancycoins.currencies.CurrencyPlayer;
 import de.oliver.fancycoins.currencies.CurrencyPlayerManager;
 import de.oliver.fancycoins.currencies.CurrencyRegistry;
+import de.oliver.fancycoins.integrations.FancyEconomy;
 import de.oliver.fancycoins.listeners.PlayerJoinListener;
 import de.oliver.fancycoins.utils.FoliaScheduler;
 import de.oliver.fancylib.FancyLib;
@@ -22,8 +23,10 @@ import dev.jorel.commandapi.CommandAPICommand;
 import dev.jorel.commandapi.arguments.DoubleArgument;
 import dev.jorel.commandapi.arguments.MultiLiteralArgument;
 import dev.jorel.commandapi.arguments.StringArgument;
+import net.milkbowl.vault.economy.Economy;
 import org.apache.maven.artifact.versioning.ComparableVersion;
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
@@ -33,6 +36,7 @@ public class FancyCoins extends JavaPlugin {
     private final FancyScheduler scheduler;
     private final VersionFetcher versionFetcher;
     private final FancyCoinsConfig config;
+    private FancyEconomy vaultEconomy;
     private Database database;
     private boolean usingVault;
 
@@ -72,8 +76,6 @@ public class FancyCoins extends JavaPlugin {
             getLogger().warning("--------------------------------------------------");
         }
 
-        usingVault = Bukkit.getPluginManager().isPluginEnabled("Vault");
-
         config.reload();
 
         database = config.getDatabase();
@@ -85,6 +87,12 @@ public class FancyCoins extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new PlayerJoinListener(), instance);
 
         registerCommands();
+
+        usingVault = Bukkit.getPluginManager().isPluginEnabled("Vault");
+        if(usingVault){
+            vaultEconomy = new FancyEconomy(CurrencyRegistry.getDefaultCurrency());
+            getServer().getServicesManager().register(Economy.class, vaultEconomy, instance, ServicePriority.Normal);
+        }
 
         scheduler.runTaskTimerAsynchronously(60, 60*5, () -> {
             for (CurrencyPlayer player : CurrencyPlayerManager.getAllPlayers()) {
