@@ -31,12 +31,12 @@ public class FancyEconomyPlaceholderExpansion extends PlaceholderExpansion {
         CurrencyPlayer currencyPlayer = CurrencyPlayerManager.getPlayer(player.getUniqueId());
         Currency defaultCurrency = CurrencyRegistry.getDefaultCurrency();
 
-        // %FancyCoins_balance%
+        // %FancyEconomy_balance%
         if(params.equalsIgnoreCase("balance")){
             return defaultCurrency.format(currencyPlayer.getBalance(defaultCurrency));
         }
 
-        // %FancyCoins_balance_<currency>%
+        // %FancyEconomy_balance_<currency>%
         for (Currency currency : CurrencyRegistry.CURRENCIES) {
             if(params.equalsIgnoreCase("balance_" + currency.name())){
                 return currency.format(currencyPlayer.getBalance(currency));
