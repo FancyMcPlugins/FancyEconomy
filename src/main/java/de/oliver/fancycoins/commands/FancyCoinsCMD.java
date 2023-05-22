@@ -28,7 +28,7 @@ public class FancyCoinsCMD {
     }
 
     @Subcommand("version")
-    @Permission("fancycoins.admin.version")
+    @Permission("fancycoins.admin")
     public static void version(CommandSender player) {
         MessageHelper.info(player, "<i>Checking version, please wait...</i>");
         FancyCoins.getInstance().getScheduler().runTaskAsynchronously(() -> {
@@ -46,7 +46,7 @@ public class FancyCoinsCMD {
     }
 
     @Subcommand("reload")
-    @Permission("fancycoins.admin.reload")
+    @Permission("fancycoins.admin")
     public static void reload(CommandSender player) {
         FancyCoins.getInstance().getFancyCoinsConfig().reload();
         CurrencyPlayerManager.loadPlayersFromDatabase();

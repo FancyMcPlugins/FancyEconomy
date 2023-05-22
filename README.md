@@ -36,8 +36,12 @@ For each currency there will a command:
 
 ## Permissions
 
-TODO
-
+`fancycoins.balance` - access to the /balance command<br>
+`fancycoins.pay` - access to the /pay command<br>
+`fancycoins.admin` - access to the /fancycoins command<br>
+`fancycoins.admin` - access to the /fancycoins command<br>
+`fancycoins.<currency>` - access to the /(currency) balance|pay  commands<br>
+`fancycoins.<currency>.admin` - access to the /(currency) set|add|remove  commands<br>
 
 ## Build from source
 1. Clone this repo and run `gradlew shadowJar`

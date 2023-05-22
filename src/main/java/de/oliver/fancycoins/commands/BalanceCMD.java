@@ -35,7 +35,7 @@ public class BalanceCMD {
     }
 
     @Default
-    @Permission("fancycoins.balance.others")
+    @Permission("fancycoins.balance")
     public static void balance(
             Player player,
             @AStringArgument String targetName

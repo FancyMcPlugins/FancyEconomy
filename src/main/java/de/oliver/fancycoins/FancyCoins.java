@@ -180,7 +180,7 @@ public class FancyCoins extends JavaPlugin {
 
             // set command
             new CommandAPICommand(currency.name())
-                    .withPermission("fancycoins." + currency.name())
+                    .withPermission("fancycoins." + currency.name() + ".admin")
                     .withArguments(
                             new MultiLiteralArgument("set")
                                     .setListed(false)
@@ -193,7 +193,7 @@ public class FancyCoins extends JavaPlugin {
 
             // add command
             new CommandAPICommand(currency.name())
-                    .withPermission("fancycoins." + currency.name())
+                    .withPermission("fancycoins." + currency.name() + ".admin")
                     .withArguments(
                             new MultiLiteralArgument("add")
                                     .setListed(false)
@@ -206,7 +206,7 @@ public class FancyCoins extends JavaPlugin {
 
             // remove command
             new CommandAPICommand(currency.name())
-                    .withPermission("fancycoins." + currency.name())
+                    .withPermission("fancycoins." + currency.name() + ".admin")
                     .withArguments(
                             new MultiLiteralArgument("remove")
                                     .setListed(false)
