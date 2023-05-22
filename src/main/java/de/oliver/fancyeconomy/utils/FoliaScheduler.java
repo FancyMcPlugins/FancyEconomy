@@ -1,4 +1,4 @@
-package de.oliver.fancycoins.utils;
+package de.oliver.fancyeconomy.utils;
 
 import de.oliver.fancylib.serverSoftware.schedulers.FancyScheduler;
 import io.papermc.paper.threadedregions.scheduler.ScheduledTask;

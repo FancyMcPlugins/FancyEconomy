@@ -46,7 +46,7 @@ tasks {
 
     shadowJar{
         archiveClassifier.set("")
-        relocate("dev.jorel.commandapi", "de.oliver.fancycoins.commandapi")
+        relocate("dev.jorel.commandapi", "de.oliver.fancyeconomy.commandapi")
     }
 
     publishing {

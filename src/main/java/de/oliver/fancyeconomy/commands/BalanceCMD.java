@@ -1,9 +1,9 @@
-package de.oliver.fancycoins.commands;
+package de.oliver.fancyeconomy.commands;
 
-import de.oliver.fancycoins.currencies.Currency;
-import de.oliver.fancycoins.currencies.CurrencyPlayer;
-import de.oliver.fancycoins.currencies.CurrencyPlayerManager;
-import de.oliver.fancycoins.currencies.CurrencyRegistry;
+import de.oliver.fancyeconomy.currencies.Currency;
+import de.oliver.fancyeconomy.currencies.CurrencyPlayer;
+import de.oliver.fancyeconomy.currencies.CurrencyPlayerManager;
+import de.oliver.fancyeconomy.currencies.CurrencyRegistry;
 import de.oliver.fancylib.MessageHelper;
 import de.oliver.fancylib.UUIDFetcher;
 import dev.jorel.commandapi.annotations.*;
@@ -14,13 +14,13 @@ import org.bukkit.entity.Player;
 import java.util.UUID;
 
 @Command("balance")
-@Permission("fancycoins.balance")
+@Permission("fancyeconomy.balance")
 @Alias({"bal"})
 public class BalanceCMD {
 
     @Default
     public static void info(Player player) {
-        MessageHelper.info(player, " --- FancyCoins Info ---");
+        MessageHelper.info(player, " --- FancyEconomy Info ---");
         MessageHelper.info(player, "/balance - Shows your balance");
         MessageHelper.info(player, "/balance <player> - Shows a player's balance");
     }
@@ -35,7 +35,7 @@ public class BalanceCMD {
     }
 
     @Default
-    @Permission("fancycoins.balance")
+    @Permission("fancyeconomy.balance")
     public static void balance(
             Player player,
             @AStringArgument String targetName

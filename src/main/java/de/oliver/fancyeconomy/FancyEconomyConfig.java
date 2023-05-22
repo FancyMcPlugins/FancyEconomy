@@ -1,7 +1,7 @@
-package de.oliver.fancycoins;
+package de.oliver.fancyeconomy;
 
-import de.oliver.fancycoins.currencies.Currency;
-import de.oliver.fancycoins.currencies.CurrencyRegistry;
+import de.oliver.fancyeconomy.currencies.Currency;
+import de.oliver.fancyeconomy.currencies.CurrencyRegistry;
 import de.oliver.fancylib.ConfigHelper;
 import de.oliver.fancylib.databases.Database;
 import de.oliver.fancylib.databases.MySqlDatabase;
@@ -9,7 +9,7 @@ import de.oliver.fancylib.databases.SqliteDatabase;
 import org.bukkit.configuration.file.FileConfiguration;
 
 
-public class FancyCoinsConfig {
+public class FancyEconomyConfig {
 
     private DatabaseType dbType;
     private String dbHost;
@@ -20,24 +20,24 @@ public class FancyCoinsConfig {
     private String dbFile;
 
     public void reload() {
-        FancyCoins.getInstance().reloadConfig();
-        FileConfiguration config = FancyCoins.getInstance().getConfig();
+        FancyEconomy.getInstance().reloadConfig();
+        FileConfiguration config = FancyEconomy.getInstance().getConfig();
 
         /*
             Database
          */
         dbType = DatabaseType.getByIdentifier((String) ConfigHelper.getOrDefault(config, "database.type", "sqlite"));
         if(dbType == null){
-            FancyCoins.getInstance().getLogger().warning("Invalid database type provided in config");
+            FancyEconomy.getInstance().getLogger().warning("Invalid database type provided in config");
         }
 
         dbHost = (String) ConfigHelper.getOrDefault(config, "database.mysql.host", "localhost");
         dbPort = (String) ConfigHelper.getOrDefault(config, "database.mysql.port", "3306");
-        dbDatabase = (String) ConfigHelper.getOrDefault(config, "database.mysql.database", "fancycoins");
+        dbDatabase = (String) ConfigHelper.getOrDefault(config, "database.mysql.database", "fancyeconomy");
         dbUsername = (String) ConfigHelper.getOrDefault(config, "database.mysql.username", "root");
         dbPassword = (String) ConfigHelper.getOrDefault(config, "database.mysql.password", "");
         dbFile = (String) ConfigHelper.getOrDefault(config, "database.sqlite.file_path", "database.db");
-        dbFile = "plugins/FancyCoins/" + dbFile;
+        dbFile = "plugins/FancyEconomy/" + dbFile;
 
 
         /*
@@ -57,13 +57,13 @@ public class FancyCoinsConfig {
 
         Currency defaultCurrency = CurrencyRegistry.getCurrencyByName(defaultCurrencyName);
         if(defaultCurrency == null){
-            FancyCoins.getInstance().getLogger().warning("Could not find default currency: '" + defaultCurrencyName + "'");
+            FancyEconomy.getInstance().getLogger().warning("Could not find default currency: '" + defaultCurrencyName + "'");
         } else {
             CurrencyRegistry.setDefaultCurrency(defaultCurrency);
-            FancyCoins.getInstance().getLogger().info("Set default currency to: '" + defaultCurrency.name() + "'");
+            FancyEconomy.getInstance().getLogger().info("Set default currency to: '" + defaultCurrency.name() + "'");
         }
 
-        FancyCoins.getInstance().saveConfig();
+        FancyEconomy.getInstance().saveConfig();
     }
 
     public Database getDatabase(){

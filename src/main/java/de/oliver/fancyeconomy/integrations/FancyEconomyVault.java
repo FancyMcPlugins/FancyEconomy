@@ -1,8 +1,8 @@
-package de.oliver.fancycoins.integrations;
+package de.oliver.fancyeconomy.integrations;
 
-import de.oliver.fancycoins.currencies.Currency;
-import de.oliver.fancycoins.currencies.CurrencyPlayer;
-import de.oliver.fancycoins.currencies.CurrencyPlayerManager;
+import de.oliver.fancyeconomy.currencies.Currency;
+import de.oliver.fancyeconomy.currencies.CurrencyPlayer;
+import de.oliver.fancyeconomy.currencies.CurrencyPlayerManager;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.OfflinePlayer;
@@ -10,11 +10,11 @@ import org.bukkit.OfflinePlayer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FancyEconomy implements Economy {
+public class FancyEconomyVault implements Economy {
 
     private final Currency currency;
 
-    public FancyEconomy(Currency currency) {
+    public FancyEconomyVault(Currency currency) {
         this.currency = currency;
     }
 
@@ -25,7 +25,7 @@ public class FancyEconomy implements Economy {
 
     @Override
     public String getName() {
-        return "FancyCoins";
+        return "FancyEconomy";
     }
 
     @Override

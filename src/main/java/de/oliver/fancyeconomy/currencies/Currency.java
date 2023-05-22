@@ -1,4 +1,4 @@
-package de.oliver.fancycoins.currencies;
+package de.oliver.fancyeconomy.currencies;
 
 import java.text.DecimalFormat;
 

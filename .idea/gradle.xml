@@ -9,8 +9,6 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/fancy-plugin" />
-            <option value="$PROJECT_DIR$/fancy-plugin/core-plugin" />
           </set>
         </option>
       </GradleProjectSettings>

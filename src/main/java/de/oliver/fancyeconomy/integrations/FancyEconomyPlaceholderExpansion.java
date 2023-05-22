@@ -1,19 +1,19 @@
-package de.oliver.fancycoins.integrations;
+package de.oliver.fancyeconomy.integrations;
 
-import de.oliver.fancycoins.FancyCoins;
-import de.oliver.fancycoins.currencies.Currency;
-import de.oliver.fancycoins.currencies.CurrencyPlayer;
-import de.oliver.fancycoins.currencies.CurrencyPlayerManager;
-import de.oliver.fancycoins.currencies.CurrencyRegistry;
+import de.oliver.fancyeconomy.FancyEconomy;
+import de.oliver.fancyeconomy.currencies.Currency;
+import de.oliver.fancyeconomy.currencies.CurrencyPlayer;
+import de.oliver.fancyeconomy.currencies.CurrencyPlayerManager;
+import de.oliver.fancyeconomy.currencies.CurrencyRegistry;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class FancyCoinsPlaceholderExpansion extends PlaceholderExpansion {
+public class FancyEconomyPlaceholderExpansion extends PlaceholderExpansion {
     @Override
     public @NotNull String getIdentifier() {
-        return "FancyCoins";
+        return "FancyEconomy";
     }
 
     @Override
@@ -23,7 +23,7 @@ public class FancyCoinsPlaceholderExpansion extends PlaceholderExpansion {
 
     @Override
     public @NotNull String getVersion() {
-        return FancyCoins.getInstance().getDescription().getVersion();
+        return FancyEconomy.getInstance().getDescription().getVersion();
     }
 
     @Override

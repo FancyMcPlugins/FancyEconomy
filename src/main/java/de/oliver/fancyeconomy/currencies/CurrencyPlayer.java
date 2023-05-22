@@ -1,6 +1,6 @@
-package de.oliver.fancycoins.currencies;
+package de.oliver.fancyeconomy.currencies;
 
-import de.oliver.fancycoins.FancyCoins;
+import de.oliver.fancyeconomy.FancyEconomy;
 import de.oliver.fancylib.databases.Database;
 
 import java.util.HashMap;
@@ -57,7 +57,7 @@ public class CurrencyPlayer {
             return;
         }
 
-        Database db = FancyCoins.getInstance().getDatabase();
+        Database db = FancyEconomy.getInstance().getDatabase();
 
         db.executeNonQuery("REPLACE INTO players(uuid, username) VALUES('{uuid}', '{username}')"
                 .replace("{uuid}", uuid.toString())

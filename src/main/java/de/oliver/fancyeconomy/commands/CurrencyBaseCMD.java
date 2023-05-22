@@ -1,8 +1,8 @@
-package de.oliver.fancycoins.commands;
+package de.oliver.fancyeconomy.commands;
 
-import de.oliver.fancycoins.currencies.Currency;
-import de.oliver.fancycoins.currencies.CurrencyPlayer;
-import de.oliver.fancycoins.currencies.CurrencyPlayerManager;
+import de.oliver.fancyeconomy.currencies.Currency;
+import de.oliver.fancyeconomy.currencies.CurrencyPlayer;
+import de.oliver.fancyeconomy.currencies.CurrencyPlayerManager;
 import de.oliver.fancylib.MessageHelper;
 import de.oliver.fancylib.UUIDFetcher;
 import org.bukkit.Bukkit;
@@ -19,7 +19,7 @@ public class CurrencyBaseCMD {
     }
 
     public void info(Player player) {
-        MessageHelper.info(player, " --- FancyCoins Info ---");
+        MessageHelper.info(player, " --- FancyEconomy Info ---");
         MessageHelper.info(player, "/" + currency.name() + " balance - Shows your balance");
         MessageHelper.info(player, "/" + currency.name() + " balance <player> - Shows a player's balance");
         MessageHelper.info(player, "/" + currency.name() + " pay <player> <amount> - Pays money to a certain player");

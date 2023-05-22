@@ -1,17 +1,17 @@
-package de.oliver.fancycoins;
+package de.oliver.fancyeconomy;
 
-import de.oliver.fancycoins.commands.BalanceCMD;
-import de.oliver.fancycoins.commands.CurrencyBaseCMD;
-import de.oliver.fancycoins.commands.FancyCoinsCMD;
-import de.oliver.fancycoins.commands.PayCMD;
-import de.oliver.fancycoins.currencies.Currency;
-import de.oliver.fancycoins.currencies.CurrencyPlayer;
-import de.oliver.fancycoins.currencies.CurrencyPlayerManager;
-import de.oliver.fancycoins.currencies.CurrencyRegistry;
-import de.oliver.fancycoins.integrations.FancyCoinsPlaceholderExpansion;
-import de.oliver.fancycoins.integrations.FancyEconomy;
-import de.oliver.fancycoins.listeners.PlayerJoinListener;
-import de.oliver.fancycoins.utils.FoliaScheduler;
+import de.oliver.fancyeconomy.commands.BalanceCMD;
+import de.oliver.fancyeconomy.commands.CurrencyBaseCMD;
+import de.oliver.fancyeconomy.commands.FancyEconomyCMD;
+import de.oliver.fancyeconomy.commands.PayCMD;
+import de.oliver.fancyeconomy.currencies.Currency;
+import de.oliver.fancyeconomy.currencies.CurrencyPlayer;
+import de.oliver.fancyeconomy.currencies.CurrencyPlayerManager;
+import de.oliver.fancyeconomy.currencies.CurrencyRegistry;
+import de.oliver.fancyeconomy.integrations.FancyEconomyPlaceholderExpansion;
+import de.oliver.fancyeconomy.integrations.FancyEconomyVault;
+import de.oliver.fancyeconomy.listeners.PlayerJoinListener;
+import de.oliver.fancyeconomy.utils.FoliaScheduler;
 import de.oliver.fancylib.FancyLib;
 import de.oliver.fancylib.VersionFetcher;
 import de.oliver.fancylib.databases.Database;
@@ -31,24 +31,24 @@ import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
-public class FancyCoins extends JavaPlugin {
+public class FancyEconomy extends JavaPlugin {
 
-    private static FancyCoins instance;
+    private static FancyEconomy instance;
     private final FancyScheduler scheduler;
     private final VersionFetcher versionFetcher;
-    private final FancyCoinsConfig config;
-    private FancyEconomy vaultEconomy;
+    private final FancyEconomyConfig config;
+    private FancyEconomyVault vaultEconomy;
     private Database database;
     private boolean usingVault;
     private boolean usingPlaceholderAPI;
 
-    public FancyCoins() {
+    public FancyEconomy() {
         instance = this;
         this.scheduler = ServerSoftware.isFolia()
                 ? new FoliaScheduler(instance)
                 : new BukkitScheduler(instance);
-        config = new FancyCoinsConfig();
-        versionFetcher = new VersionFetcher("https://api.modrinth.com/v2/project/fancycoins/version", "https://modrinth.com/plugin/fancycoins/versions");
+        config = new FancyEconomyConfig();
+        versionFetcher = new VersionFetcher("https://api.modrinth.com/v2/project/fancyeconomy/version", "https://modrinth.com/plugin/fancyeconomy/versions");
     }
 
     @Override
@@ -63,7 +63,7 @@ public class FancyCoins extends JavaPlugin {
                 getLogger().warning("Could not fetch latest plugin version");
             } else if (newestVersion.compareTo(currentVersion) > 0) {
                 getLogger().warning("-------------------------------------------------------");
-                getLogger().warning("You are not using the latest version the FancyCoins plugin.");
+                getLogger().warning("You are not using the latest version the FancyeEonomy plugin.");
                 getLogger().warning("Please update to the newest version (" + newestVersion + ").");
                 getLogger().warning(versionFetcher.getDownloadUrl());
                 getLogger().warning("-------------------------------------------------------");
@@ -92,14 +92,14 @@ public class FancyCoins extends JavaPlugin {
 
         usingVault = Bukkit.getPluginManager().isPluginEnabled("Vault");
         if(usingVault){
-            vaultEconomy = new FancyEconomy(CurrencyRegistry.getDefaultCurrency());
+            vaultEconomy = new FancyEconomyVault(CurrencyRegistry.getDefaultCurrency());
             getServer().getServicesManager().register(Economy.class, vaultEconomy, instance, ServicePriority.Normal);
             getLogger().info("Registered Vault economy");
         }
 
         usingPlaceholderAPI = Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI");
         if(usingPlaceholderAPI){
-            new FancyCoinsPlaceholderExpansion().register();
+            new FancyEconomyPlaceholderExpansion().register();
             getLogger().info("Registered PlaceholoderAPI expansion");
         }
 
@@ -125,7 +125,7 @@ public class FancyCoins extends JavaPlugin {
     }
 
     private void registerCommands(){
-        CommandAPI.registerCommand(FancyCoinsCMD.class);
+        CommandAPI.registerCommand(FancyEconomyCMD.class);
         CommandAPI.registerCommand(PayCMD.class);
         CommandAPI.registerCommand(BalanceCMD.class);
 
@@ -134,7 +134,7 @@ public class FancyCoins extends JavaPlugin {
 
             // info command
             new CommandAPICommand(currency.name())
-                    .withPermission("fancycoins." + currency.name())
+                    .withPermission("fancyeconomy." + currency.name())
                     .executesPlayer((sender, args) -> {
                         baseCMD.info(sender);
                     })
@@ -142,7 +142,7 @@ public class FancyCoins extends JavaPlugin {
 
             // balance command
             new CommandAPICommand(currency.name())
-                    .withPermission("fancycoins." + currency.name())
+                    .withPermission("fancyeconomy." + currency.name())
                     .withArguments(
                             new MultiLiteralArgument("balance")
                                     .setListed(false)
@@ -154,7 +154,7 @@ public class FancyCoins extends JavaPlugin {
 
             // balance others command
             new CommandAPICommand(currency.name())
-                    .withPermission("fancycoins." + currency.name())
+                    .withPermission("fancyeconomy." + currency.name())
                     .withArguments(
                             new MultiLiteralArgument("balance")
                                     .setListed(false)
@@ -167,7 +167,7 @@ public class FancyCoins extends JavaPlugin {
 
             // pay command
             new CommandAPICommand(currency.name())
-                    .withPermission("fancycoins." + currency.name())
+                    .withPermission("fancyeconomy." + currency.name())
                     .withArguments(
                             new MultiLiteralArgument("pay")
                                     .setListed(false)
@@ -180,7 +180,7 @@ public class FancyCoins extends JavaPlugin {
 
             // set command
             new CommandAPICommand(currency.name())
-                    .withPermission("fancycoins." + currency.name() + ".admin")
+                    .withPermission("fancyeconomy." + currency.name() + ".admin")
                     .withArguments(
                             new MultiLiteralArgument("set")
                                     .setListed(false)
@@ -193,7 +193,7 @@ public class FancyCoins extends JavaPlugin {
 
             // add command
             new CommandAPICommand(currency.name())
-                    .withPermission("fancycoins." + currency.name() + ".admin")
+                    .withPermission("fancyeconomy." + currency.name() + ".admin")
                     .withArguments(
                             new MultiLiteralArgument("add")
                                     .setListed(false)
@@ -206,7 +206,7 @@ public class FancyCoins extends JavaPlugin {
 
             // remove command
             new CommandAPICommand(currency.name())
-                    .withPermission("fancycoins." + currency.name() + ".admin")
+                    .withPermission("fancyeconomy." + currency.name() + ".admin")
                     .withArguments(
                             new MultiLiteralArgument("remove")
                                     .setListed(false)
@@ -245,7 +245,7 @@ public class FancyCoins extends JavaPlugin {
         return versionFetcher;
     }
 
-    public FancyCoinsConfig getFancyCoinsConfig() {
+    public FancyEconomyConfig getFancyEconomyConfig() {
         return config;
     }
 
@@ -261,7 +261,7 @@ public class FancyCoins extends JavaPlugin {
         return usingPlaceholderAPI;
     }
 
-    public static FancyCoins getInstance() {
+    public static FancyEconomy getInstance() {
         return instance;
     }
 }

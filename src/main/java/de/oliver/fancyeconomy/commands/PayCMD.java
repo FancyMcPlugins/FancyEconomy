@@ -1,10 +1,9 @@
-package de.oliver.fancycoins.commands;
+package de.oliver.fancyeconomy.commands;
 
-import de.oliver.fancycoins.FancyCoins;
-import de.oliver.fancycoins.currencies.Currency;
-import de.oliver.fancycoins.currencies.CurrencyPlayer;
-import de.oliver.fancycoins.currencies.CurrencyPlayerManager;
-import de.oliver.fancycoins.currencies.CurrencyRegistry;
+import de.oliver.fancyeconomy.currencies.Currency;
+import de.oliver.fancyeconomy.currencies.CurrencyPlayer;
+import de.oliver.fancyeconomy.currencies.CurrencyPlayerManager;
+import de.oliver.fancyeconomy.currencies.CurrencyRegistry;
 import de.oliver.fancylib.MessageHelper;
 import de.oliver.fancylib.UUIDFetcher;
 import dev.jorel.commandapi.annotations.Command;
@@ -19,18 +18,12 @@ import org.bukkit.entity.Player;
 import java.util.UUID;
 
 @Command("pay")
-@Permission("fancycoins.pay")
+@Permission("fancyeconomy.pay")
 public class PayCMD {
-
-    private static FancyCoins fancyCoins = null;
-
-    public PayCMD(FancyCoins fancyCoins) {
-        PayCMD.fancyCoins = fancyCoins;
-    }
 
     @Default
     public static void info(CommandSender player) {
-        MessageHelper.info(player, " --- FancyCoins Info ---");
+        MessageHelper.info(player, " --- FancyEconomy Info ---");
         MessageHelper.info(player, "/pay <player> <count> - Pay money to a certain player");
     }
 

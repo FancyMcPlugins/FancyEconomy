@@ -1,6 +1,6 @@
-package de.oliver.fancycoins.currencies;
+package de.oliver.fancyeconomy.currencies;
 
-import de.oliver.fancycoins.FancyCoins;
+import de.oliver.fancyeconomy.FancyEconomy;
 import de.oliver.fancylib.UUIDFetcher;
 import de.oliver.fancylib.databases.Database;
 
@@ -44,7 +44,7 @@ public class CurrencyPlayerManager {
     }
 
     public static void loadPlayersFromDatabase(){
-        Database db = FancyCoins.getInstance().getDatabase();
+        Database db = FancyEconomy.getInstance().getDatabase();
 
         cachedPlayers.clear();
 
@@ -101,7 +101,7 @@ public class CurrencyPlayerManager {
     }
 
     public static void saveToDatabase(){
-        Database db = FancyCoins.getInstance().getDatabase();
+        Database db = FancyEconomy.getInstance().getDatabase();
 
     }
 
