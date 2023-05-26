@@ -12,7 +12,9 @@ import de.oliver.fancyeconomy.integrations.FancyEconomyPlaceholderExpansion;
 import de.oliver.fancyeconomy.integrations.FancyEconomyVault;
 import de.oliver.fancyeconomy.listeners.PlayerJoinListener;
 import de.oliver.fancyeconomy.utils.FoliaScheduler;
+import de.oliver.fancylib.DistributedWorkload;
 import de.oliver.fancylib.FancyLib;
+import de.oliver.fancylib.Metrics;
 import de.oliver.fancylib.VersionFetcher;
 import de.oliver.fancylib.databases.Database;
 import de.oliver.fancylib.serverSoftware.ServerSoftware;
@@ -39,6 +41,7 @@ public class FancyEconomy extends JavaPlugin {
     private final FancyEconomyConfig config;
     private FancyEconomyVault vaultEconomy;
     private Database database;
+    private DistributedWorkload<CurrencyPlayer> saveWorkload;
     private boolean usingVault;
     private boolean usingPlaceholderAPI;
 
@@ -49,6 +52,13 @@ public class FancyEconomy extends JavaPlugin {
                 : new BukkitScheduler(instance);
         config = new FancyEconomyConfig();
         versionFetcher = new VersionFetcher("https://api.modrinth.com/v2/project/fancyeconomy/version", "https://modrinth.com/plugin/fancyeconomy/versions");
+        saveWorkload = new DistributedWorkload<>(
+                "FancyEconomy_save",
+                player -> player.save(false),
+                player -> false,
+                5,
+                true
+        );
     }
 
     @Override
@@ -63,7 +73,7 @@ public class FancyEconomy extends JavaPlugin {
                 getLogger().warning("Could not fetch latest plugin version");
             } else if (newestVersion.compareTo(currentVersion) > 0) {
                 getLogger().warning("-------------------------------------------------------");
-                getLogger().warning("You are not using the latest version the FancyeEonomy plugin.");
+                getLogger().warning("You are not using the latest version the FancyEconomy plugin.");
                 getLogger().warning("Please update to the newest version (" + newestVersion + ").");
                 getLogger().warning(versionFetcher.getDownloadUrl());
                 getLogger().warning("-------------------------------------------------------");
@@ -77,6 +87,8 @@ public class FancyEconomy extends JavaPlugin {
             getLogger().warning("the plugin might not work correctly.");
             getLogger().warning("--------------------------------------------------");
         }
+
+        Metrics metrics = new Metrics(instance, 18569);
 
         config.reload();
 
@@ -103,11 +115,13 @@ public class FancyEconomy extends JavaPlugin {
             getLogger().info("Registered PlaceholoderAPI expansion");
         }
 
-        scheduler.runTaskTimerAsynchronously(60, 60*5, () -> {
-            for (CurrencyPlayer player : CurrencyPlayerManager.getAllPlayers()) {
-                player.save(false);
-            }
-        });
+        scheduler.runTaskTimerAsynchronously(60, 60*5, saveWorkload);
+
+//        scheduler.runTaskTimerAsynchronously(60, 60*5, () -> {
+//            for (CurrencyPlayer player : CurrencyPlayerManager.getAllPlayers()) {
+//                player.save(false);
+//            }
+//        });
     }
 
     @Override
@@ -251,6 +265,10 @@ public class FancyEconomy extends JavaPlugin {
 
     public Database getDatabase() {
         return database;
+    }
+
+    public DistributedWorkload<CurrencyPlayer> getSaveWorkload() {
+        return saveWorkload;
     }
 
     public boolean isUsingVault() {

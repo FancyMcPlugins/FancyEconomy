@@ -24,7 +24,7 @@ dependencies {
 //    paperweight.foliaDevBundle("1.19.4-R0.1-SNAPSHOT")
     compileOnly("dev.folia:folia-api:1.19.4-R0.1-SNAPSHOT")
 
-    implementation("com.github.FancyMcPlugins:FancyLib:f2a7b13071")
+    implementation("com.github.FancyMcPlugins:FancyLib:dc94f9b7bd")
 
     compileOnly("com.github.MilkBowl:VaultAPI:1.7")
 

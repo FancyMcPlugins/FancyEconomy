@@ -19,6 +19,7 @@ public class CurrencyPlayerManager {
 
         CurrencyPlayer player = new CurrencyPlayer(uuid, "N/A");
         cachedPlayers.put(uuid, player);
+        FancyEconomy.getInstance().getSaveWorkload().addValue(() -> player);
         return player;
     }
 
@@ -36,6 +37,7 @@ public class CurrencyPlayerManager {
 
         CurrencyPlayer player = new CurrencyPlayer(uuid, username);
         cachedPlayers.put(uuid, player);
+        FancyEconomy.getInstance().getSaveWorkload().addValue(() -> player);
         return player;
     }
 
@@ -64,6 +66,7 @@ public class CurrencyPlayerManager {
 
                 CurrencyPlayer currencyPlayer = new CurrencyPlayer(uuid, username);
                 cachedPlayers.put(uuid, currencyPlayer);
+                FancyEconomy.getInstance().getSaveWorkload().addValue(() -> currencyPlayer);
             }
         } catch (SQLException e){
             e.printStackTrace();
@@ -98,11 +101,6 @@ public class CurrencyPlayerManager {
         } catch (SQLException e){
             e.printStackTrace();
         }
-    }
-
-    public static void saveToDatabase(){
-        Database db = FancyEconomy.getInstance().getDatabase();
-
     }
 
 }
