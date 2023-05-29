@@ -57,7 +57,7 @@ public class PayCMD {
         to.setUsername(targetName);
 
         if(from.getBalance(currency) < amount){
-            MessageHelper.error(player, "You don't enough money");
+            MessageHelper.error(player, "You don't have enough money");
             return;
         }
 

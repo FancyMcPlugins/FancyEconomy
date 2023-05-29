@@ -1,9 +1,6 @@
 package de.oliver.fancyeconomy;
 
-import de.oliver.fancyeconomy.commands.BalanceCMD;
-import de.oliver.fancyeconomy.commands.CurrencyBaseCMD;
-import de.oliver.fancyeconomy.commands.FancyEconomyCMD;
-import de.oliver.fancyeconomy.commands.PayCMD;
+import de.oliver.fancyeconomy.commands.*;
 import de.oliver.fancyeconomy.currencies.Currency;
 import de.oliver.fancyeconomy.currencies.CurrencyPlayer;
 import de.oliver.fancyeconomy.currencies.CurrencyPlayerManager;
@@ -99,6 +96,7 @@ public class FancyEconomy extends JavaPlugin {
         CurrencyPlayerManager.loadPlayersFromDatabase();
 
         Bukkit.getPluginManager().registerEvents(new PlayerJoinListener(), instance);
+        Currency.WithdrawItem.WithdrawItemClick.INSTANCE.register();
 
         registerCommands();
 
@@ -142,6 +140,7 @@ public class FancyEconomy extends JavaPlugin {
         CommandAPI.registerCommand(FancyEconomyCMD.class);
         CommandAPI.registerCommand(PayCMD.class);
         CommandAPI.registerCommand(BalanceCMD.class);
+        CommandAPI.registerCommand(WithdrawCMD.class);
 
         for (Currency currency : CurrencyRegistry.CURRENCIES) {
             CurrencyBaseCMD baseCMD = new CurrencyBaseCMD(currency);
@@ -189,6 +188,19 @@ public class FancyEconomy extends JavaPlugin {
                     .withArguments(new StringArgument("targetName"), new DoubleArgument("amount", 0.01))
                     .executesPlayer((sender, args) -> {
                         baseCMD.pay(sender, (String) args.get(0), (Double) args.get(1));
+                    })
+                    .register();
+
+            // withdraw command
+            new CommandAPICommand(currency.name())
+                    .withPermission("fancyeconomy." + currency.name())
+                    .withArguments(
+                            new MultiLiteralArgument("withdraw")
+                                    .setListed(false)
+                    )
+                    .withArguments(new DoubleArgument("amount"))
+                    .executesPlayer((sender, args) -> {
+                        baseCMD.withdraw(sender, (Double) args.get(0));
                     })
                     .register();
 

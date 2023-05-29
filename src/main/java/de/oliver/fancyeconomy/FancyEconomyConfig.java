@@ -6,7 +6,11 @@ import de.oliver.fancylib.ConfigHelper;
 import de.oliver.fancylib.databases.Database;
 import de.oliver.fancylib.databases.MySqlDatabase;
 import de.oliver.fancylib.databases.SqliteDatabase;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
+
+import java.util.Arrays;
+import java.util.List;
 
 
 public class FancyEconomyConfig {
@@ -18,6 +22,9 @@ public class FancyEconomyConfig {
     private String dbUsername;
     private String dbPassword;
     private String dbFile;
+
+    private double minWithdrawAmount;
+    private double maxWithdrawAmount;
 
     public void reload() {
         FancyEconomy.getInstance().reloadConfig();
@@ -43,6 +50,9 @@ public class FancyEconomyConfig {
         /*
             Currencies
          */
+        minWithdrawAmount = (Double) ConfigHelper.getOrDefault(config, "minimum_withdraw_amount", 0.1d);
+        maxWithdrawAmount = (Double) ConfigHelper.getOrDefault(config, "maximum_withdraw_amount", 1_000_000_000d);
+
         String defaultCurrencyName = (String) ConfigHelper.getOrDefault(config, "default_currency", "money");
 
         if (!config.isConfigurationSection("currencies")) {
@@ -51,7 +61,14 @@ public class FancyEconomyConfig {
 
         for (String name : config.getConfigurationSection("currencies").getKeys(false)) {
             String symbol = (String) ConfigHelper.getOrDefault(config, "currencies." + name + ".symbol", "$");
-            Currency currency = new Currency(name, symbol);
+
+            boolean isWithdrawable = (boolean) ConfigHelper.getOrDefault(config, "currencies." + name + ".is_withdrawable", true);
+
+            Material material = Material.getMaterial((String) ConfigHelper.getOrDefault(config, "currencies." + name + ".withdraw_item.material", "PAPER"));
+            String displayName = (String) ConfigHelper.getOrDefault(config, "currencies." + name + ".withdraw_item.display_name", "<aqua><b>Money Note</b></aqua> <gray>(Click)</gray>");
+            List<String> lore = (List<String>) ConfigHelper.getOrDefault(config, "currencies." + name + ".withdraw_item.lore", Arrays.asList("<dark_aqua><b>*</b> <aqua>Vaule: <white>%amount%", " <dark_aqua><b>*</b> <aqua>Signer: <white>%player%", "", "<yellow>Right Click to redeem %currency%"));
+
+            Currency currency = new Currency(name, symbol, isWithdrawable, new Currency.WithdrawItem(material, displayName, lore));
             CurrencyRegistry.registerCurrency(currency);
         }
 
@@ -64,6 +81,14 @@ public class FancyEconomyConfig {
         }
 
         FancyEconomy.getInstance().saveConfig();
+    }
+
+    public double getMinWithdrawAmount() {
+        return minWithdrawAmount;
+    }
+
+    public double getMaxWithdrawAmount() {
+        return maxWithdrawAmount;
     }
 
     public Database getDatabase(){
