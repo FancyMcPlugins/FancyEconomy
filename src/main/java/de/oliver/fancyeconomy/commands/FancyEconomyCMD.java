@@ -1,7 +1,9 @@
 package de.oliver.fancyeconomy.commands;
 
 import de.oliver.fancyeconomy.FancyEconomy;
+import de.oliver.fancyeconomy.currencies.Currency;
 import de.oliver.fancyeconomy.currencies.CurrencyPlayerManager;
+import de.oliver.fancyeconomy.currencies.CurrencyRegistry;
 import de.oliver.fancylib.MessageHelper;
 import dev.jorel.commandapi.annotations.Command;
 import dev.jorel.commandapi.annotations.Default;
@@ -19,6 +21,7 @@ public class FancyEconomyCMD {
         MessageHelper.info(player, " --- FancyEconomy Info ---");
         MessageHelper.info(player, "/FancyEconomy reload - plugin config reload");
         MessageHelper.info(player, "/FancyEconomy version - checks for a new version of the plugin");
+        MessageHelper.info(player, "/FancyEconomy currencies - shows a list of all currencies");
     }
 
     @Subcommand("version")
@@ -45,5 +48,15 @@ public class FancyEconomyCMD {
         FancyEconomy.getInstance().getFancyEconomyConfig().reload();
         CurrencyPlayerManager.loadPlayersFromDatabase();
         MessageHelper.success(player, "Reloaded the config");
+    }
+
+    @Subcommand("currencies")
+    @Permission("fancyeconomy.admin")
+    public static void currencies(CommandSender player){
+        Currency defaultCurrency = CurrencyRegistry.getDefaultCurrency();
+        MessageHelper.info(player, "<b>List of all currencies:");
+        for (Currency currency : CurrencyRegistry.CURRENCIES) {
+            MessageHelper.info(player, " - " + currency.name() + " (" + currency.symbol() + ")" + (currency == defaultCurrency ? " <gray>[default]" : ""));
+        }
     }
 }

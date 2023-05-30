@@ -23,6 +23,7 @@ You can download the latest versions at the following places:
 - /FancyEconomy - displays the commands for this Plugin.
 - /FancyEconomy reload - plugin config reload
 - /FancyEconomy version - checks for a new version of the plugin
+- /FancyEconomy currencies - shows a list of all currencies
 - /balance - shows your balance (default currency)
 - /balance (target) - shows a players balance (default currency)
 - /pay (target) (amount) - pays a certain amount of (default currency) to a specified player
@@ -41,7 +42,6 @@ For each currency there will a command:
 `FancyEconomy.balance` - access to the /balance command<br>
 `FancyEconomy.pay` - access to the /pay command<br>
 `FancyEconomy.withdraw` - access to the /withdraw command<br>
-`FancyEconomy.admin` - access to the /FancyEconomy command<br>
 `FancyEconomy.admin` - access to the /FancyEconomy command<br>
 `FancyEconomy.<currency>` - access to the /(currency) balance|pay  commands<br>
 `FancyEconomy.<currency>.admin` - access to the /(currency) set|add|remove  commands<br>
