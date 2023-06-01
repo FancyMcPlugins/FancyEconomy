@@ -18,13 +18,14 @@ repositories {
     maven("https://jitpack.io")
     maven("https://repo.alessiodp.com/releases/")
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
+    maven("https://repo.fancyplugins.de/releases/")
 }
 
 dependencies {
 //    paperweight.foliaDevBundle("1.19.4-R0.1-SNAPSHOT")
-    compileOnly("dev.folia:folia-api:1.19.4-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.19.4-R0.1-SNAPSHOT")
 
-    implementation("com.github.FancyMcPlugins:FancyLib:8988342e2b")
+    implementation("de.oliver:FancyLib:1.0.2")
 
     compileOnly("com.github.MilkBowl:VaultAPI:1.7")
 
@@ -50,6 +51,27 @@ tasks {
     }
 
     publishing {
+        repositories {
+            maven {
+                name = "fancypluginsReleases"
+                url = uri("https://repo.fancyplugins.de/releases")
+                credentials(PasswordCredentials::class)
+                authentication {
+                    isAllowInsecureProtocol = true
+                    create<BasicAuthentication>("basic")
+                }
+            }
+
+            maven {
+                name = "fancypluginsSnapshots"
+                url = uri("https://repo.fancyplugins.de/snapshots")
+                credentials(PasswordCredentials::class)
+                authentication {
+                    isAllowInsecureProtocol = true
+                    create<BasicAuthentication>("basic")
+                }
+            }
+        }
         publications {
             create<MavenPublication>("maven") {
                 groupId = project.group.toString()
