@@ -27,6 +27,7 @@ public class CurrencyBaseCMD {
         MessageHelper.info(player, "/" + currency.name() + " balance <player> - Shows a player's balance");
         MessageHelper.info(player, "/" + currency.name() + " pay <player> <amount> - Pays money to a certain player");
         MessageHelper.info(player, "/" + currency.name() + " withdraw <amount> - Withdraw a certain amount of money");
+        MessageHelper.info(player, "/" + currency.name() + " set <player> <amount> - Sets the balance of a certain player");
         MessageHelper.info(player, "/" + currency.name() + " add <player> <amount> - Adds money to a certain player");
         MessageHelper.info(player, "/" + currency.name() + " remove <player> <amount> - Removes money to a certain player");
     }

@@ -8,6 +8,8 @@ A simple plugin that adds an economy to your server.
 **Only supported for 1.19.4** _(might work in other version too tho)_<br>
 _Using [paper](https://papermc.io/downloads) is highly recommended_
 
+Vault and PlaceholderAPI is supported.
+
 ## Get the plugin
 
 You can download the latest versions at the following places:
@@ -24,16 +26,17 @@ You can download the latest versions at the following places:
 - /FancyEconomy reload - plugin config reload
 - /FancyEconomy version - checks for a new version of the plugin
 - /FancyEconomy currencies - shows a list of all currencies
-- /balance - shows your balance (default currency)
-- /balance (target) - shows a players balance (default currency)
-- /pay (target) (amount) - pays a certain amount of (default currency) to a specified player
-- /withdraw (amount) - Withdraw a certain amount of money
+- /Balance - shows your balance (default currency)
+- /Balance (target) - shows a players balance (default currency)
+- /Pay (target) (amount) - pays a certain amount of (default currency) to a specified player
+- /Withdraw (amount) - Withdraw a certain amount of money
 
 For each currency there will a command:
 - /(currency) balance - Shows your balance
 - /(currency) balance (player) - Shows a player's balance
 - /(currency) pay (player) (amount) - Pays money to a certain player
 - /(currency) withdraw (amount) - Withdraw a certain amount of money
+- /(currency) set (player) (amount) - Sets the balance of a certain player
 - /(currency) add (player) (amount) - Adds money to a certain player
 - /(currency) remove (player) (amount) - Removes money to a certain player
 
@@ -45,6 +48,11 @@ For each currency there will a command:
 `FancyEconomy.admin` - access to the /FancyEconomy command<br>
 `FancyEconomy.<currency>` - access to the /(currency) balance|pay  commands<br>
 `FancyEconomy.<currency>.admin` - access to the /(currency) set|add|remove  commands<br>
+
+## Placeholders
+
+`%FancyEconomy_balance%` - displays the player's balance (default currency)<br>
+`%%FancyEconomy_balance_<currency>%%` - displays the player's balance for a certain currency
 
 ## Build from source
 1. Clone this repo and run `gradlew shadowJar`
