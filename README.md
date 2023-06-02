@@ -3,7 +3,7 @@
 ![GitHub Downloads](https://img.shields.io/github/downloads/FancyMcPlugins/FancyEconomy/total?logo=GitHub&style=flat-square)
 
 # Fancy Economy
-A simple plugin that adds an economy to your server.
+Simple economy plugin that lets you add multiple currencies
 
 **Only supported for 1.19.4** _(might work in other version too tho)_<br>
 _Using [paper](https://papermc.io/downloads) is highly recommended_
@@ -14,9 +14,8 @@ Vault and PlaceholderAPI is supported.
 
 You can download the latest versions at the following places:
 
-- TODO: hangar
-- TODO: modrinth
-- TODO: spigot
+- https://hangar.papermc.io/Oliver/FancyEconomy
+- https://modrinth.com/plugin/fancyeconomy
 - https://github.com/FancyMcPlugins/FancyEconomy/releases
 - Build from source
 
