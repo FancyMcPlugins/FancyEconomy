@@ -1,11 +1,12 @@
 ![Latest Version](https://img.shields.io/github/v/release/FancyMcPlugins/FancyEconomy?style=flat-square)
 [![Discord](https://img.shields.io/discord/899740810956910683?color=7289da&logo=Discord&label=Discord&style=flat-square)](https://discord.gg/ZUgYCEJUEx)
 ![GitHub Downloads](https://img.shields.io/github/downloads/FancyMcPlugins/FancyEconomy/total?logo=GitHub&style=flat-square)
+[![Downloads](https://img.shields.io/modrinth/dt/fancyeconomy?color=00AF5C&label=modrinth&style=flat&logo=modrinth)](https://modrinth.com/plugin/fancyeconomy/versions)
 
 # Fancy Economy
 Simple economy plugin that lets you add multiple currencies
 
-**Only supported for 1.19.4** _(might work in other version too tho)_<br>
+**Only supported for 1.19.4** _(might work in other versions too tho)_<br>
 _Using [paper](https://papermc.io/downloads) is highly recommended_
 
 Vault and PlaceholderAPI is supported.
