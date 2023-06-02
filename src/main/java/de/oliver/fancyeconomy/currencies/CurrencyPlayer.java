@@ -25,7 +25,7 @@ public class CurrencyPlayer {
         this.uuid = uuid;
         this.username = username;
         this.balances = new HashMap<>();
-        this.isDirty = true;
+        this.isDirty = false;
     }
 
     /**

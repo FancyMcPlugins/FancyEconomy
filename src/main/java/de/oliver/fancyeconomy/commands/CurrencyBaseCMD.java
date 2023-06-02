@@ -56,7 +56,10 @@ public class CurrencyBaseCMD {
         }
 
         CurrencyPlayer currencyPlayer = CurrencyPlayerManager.getPlayer(uuid);
-        currencyPlayer.setUsername(targetName);
+
+        if(targetPlayer != null){
+            currencyPlayer.setUsername(targetPlayer.getName());
+        }
 
         double balance = currencyPlayer.getBalance(currency);
 
@@ -88,7 +91,10 @@ public class CurrencyBaseCMD {
         CurrencyPlayer from = CurrencyPlayerManager.getPlayer(player.getUniqueId());
         CurrencyPlayer to = CurrencyPlayerManager.getPlayer(uuid);
         from.setUsername(player.getName());
-        to.setUsername(targetName);
+
+        if(targetPlayer != null){
+            to.setUsername(targetPlayer.getName());
+        }
 
         if(from.getBalance(currency) < amount){
             MessageHelper.error(player, "You don't enough money");

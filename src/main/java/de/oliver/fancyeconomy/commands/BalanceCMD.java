@@ -53,7 +53,10 @@ public class BalanceCMD {
         }
 
         CurrencyPlayer currencyPlayer = CurrencyPlayerManager.getPlayer(uuid);
-        currencyPlayer.setUsername(targetName);
+
+        if(targetPlayer != null){
+            currencyPlayer.setUsername(targetPlayer.getName());
+        }
 
         Currency currency = CurrencyRegistry.getDefaultCurrency();
         double balance = currencyPlayer.getBalance(currency);

@@ -54,7 +54,10 @@ public class PayCMD {
 
         CurrencyPlayer from = CurrencyPlayerManager.getPlayer(player.getUniqueId());
         CurrencyPlayer to = CurrencyPlayerManager.getPlayer(uuid);
-        to.setUsername(targetName);
+
+        if(targetPlayer != null){
+            to.setUsername(targetPlayer.getName());
+        }
 
         if(from.getBalance(currency) < amount){
             MessageHelper.error(player, "You don't have enough money");

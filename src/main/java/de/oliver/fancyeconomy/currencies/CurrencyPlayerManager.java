@@ -17,7 +17,9 @@ public class CurrencyPlayerManager {
             return cachedPlayers.get(uuid);
         }
 
-        CurrencyPlayer player = new CurrencyPlayer(uuid, "N/A");
+        String username = UUIDFetcher.getName(uuid);
+
+        CurrencyPlayer player = new CurrencyPlayer(uuid, username != null ? username : "N/A");
         cachedPlayers.put(uuid, player);
         FancyEconomy.getInstance().getSaveWorkload().addValue(() -> player);
         return player;
