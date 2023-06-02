@@ -20,12 +20,11 @@ import de.oliver.fancylib.serverSoftware.schedulers.FancyScheduler;
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIBukkitConfig;
 import dev.jorel.commandapi.CommandAPICommand;
-import dev.jorel.commandapi.arguments.DoubleArgument;
-import dev.jorel.commandapi.arguments.MultiLiteralArgument;
-import dev.jorel.commandapi.arguments.StringArgument;
+import dev.jorel.commandapi.arguments.*;
 import net.milkbowl.vault.economy.Economy;
 import org.apache.maven.artifact.versioning.ComparableVersion;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -142,6 +141,9 @@ public class FancyEconomy extends JavaPlugin {
         CommandAPI.registerCommand(BalanceCMD.class);
         CommandAPI.registerCommand(WithdrawCMD.class);
 
+        ArgumentSuggestions<CommandSender> allPlayersSuggestion = ArgumentSuggestions.strings(commandSenderSuggestionInfo -> CurrencyPlayerManager.getAllPlayerNames());
+
+
         for (Currency currency : CurrencyRegistry.CURRENCIES) {
             CurrencyBaseCMD baseCMD = new CurrencyBaseCMD(currency);
 
@@ -172,7 +174,7 @@ public class FancyEconomy extends JavaPlugin {
                             new MultiLiteralArgument("balance", "bal")
                                     .setListed(false)
                     )
-                    .withArguments(new StringArgument("targetName"))
+                    .withArguments(new StringArgument("targetName").includeSuggestions(allPlayersSuggestion))
                     .executesPlayer((sender, args) -> {
                         baseCMD.balance(sender, (String) args.get(0));
                     })
@@ -185,7 +187,7 @@ public class FancyEconomy extends JavaPlugin {
                             new MultiLiteralArgument("pay")
                                     .setListed(false)
                     )
-                    .withArguments(new StringArgument("targetName"), new DoubleArgument("amount", 0.01))
+                    .withArguments(new StringArgument("targetName").includeSuggestions(allPlayersSuggestion), new DoubleArgument("amount", 0.01))
                     .executesPlayer((sender, args) -> {
                         baseCMD.pay(sender, (String) args.get(0), (Double) args.get(1));
                     })
@@ -211,7 +213,7 @@ public class FancyEconomy extends JavaPlugin {
                             new MultiLiteralArgument("set")
                                     .setListed(false)
                     )
-                    .withArguments(new StringArgument("targetName"), new DoubleArgument("amount", 0.01))
+                    .withArguments(new StringArgument("targetName").includeSuggestions(allPlayersSuggestion), new DoubleArgument("amount", 0.01))
                     .executesPlayer((sender, args) -> {
                         baseCMD.set(sender, (String) args.get(0), (Double) args.get(1));
                     })
@@ -224,7 +226,7 @@ public class FancyEconomy extends JavaPlugin {
                             new MultiLiteralArgument("add")
                                     .setListed(false)
                     )
-                    .withArguments(new StringArgument("targetName"), new DoubleArgument("amount", 0.01))
+                    .withArguments(new StringArgument("targetName").includeSuggestions(allPlayersSuggestion), new DoubleArgument("amount", 0.01))
                     .executesPlayer((sender, args) -> {
                         baseCMD.add(sender, (String) args.get(0), (Double) args.get(1));
                     })
@@ -237,7 +239,7 @@ public class FancyEconomy extends JavaPlugin {
                             new MultiLiteralArgument("remove")
                                     .setListed(false)
                     )
-                    .withArguments(new StringArgument("targetName"), new DoubleArgument("amount", 0.01))
+                    .withArguments(new StringArgument("targetName").includeSuggestions(allPlayersSuggestion), new DoubleArgument("amount", 0.01))
                     .executesPlayer((sender, args) -> {
                         baseCMD.remove(sender, (String) args.get(0), (Double) args.get(1));
                     })

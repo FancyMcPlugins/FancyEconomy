@@ -45,6 +45,13 @@ public class CurrencyPlayerManager {
         return cachedPlayers.values();
     }
 
+    public static String[] getAllPlayerNames(){
+        return cachedPlayers.values().stream()
+                .map(CurrencyPlayer::getUsername)
+                .filter(s -> !s.equalsIgnoreCase("N/A"))
+                .toArray(String[]::new);
+    }
+
     public static void loadPlayersFromDatabase(){
         Database db = FancyEconomy.getInstance().getDatabase();
 
