@@ -157,7 +157,7 @@ public class FancyEconomy extends JavaPlugin {
             new CommandAPICommand(currency.name())
                     .withPermission("fancyeconomy." + currency.name())
                     .withArguments(
-                            new MultiLiteralArgument("balance")
+                            new MultiLiteralArgument("balance", "bal")
                                     .setListed(false)
                     )
                     .executesPlayer((sender, args) -> {
@@ -169,7 +169,7 @@ public class FancyEconomy extends JavaPlugin {
             new CommandAPICommand(currency.name())
                     .withPermission("fancyeconomy." + currency.name())
                     .withArguments(
-                            new MultiLiteralArgument("balance")
+                            new MultiLiteralArgument("balance", "bal")
                                     .setListed(false)
                     )
                     .withArguments(new StringArgument("targetName"))
