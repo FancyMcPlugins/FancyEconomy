@@ -1,7 +1,6 @@
 plugins {
     id("java-library")
     id("xyz.jpenilla.run-paper") version "2.1.0" // Adds runServer and runMojangMappedServer tasks for testing
-//    id("io.papermc.paperweight.userdev") version "1.5.5"
     id("maven-publish")
     id("com.github.johnrengelman.shadow") version "8.1.1"
 }
@@ -22,8 +21,7 @@ repositories {
 }
 
 dependencies {
-//    paperweight.foliaDevBundle("1.19.4-R0.1-SNAPSHOT")
-    compileOnly("io.papermc.paper:paper-api:1.19.4-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.20-R0.1-SNAPSHOT")
 
     implementation("de.oliver:FancyLib:1.0.2")
 
@@ -42,7 +40,7 @@ java {
 
 tasks {
     runServer{
-        minecraftVersion("1.19.4")
+        minecraftVersion("1.20")
     }
 
     shadowJar{
