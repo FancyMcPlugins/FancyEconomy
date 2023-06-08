@@ -8,10 +8,7 @@ import de.oliver.fancyeconomy.currencies.CurrencyRegistry;
 import de.oliver.fancyeconomy.integrations.FancyEconomyPlaceholderExpansion;
 import de.oliver.fancyeconomy.integrations.FancyEconomyVault;
 import de.oliver.fancyeconomy.listeners.PlayerJoinListener;
-import de.oliver.fancylib.DistributedWorkload;
-import de.oliver.fancylib.FancyLib;
-import de.oliver.fancylib.Metrics;
-import de.oliver.fancylib.VersionFetcher;
+import de.oliver.fancylib.*;
 import de.oliver.fancylib.databases.Database;
 import de.oliver.fancylib.serverSoftware.FoliaScheduler;
 import de.oliver.fancylib.serverSoftware.ServerSoftware;
@@ -36,6 +33,7 @@ public class FancyEconomy extends JavaPlugin {
     private static FancyEconomy instance;
     private final FancyScheduler scheduler;
     private final VersionFetcher versionFetcher;
+    private final LanguageConfig lang;
     private final FancyEconomyConfig config;
     private FancyEconomyVault vaultEconomy;
     private Database database;
@@ -48,6 +46,7 @@ public class FancyEconomy extends JavaPlugin {
         this.scheduler = ServerSoftware.isFolia()
                 ? new FoliaScheduler(instance)
                 : new BukkitScheduler(instance);
+        lang = new LanguageConfig(instance);
         config = new FancyEconomyConfig();
         versionFetcher = new VersionFetcher("https://api.modrinth.com/v2/project/fancyeconomy/version", "https://modrinth.com/plugin/fancyeconomy/versions");
         saveWorkload = new DistributedWorkload<>(
@@ -87,6 +86,9 @@ public class FancyEconomy extends JavaPlugin {
         }
 
         Metrics metrics = new Metrics(instance, 18569);
+
+        lang.addDefaultLang("your-balance", "Your balance: {balance}");
+        lang.load();
 
         config.reload();
 
@@ -273,6 +275,10 @@ public class FancyEconomy extends JavaPlugin {
 
     public VersionFetcher getVersionFetcher() {
         return versionFetcher;
+    }
+
+    public LanguageConfig getLang() {
+        return lang;
     }
 
     public FancyEconomyConfig getFancyEconomyConfig() {

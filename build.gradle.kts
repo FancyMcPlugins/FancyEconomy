@@ -17,13 +17,14 @@ repositories {
     maven("https://jitpack.io")
     maven("https://repo.alessiodp.com/releases/")
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
-    maven("https://repo.fancyplugins.de/releases/")
+//    maven("https://repo.fancyplugins.de/releases/")
+    maven("https://repo.fancyplugins.de/snapshots/")
 }
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.20-R0.1-SNAPSHOT")
 
-    implementation("de.oliver:FancyLib:1.0.2")
+    implementation("de.oliver:FancyLib:1.0.3-beta2")
 
     compileOnly("com.github.MilkBowl:VaultAPI:1.7")
 
