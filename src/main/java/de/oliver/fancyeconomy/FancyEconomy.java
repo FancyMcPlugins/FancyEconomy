@@ -28,6 +28,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.List;
+
 
 public class FancyEconomy extends JavaPlugin {
 
@@ -159,7 +161,7 @@ public class FancyEconomy extends JavaPlugin {
             new CommandAPICommand(currency.name())
                     .withPermission("fancyeconomy." + currency.name())
                     .withArguments(
-                            new MultiLiteralArgument("balance", "bal")
+                            new MultiLiteralArgument(null, List.of("bal", "balance"))
                                     .setListed(false)
                     )
                     .executesPlayer((sender, args) -> {
@@ -171,7 +173,7 @@ public class FancyEconomy extends JavaPlugin {
             new CommandAPICommand(currency.name())
                     .withPermission("fancyeconomy." + currency.name())
                     .withArguments(
-                            new MultiLiteralArgument("balance", "bal")
+                            new MultiLiteralArgument(null, List.of("bal", "balance"))
                                     .setListed(false)
                     )
                     .withArguments(new StringArgument("targetName").includeSuggestions(allPlayersSuggestion))
@@ -184,7 +186,7 @@ public class FancyEconomy extends JavaPlugin {
             new CommandAPICommand(currency.name())
                     .withPermission("fancyeconomy." + currency.name())
                     .withArguments(
-                            new MultiLiteralArgument("pay")
+                            new MultiLiteralArgument(null, List.of("pay"))
                                     .setListed(false)
                     )
                     .withArguments(new StringArgument("targetName").includeSuggestions(allPlayersSuggestion), new DoubleArgument("amount", 0.01))
@@ -197,7 +199,7 @@ public class FancyEconomy extends JavaPlugin {
             new CommandAPICommand(currency.name())
                     .withPermission("fancyeconomy." + currency.name())
                     .withArguments(
-                            new MultiLiteralArgument("withdraw")
+                            new MultiLiteralArgument(null, List.of("withdraw"))
                                     .setListed(false)
                     )
                     .withArguments(new DoubleArgument("amount"))
@@ -210,7 +212,7 @@ public class FancyEconomy extends JavaPlugin {
             new CommandAPICommand(currency.name())
                     .withPermission("fancyeconomy." + currency.name() + ".admin")
                     .withArguments(
-                            new MultiLiteralArgument("set")
+                            new MultiLiteralArgument(null, List.of("set"))
                                     .setListed(false)
                     )
                     .withArguments(new StringArgument("targetName").includeSuggestions(allPlayersSuggestion), new DoubleArgument("amount", 0.01))
@@ -223,7 +225,7 @@ public class FancyEconomy extends JavaPlugin {
             new CommandAPICommand(currency.name())
                     .withPermission("fancyeconomy." + currency.name() + ".admin")
                     .withArguments(
-                            new MultiLiteralArgument("add")
+                            new MultiLiteralArgument(null, List.of("add"))
                                     .setListed(false)
                     )
                     .withArguments(new StringArgument("targetName").includeSuggestions(allPlayersSuggestion), new DoubleArgument("amount", 0.01))
@@ -236,7 +238,7 @@ public class FancyEconomy extends JavaPlugin {
             new CommandAPICommand(currency.name())
                     .withPermission("fancyeconomy." + currency.name() + ".admin")
                     .withArguments(
-                            new MultiLiteralArgument("remove")
+                            new MultiLiteralArgument(null, List.of("remove"))
                                     .setListed(false)
                     )
                     .withArguments(new StringArgument("targetName").includeSuggestions(allPlayersSuggestion), new DoubleArgument("amount", 0.01))

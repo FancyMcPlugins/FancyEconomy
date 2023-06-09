@@ -6,8 +6,8 @@ plugins {
 }
 
 group = "de.oliver"
-version = findProperty("version")!!
-description = findProperty("description").toString()
+version = "1.0.1"
+description = "Economy plugin"
 
 repositories {
     mavenLocal()
@@ -29,9 +29,9 @@ dependencies {
 
     compileOnly("me.clip:placeholderapi:2.11.3")
 
-    implementation("dev.jorel:commandapi-bukkit-shade:9.0.1")
-    compileOnly("dev.jorel:commandapi-annotations:9.0.1")
-    annotationProcessor("dev.jorel:commandapi-annotations:9.0.1")
+    implementation("dev.jorel:commandapi-bukkit-shade:9.0.2")
+    compileOnly("dev.jorel:commandapi-annotations:9.0.2")
+    annotationProcessor("dev.jorel:commandapi-annotations:9.0.2")
 }
 
 java {
