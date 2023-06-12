@@ -10,10 +10,10 @@ import de.oliver.fancyeconomy.integrations.FancyEconomyVault;
 import de.oliver.fancyeconomy.listeners.PlayerJoinListener;
 import de.oliver.fancylib.*;
 import de.oliver.fancylib.databases.Database;
-import de.oliver.fancylib.serverSoftware.FoliaScheduler;
 import de.oliver.fancylib.serverSoftware.ServerSoftware;
 import de.oliver.fancylib.serverSoftware.schedulers.BukkitScheduler;
 import de.oliver.fancylib.serverSoftware.schedulers.FancyScheduler;
+import de.oliver.fancylib.serverSoftware.schedulers.FoliaScheduler;
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIBukkitConfig;
 import dev.jorel.commandapi.CommandAPICommand;
@@ -102,6 +102,7 @@ public class FancyEconomy extends JavaPlugin {
         lang.addDefaultLang("min-withdrawable", "The minimum withdraw amount is: {amount}");
         lang.addDefaultLang("max-withdrawable", "The maximum withdraw amount is: {amount}");
         lang.addDefaultLang("withdraw-success", "Successfully withdraw {amount}");
+        lang.addDefaultLang("deposit-note", "+ {amount}");
 
         lang.addDefaultLang("set-success", "Successfully set {player}'s balance to {amount}");
         lang.addDefaultLang("add-success", "Successfully added {amount} to {player}");

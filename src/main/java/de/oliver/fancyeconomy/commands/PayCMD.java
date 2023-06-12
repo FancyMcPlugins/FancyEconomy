@@ -44,8 +44,8 @@ public class PayCMD {
         if(uuid == null){
             MessageHelper.error(player, FancyEconomy.getInstance().getLang().get(
                     "player-not-found",
-                    "{player}", targetName
-                    ));
+                    "player", targetName
+            ));
             return;
         }
 
@@ -73,14 +73,14 @@ public class PayCMD {
 
         MessageHelper.success(player, FancyEconomy.getInstance().getLang().get(
                 "paid-sender",
-                "{amount}", currency.format(amount),
+                "amount", currency.format(amount),
                 "receiver", to.getUsername()
         ));
 
         if(targetPlayer != null){
             MessageHelper.info(player, FancyEconomy.getInstance().getLang().get(
                     "paid-receiver",
-                    "{amount}", currency.format(amount),
+                    "amount", currency.format(amount),
                     "sender", from.getUsername()
             ));
         }

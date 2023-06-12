@@ -38,7 +38,7 @@ public class CurrencyBaseCMD {
 
         MessageHelper.info(player, FancyEconomy.getInstance().getLang().get(
                 "your-balance",
-                "{balance}", currency.format(balance)
+                "balance", currency.format(balance)
         ));
     }
 
@@ -56,8 +56,8 @@ public class CurrencyBaseCMD {
         if(uuid == null){
             MessageHelper.error(player, FancyEconomy.getInstance().getLang().get(
                     "player-not-found",
-                    "{player}", targetName
-                    ));
+                    "player", targetName
+            ));
             return;
         }
 
@@ -71,8 +71,8 @@ public class CurrencyBaseCMD {
 
         MessageHelper.info(player, FancyEconomy.getInstance().getLang().get(
                 "balance-others",
-                "{player}", currencyPlayer.getUsername(),
-                "{currency}", currency.format(balance)
+                "player", currencyPlayer.getUsername(),
+                "currency", currency.format(balance)
         ));
     }
 
@@ -91,7 +91,7 @@ public class CurrencyBaseCMD {
         if(uuid == null){
             MessageHelper.error(player, FancyEconomy.getInstance().getLang().get(
                     "player-not-found",
-                    "{player}", targetName
+                    "player", targetName
             ));
             return;
         }
@@ -119,14 +119,14 @@ public class CurrencyBaseCMD {
 
         MessageHelper.success(player, FancyEconomy.getInstance().getLang().get(
                 "paid-sender",
-                "{amount}", currency.format(amount),
+                "amount", currency.format(amount),
                 "receiver", to.getUsername()
         ));
 
         if(targetPlayer != null){
             MessageHelper.info(player, FancyEconomy.getInstance().getLang().get(
                     "paid-receiver",
-                    "{amount}", currency.format(amount),
+                    "amount", currency.format(amount),
                     "sender", from.getUsername()
             ));
         }
@@ -199,7 +199,7 @@ public class CurrencyBaseCMD {
         if(uuid == null){
             MessageHelper.error(player, FancyEconomy.getInstance().getLang().get(
                     "player-not-found",
-                    "{player}", targetName
+                    "player", targetName
             ));
             return;
         }
@@ -209,7 +209,7 @@ public class CurrencyBaseCMD {
 
         MessageHelper.success(player, FancyEconomy.getInstance().getLang().get(
                 "set-success",
-                "{player}", currencyPlayer.getUsername(),
+                "player", currencyPlayer.getUsername(),
                 "amount", currency.format(amount)
         ));
     }
@@ -229,7 +229,7 @@ public class CurrencyBaseCMD {
         if(uuid == null){
             MessageHelper.error(player, FancyEconomy.getInstance().getLang().get(
                     "player-not-found",
-                    "{player}", targetName
+                    "player", targetName
             ));
             return;
         }
@@ -239,7 +239,7 @@ public class CurrencyBaseCMD {
 
         MessageHelper.success(player, FancyEconomy.getInstance().getLang().get(
                 "add-success",
-                "{player}", currencyPlayer.getUsername(),
+                "player", currencyPlayer.getUsername(),
                 "amount", currency.format(amount)
         ));
     }
@@ -259,7 +259,7 @@ public class CurrencyBaseCMD {
         if(uuid == null){
             MessageHelper.error(player, FancyEconomy.getInstance().getLang().get(
                     "player-not-found",
-                    "{player}", targetName
+                    "player", targetName
             ));
             return;
         }
@@ -269,7 +269,7 @@ public class CurrencyBaseCMD {
 
         MessageHelper.success(player, FancyEconomy.getInstance().getLang().get(
                 "remove-success",
-                "{player}", currencyPlayer.getUsername(),
+                "player", currencyPlayer.getUsername(),
                 "amount", currency.format(amount)
         ));
     }

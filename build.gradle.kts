@@ -24,7 +24,7 @@ repositories {
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.20-R0.1-SNAPSHOT")
 
-    implementation("de.oliver:FancyLib:1.0.3-beta2")
+    implementation("de.oliver:FancyLib:1.0.3-beta4")
 
     compileOnly("com.github.MilkBowl:VaultAPI:1.7")
 

@@ -32,7 +32,10 @@ public class BalanceCMD {
         Currency currency = CurrencyRegistry.getDefaultCurrency();
         double balance = currencyPlayer.getBalance(currency);
 
-        MessageHelper.info(player, FancyEconomy.getInstance().getLang().get("your-balance", currency.format(balance)));
+        MessageHelper.info(player, FancyEconomy.getInstance().getLang().get(
+                "your-balance",
+                "balance", currency.format(balance)
+        ));
     }
 
     @Default
@@ -51,8 +54,8 @@ public class BalanceCMD {
         if(uuid == null){
             MessageHelper.error(player, FancyEconomy.getInstance().getLang().get(
                     "player-not-found",
-                    "{player}", targetName
-                    ));
+                    "player", targetName
+            ));
             return;
         }
 
@@ -65,7 +68,11 @@ public class BalanceCMD {
         Currency currency = CurrencyRegistry.getDefaultCurrency();
         double balance = currencyPlayer.getBalance(currency);
 
-        MessageHelper.info(player, FancyEconomy.getInstance().getLang().get("balance-others", currencyPlayer.getUsername(), currency.format(balance)));
+        MessageHelper.info(player, FancyEconomy.getInstance().getLang().get(
+                "balance-others",
+                "player", currencyPlayer.getUsername(),
+                "balance", currency.format(balance)
+        ));
     }
 
 }

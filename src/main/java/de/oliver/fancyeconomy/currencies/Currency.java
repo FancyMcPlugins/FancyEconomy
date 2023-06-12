@@ -101,7 +101,10 @@ public record Currency(String name, String symbol, boolean isWithdrawable, Withd
                 currencyPlayer.addBalance(currency, amount);
 
                 item.setAmount(item.getAmount() - 1);
-                MessageHelper.info(player, "+ " + currency.format(amount));
+                MessageHelper.info(player, FancyEconomy.getInstance().getLang().get(
+                        "deposit-note",
+                        "amount", currency.format(amount)
+                ));
             }
         }
 

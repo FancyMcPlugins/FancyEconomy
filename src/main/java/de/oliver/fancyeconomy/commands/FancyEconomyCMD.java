@@ -45,6 +45,7 @@ public class FancyEconomyCMD {
     @Subcommand("reload")
     @Permission("fancyeconomy.admin")
     public static void reload(CommandSender player) {
+        FancyEconomy.getInstance().getLang().load();
         FancyEconomy.getInstance().getFancyEconomyConfig().reload();
         CurrencyPlayerManager.loadPlayersFromDatabase();
         MessageHelper.success(player, "Reloaded the config");
