@@ -1,5 +1,6 @@
 package de.oliver.fancyeconomy.commands;
 
+import de.oliver.fancyeconomy.FancyEconomy;
 import de.oliver.fancyeconomy.currencies.Currency;
 import de.oliver.fancyeconomy.currencies.CurrencyPlayer;
 import de.oliver.fancyeconomy.currencies.CurrencyPlayerManager;
@@ -41,12 +42,15 @@ public class PayCMD {
         UUID uuid = targetPlayer != null ? targetPlayer.getUniqueId() : UUIDFetcher.getUUID(targetName);
 
         if(uuid == null){
-            MessageHelper.error(player, "Could not find target player: '" + targetName + "'");
+            MessageHelper.error(player, FancyEconomy.getInstance().getLang().get(
+                    "player-not-found",
+                    "{player}", targetName
+                    ));
             return;
         }
 
         if(player.getUniqueId().equals(uuid)){
-            MessageHelper.warning(player, "You cannot send money to yourself");
+            MessageHelper.warning(player, FancyEconomy.getInstance().getLang().get("cannot-pay-yourself"));
             return;
         }
 
@@ -60,16 +64,25 @@ public class PayCMD {
         }
 
         if(from.getBalance(currency) < amount){
-            MessageHelper.error(player, "You don't have enough money");
+            MessageHelper.error(player, FancyEconomy.getInstance().getLang().get("not-enough-money"));
             return;
         }
 
         from.removeBalance(currency, amount);
         to.addBalance(currency, amount);
 
-        MessageHelper.success(player, "Successfully paid " + currency.format(amount) + " to " + to.getUsername());
+        MessageHelper.success(player, FancyEconomy.getInstance().getLang().get(
+                "paid-sender",
+                "{amount}", currency.format(amount),
+                "receiver", to.getUsername()
+        ));
+
         if(targetPlayer != null){
-            MessageHelper.info(targetPlayer, "Received " + currency.format(amount) + " from " + from.getUsername());
+            MessageHelper.info(player, FancyEconomy.getInstance().getLang().get(
+                    "paid-receiver",
+                    "{amount}", currency.format(amount),
+                    "sender", from.getUsername()
+            ));
         }
     }
 

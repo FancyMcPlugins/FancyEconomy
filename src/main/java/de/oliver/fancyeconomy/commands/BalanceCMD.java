@@ -1,5 +1,6 @@
 package de.oliver.fancyeconomy.commands;
 
+import de.oliver.fancyeconomy.FancyEconomy;
 import de.oliver.fancyeconomy.currencies.Currency;
 import de.oliver.fancyeconomy.currencies.CurrencyPlayer;
 import de.oliver.fancyeconomy.currencies.CurrencyPlayerManager;
@@ -31,7 +32,7 @@ public class BalanceCMD {
         Currency currency = CurrencyRegistry.getDefaultCurrency();
         double balance = currencyPlayer.getBalance(currency);
 
-        MessageHelper.info(player, "Your balance: " + currency.format(balance));
+        MessageHelper.info(player, FancyEconomy.getInstance().getLang().get("your-balance", currency.format(balance)));
     }
 
     @Default
@@ -48,7 +49,10 @@ public class BalanceCMD {
         UUID uuid = targetPlayer != null ? targetPlayer.getUniqueId() : UUIDFetcher.getUUID(targetName);
 
         if(uuid == null){
-            MessageHelper.error(player, "Could not find target player: '" + targetName + "'");
+            MessageHelper.error(player, FancyEconomy.getInstance().getLang().get(
+                    "player-not-found",
+                    "{player}", targetName
+                    ));
             return;
         }
 
@@ -61,7 +65,7 @@ public class BalanceCMD {
         Currency currency = CurrencyRegistry.getDefaultCurrency();
         double balance = currencyPlayer.getBalance(currency);
 
-        MessageHelper.info(player, currencyPlayer.getUsername() + "'s balance: " + currency.format(balance));
+        MessageHelper.info(player, FancyEconomy.getInstance().getLang().get("balance-others", currencyPlayer.getUsername(), currency.format(balance)));
     }
 
 }

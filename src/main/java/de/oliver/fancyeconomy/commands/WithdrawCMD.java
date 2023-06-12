@@ -35,7 +35,7 @@ public class WithdrawCMD {
         Currency currency = CurrencyRegistry.getDefaultCurrency();
 
         if(!currency.isWithdrawable()){
-            MessageHelper.error(player, "This currency is not withdrawable");
+            MessageHelper.error(player, FancyEconomy.getInstance().getLang().get("not-withdrawable"));
             return;
         }
 
@@ -46,17 +46,23 @@ public class WithdrawCMD {
         double maxWithdrawAmount = FancyEconomy.getInstance().getFancyEconomyConfig().getMaxWithdrawAmount();
 
         if(amount < minWithdrawAmount){
-            MessageHelper.error(player, "The minimum withdraw amount is: " + currency.format(minWithdrawAmount));
+            MessageHelper.error(player, FancyEconomy.getInstance().getLang().get(
+                    "min-withdrawable",
+                    "amount", currency.format(minWithdrawAmount)
+                    ));
             return;
         }
 
         if(amount > maxWithdrawAmount){
-            MessageHelper.error(player, "The maximum withdraw amount is: " + currency.format(maxWithdrawAmount));
+            MessageHelper.error(player, FancyEconomy.getInstance().getLang().get(
+                    "max-withdrawable",
+                    "amount", currency.format(maxWithdrawAmount)
+            ));
             return;
         }
 
         if(currencyPlayer.getBalance(currency) < amount){
-            MessageHelper.error(player, "You don't have enough money");
+            MessageHelper.error(player, FancyEconomy.getInstance().getLang().get("not-enough-money"));
             return;
         }
 
@@ -64,12 +70,15 @@ public class WithdrawCMD {
 
         HashMap<Integer, ItemStack> leftOver = player.getInventory().addItem(withdrawItem);
         if(leftOver.size() > 0){
-            MessageHelper.error(player, "You don't have enough space in your inventory");
+            MessageHelper.error(player, FancyEconomy.getInstance().getLang().get("no-inventory-space"));
             return;
         }
 
         currencyPlayer.removeBalance(currency, amount);
 
-        MessageHelper.success(player, "Successfully withdraw " + currency.format(amount));
+        MessageHelper.success(player, FancyEconomy.getInstance().getLang().get(
+                "withdraw-success",
+                "amount", currency.format(amount)
+        ));
     }
 }

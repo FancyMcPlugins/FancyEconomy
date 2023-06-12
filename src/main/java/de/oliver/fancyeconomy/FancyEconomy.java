@@ -87,7 +87,25 @@ public class FancyEconomy extends JavaPlugin {
 
         Metrics metrics = new Metrics(instance, 18569);
 
+        lang.addDefaultLang("player-not-found", "Could not find target player: '{player}'");
+        lang.addDefaultLang("no-inventory-space", "You don't have enough space in your inventory");
+
         lang.addDefaultLang("your-balance", "Your balance: {balance}");
+        lang.addDefaultLang("balance-others", "{player}'s balance: {balance}");
+
+        lang.addDefaultLang("cannot-pay-yourself", "You cannot pay yourself");
+        lang.addDefaultLang("not-enough-money", "Insufficient balance");
+        lang.addDefaultLang("paid-sender", "Successfully paid {amount} to {receiver}");
+        lang.addDefaultLang("paid-receiver", "Received {amount} from {sender}");
+
+        lang.addDefaultLang("not-withdrawable", "This currency is not withdrawable");
+        lang.addDefaultLang("min-withdrawable", "The minimum withdraw amount is: {amount}");
+        lang.addDefaultLang("max-withdrawable", "The maximum withdraw amount is: {amount}");
+        lang.addDefaultLang("withdraw-success", "Successfully withdraw {amount}");
+
+        lang.addDefaultLang("set-success", "Successfully set {player}'s balance to {amount}");
+        lang.addDefaultLang("add-success", "Successfully added {amount} to {player}");
+        lang.addDefaultLang("remove-success", "Successfully removed {amount} from {player}");
         lang.load();
 
         config.reload();
