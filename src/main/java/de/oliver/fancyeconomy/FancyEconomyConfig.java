@@ -23,6 +23,7 @@ public class FancyEconomyConfig {
     private String dbPassword;
     private String dbFile;
 
+    private boolean useShortFormat;
     private double minWithdrawAmount;
     private double maxWithdrawAmount;
 
@@ -50,6 +51,7 @@ public class FancyEconomyConfig {
         /*
             Currencies
          */
+        useShortFormat = (boolean) ConfigHelper.getOrDefault(config, "use_short_format", false);
         minWithdrawAmount = (Double) ConfigHelper.getOrDefault(config, "minimum_withdraw_amount", 0.1d);
         maxWithdrawAmount = (Double) ConfigHelper.getOrDefault(config, "maximum_withdraw_amount", 1_000_000_000d);
 
@@ -81,6 +83,10 @@ public class FancyEconomyConfig {
         }
 
         FancyEconomy.getInstance().saveConfig();
+    }
+
+    public boolean useShortFormat() {
+        return useShortFormat;
     }
 
     public double getMinWithdrawAmount() {

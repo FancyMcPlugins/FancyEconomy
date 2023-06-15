@@ -6,7 +6,7 @@
 # Fancy Economy
 Simple economy plugin that lets you add multiple currencies
 
-**Only supported for 1.20** _(might work in other versions too tho)_<br>
+**Only supported for 1.20.1** _(might work in other versions too tho)_<br>
 _Using [paper](https://papermc.io/downloads) is highly recommended_
 
 Vault and PlaceholderAPI is supported.

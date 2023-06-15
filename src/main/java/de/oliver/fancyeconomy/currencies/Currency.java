@@ -22,7 +22,36 @@ public record Currency(String name, String symbol, boolean isWithdrawable, Withd
     public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("###,###,###,###.##");
 
     public String format(double amount){
-        return symbol + DECIMAL_FORMAT.format(amount) + " " + name;
+        return FancyEconomy.getInstance().getFancyEconomyConfig().useShortFormat()
+                ? shortFormat(amount) + " " + name
+                : longFormat(amount) + " " + name;
+    }
+
+    private String longFormat(double amount){
+        return symbol + DECIMAL_FORMAT.format(amount);
+    }
+
+    private String shortFormat(double amount){
+        DecimalFormat formatter = new DecimalFormat("#.##");
+        if (amount >= 1.0E18D) {
+            return formatter.format(amount / 1.0E18D) + "QT";
+        }
+        if (amount >= 1.0E15D) {
+            return formatter.format(amount / 1.0E15D) + "Q";
+        }
+        if (amount >= 1.0E12D) {
+            return formatter.format(amount / 1.0E12D) + "T";
+        }
+        if (amount >= 1.0E9D) {
+            return formatter.format(amount / 1.0E9D) + "B";
+        }
+        if (amount >= 1000000.0D) {
+            return formatter.format(amount / 1000000.0D) + "M";
+        }
+        if (amount < 1000.0D) {
+            return formatter.format(amount);
+        }
+        return formatter.format(amount / 1000.0D) + "k";
     }
 
     public record WithdrawItem(Material material, String displayName, List<String> lore) {
