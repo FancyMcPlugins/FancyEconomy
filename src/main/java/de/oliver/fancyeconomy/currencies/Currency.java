@@ -4,7 +4,6 @@ import de.oliver.fancyeconomy.FancyEconomy;
 import de.oliver.fancylib.MessageHelper;
 import de.oliver.fancylib.gui.inventoryClick.InventoryItemClick;
 import de.oliver.fancylib.itemClick.ItemClick;
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Material;
@@ -17,7 +16,6 @@ import org.bukkit.persistence.PersistentDataType;
 import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 public record Currency(String name, String symbol, boolean isWithdrawable, WithdrawItem withdrawItem) {
 

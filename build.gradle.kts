@@ -6,8 +6,9 @@ plugins {
 }
 
 group = "de.oliver"
-version = "1.0.1"
 description = "Economy plugin"
+version = "1.0.1"
+val mcVersion = "1.20.1"
 
 repositories {
     mavenLocal()
@@ -22,17 +23,18 @@ repositories {
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:1.20-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:$mcVersion-R0.1-SNAPSHOT")
 
-    implementation("de.oliver:FancyLib:1.0.3-beta4")
+    implementation("de.oliver:FancyLib:1.0.3-beta3")
 
     compileOnly("com.github.MilkBowl:VaultAPI:1.7")
 
     compileOnly("me.clip:placeholderapi:2.11.3")
 
-    implementation("dev.jorel:commandapi-bukkit-shade:9.0.2")
-    compileOnly("dev.jorel:commandapi-annotations:9.0.2")
-    annotationProcessor("dev.jorel:commandapi-annotations:9.0.2")
+    val commandapiVersion = "9.0.3"
+    implementation("dev.jorel:commandapi-bukkit-shade:$commandapiVersion")
+    compileOnly("dev.jorel:commandapi-annotations:$commandapiVersion")
+    annotationProcessor("dev.jorel:commandapi-annotations:$commandapiVersion")
 }
 
 java {
@@ -41,7 +43,7 @@ java {
 
 tasks {
     runServer{
-        minecraftVersion("1.20")
+        minecraftVersion(mcVersion)
     }
 
     shadowJar{
@@ -97,5 +99,13 @@ tasks {
     }
     processResources {
         filteringCharset = Charsets.UTF_8.name() // We want UTF-8 for everything
+        val props = mapOf(
+            "version" to project.version,
+            "description" to project.description,
+        )
+        inputs.properties(props)
+        filesMatching("plugin.yml") {
+            expand(props)
+        }
     }
 }

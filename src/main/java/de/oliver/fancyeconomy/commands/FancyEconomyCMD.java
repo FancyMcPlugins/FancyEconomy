@@ -48,14 +48,14 @@ public class FancyEconomyCMD {
         FancyEconomy.getInstance().getLang().load();
         FancyEconomy.getInstance().getFancyEconomyConfig().reload();
         CurrencyPlayerManager.loadPlayersFromDatabase();
-        MessageHelper.success(player, "Reloaded the config");
+        MessageHelper.success(player, FancyEconomy.getInstance().getLang().get("reloaded-config"));
     }
 
     @Subcommand("currencies")
     @Permission("fancyeconomy.admin")
     public static void currencies(CommandSender player){
         Currency defaultCurrency = CurrencyRegistry.getDefaultCurrency();
-        MessageHelper.info(player, "<b>List of all currencies:");
+        MessageHelper.info(player, FancyEconomy.getInstance().getLang().get("currency-list"));
         for (Currency currency : CurrencyRegistry.CURRENCIES) {
             MessageHelper.info(player, " - " + currency.name() + " (" + currency.symbol() + ")" + (currency == defaultCurrency ? " <gray>[default]" : ""));
         }

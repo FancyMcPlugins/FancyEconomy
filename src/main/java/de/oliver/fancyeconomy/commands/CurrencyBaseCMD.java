@@ -1,6 +1,7 @@
 package de.oliver.fancyeconomy.commands;
 
 import de.oliver.fancyeconomy.FancyEconomy;
+import de.oliver.fancyeconomy.currencies.BalanceTop;
 import de.oliver.fancyeconomy.currencies.Currency;
 import de.oliver.fancyeconomy.currencies.CurrencyPlayer;
 import de.oliver.fancyeconomy.currencies.CurrencyPlayerManager;
@@ -27,6 +28,7 @@ public class CurrencyBaseCMD {
         MessageHelper.info(player, "/" + currency.name() + " balance <player> - Shows a player's balance");
         MessageHelper.info(player, "/" + currency.name() + " pay <player> <amount> - Pays money to a certain player");
         MessageHelper.info(player, "/" + currency.name() + " withdraw <amount> - Withdraw a certain amount of money");
+        MessageHelper.info(player, "/" + currency.name() + " top <page> - Shows the richest players");
         MessageHelper.info(player, "/" + currency.name() + " set <player> <amount> - Sets the balance of a certain player");
         MessageHelper.info(player, "/" + currency.name() + " add <player> <amount> - Adds money to a certain player");
         MessageHelper.info(player, "/" + currency.name() + " remove <player> <amount> - Removes money to a certain player");
@@ -72,7 +74,7 @@ public class CurrencyBaseCMD {
         MessageHelper.info(player, FancyEconomy.getInstance().getLang().get(
                 "balance-others",
                 "player", currencyPlayer.getUsername(),
-                "currency", currency.format(balance)
+                "balance", currency.format(balance)
         ));
     }
 
@@ -181,6 +183,41 @@ public class CurrencyBaseCMD {
         MessageHelper.success(player, FancyEconomy.getInstance().getLang().get(
                 "withdraw-success",
                 "amount", currency.format(amount)
+        ));
+    }
+
+    public void balancetop(Player player){
+        balancetop(player, 1);
+    }
+
+    public void balancetop(
+            Player player,
+            int page
+    ){
+        BalanceTop balanceTop = BalanceTop.getForCurrency(currency);
+
+        if((page-1) * BalanceTopCMD.ENTRIES_PER_PAGE > balanceTop.getAmountEntries()){
+            MessageHelper.warning(player, FancyEconomy.getInstance().getLang().get("balance-top-empty-page"));
+            return;
+        }
+
+        MessageHelper.info(player, "<b>Balance top: " + currency.name() + "</b> <gray>(Page #" + page + ")");
+
+        for (int i = 1; i <= BalanceTopCMD.ENTRIES_PER_PAGE; i++) {
+            final int place = (page-1) * BalanceTopCMD.ENTRIES_PER_PAGE + i;
+            UUID uuid = balanceTop.getAtPlace(place);
+            if(uuid == null){
+                break;
+            }
+
+            CurrencyPlayer cp = CurrencyPlayerManager.getPlayer(uuid);
+            MessageHelper.info(player, place + ". " + cp.getUsername() + " <gray>(" + currency.format(cp.getBalance(currency)) + ")");
+        }
+
+        int yourPlace = balanceTop.getPlayerPlace(player.getUniqueId());
+        MessageHelper.info(player, FancyEconomy.getInstance().getLang().get(
+                "balancetop-your-place",
+                "place", yourPlace > 0 ? String.valueOf(yourPlace) : "N/A"
         ));
     }
 

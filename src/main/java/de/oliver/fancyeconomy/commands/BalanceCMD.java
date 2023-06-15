@@ -39,7 +39,7 @@ public class BalanceCMD {
     }
 
     @Default
-    @Permission("fancyeconomy.balance")
+    @Permission("fancyeconomy.balance.others")
     public static void balance(
             Player player,
             @AStringArgument String targetName

@@ -1,10 +1,11 @@
 name: FancyEconomy
-main: de.oliver.fancyeconomy.FancyEconomy
+description: $description
 authors: [ OliverHD ]
 contributors: [ mani1232 ]
-version: 1.0.1
-api-version: 1.19
+version: $version
 website: https://github.com/FancyMcPlugins/FancyEconomy
+main: de.oliver.fancyeconomy.FancyEconomy
+api-version: 1.19
 softdepend:
   - Vault
   - PlaceholderAPI

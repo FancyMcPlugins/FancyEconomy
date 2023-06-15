@@ -1,10 +1,7 @@
 package de.oliver.fancyeconomy;
 
 import de.oliver.fancyeconomy.commands.*;
-import de.oliver.fancyeconomy.currencies.Currency;
-import de.oliver.fancyeconomy.currencies.CurrencyPlayer;
-import de.oliver.fancyeconomy.currencies.CurrencyPlayerManager;
-import de.oliver.fancyeconomy.currencies.CurrencyRegistry;
+import de.oliver.fancyeconomy.currencies.*;
 import de.oliver.fancyeconomy.integrations.FancyEconomyPlaceholderExpansion;
 import de.oliver.fancyeconomy.integrations.FancyEconomyVault;
 import de.oliver.fancyeconomy.listeners.PlayerJoinListener;
@@ -107,6 +104,12 @@ public class FancyEconomy extends JavaPlugin {
         lang.addDefaultLang("set-success", "Successfully set {player}'s balance to {amount}");
         lang.addDefaultLang("add-success", "Successfully added {amount} to {player}");
         lang.addDefaultLang("remove-success", "Successfully removed {amount} from {player}");
+
+        lang.addDefaultLang("balancetop-your-place", "Your place: #{place}");
+        lang.addDefaultLang("balance-top-empty-page", "No data for this page");
+
+        lang.addDefaultLang("reloaded-config", "Successfully reloaded the config");
+        lang.addDefaultLang("currency-list", "<b>List of all currencies:</b>");
         lang.load();
 
         config.reload();
@@ -137,11 +140,7 @@ public class FancyEconomy extends JavaPlugin {
 
         scheduler.runTaskTimerAsynchronously(60, 60*5, saveWorkload);
 
-//        scheduler.runTaskTimerAsynchronously(60, 60*5, () -> {
-//            for (CurrencyPlayer player : CurrencyPlayerManager.getAllPlayers()) {
-//                player.save(false);
-//            }
-//        });
+        scheduler.runTaskTimerAsynchronously(60, 60*5, BalanceTop::refreshAll);
     }
 
     @Override
@@ -163,6 +162,7 @@ public class FancyEconomy extends JavaPlugin {
         CommandAPI.registerCommand(PayCMD.class);
         CommandAPI.registerCommand(BalanceCMD.class);
         CommandAPI.registerCommand(WithdrawCMD.class);
+        CommandAPI.registerCommand(BalanceTopCMD.class);
 
         ArgumentSuggestions<CommandSender> allPlayersSuggestion = ArgumentSuggestions.strings(commandSenderSuggestionInfo -> CurrencyPlayerManager.getAllPlayerNames());
 
@@ -226,6 +226,30 @@ public class FancyEconomy extends JavaPlugin {
                     .withArguments(new DoubleArgument("amount"))
                     .executesPlayer((sender, args) -> {
                         baseCMD.withdraw(sender, (Double) args.get(0));
+                    })
+                    .register();
+
+            // balancetop command
+            new CommandAPICommand(currency.name())
+                    .withPermission("fancyeconomy." + currency.name())
+                    .withArguments(
+                            new MultiLiteralArgument(null, List.of("top"))
+                                    .setListed(false)
+                    )
+                    .executesPlayer((sender, args) -> {
+                        baseCMD.balancetop(sender);
+                    })
+                    .register();
+
+            new CommandAPICommand(currency.name())
+                    .withPermission("fancyeconomy." + currency.name())
+                    .withArguments(
+                            new MultiLiteralArgument(null, List.of("top"))
+                                    .setListed(false)
+                    )
+                    .withArguments(new IntegerArgument("page", 1))
+                    .executesPlayer((sender, args) -> {
+                        baseCMD.balancetop(sender, (Integer) args.get(0));
                     })
                     .register();
 

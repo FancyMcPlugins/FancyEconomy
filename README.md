@@ -30,12 +30,14 @@ You can download the latest versions at the following places:
 - /Balance (target) - shows a players balance (default currency)
 - /Pay (target) (amount) - pays a certain amount of (default currency) to a specified player
 - /Withdraw (amount) - Withdraw a certain amount of money
+- /Balancetop (page) - Shows the richest players
 
 For each currency there will a command:
 - /(currency) balance - Shows your balance
 - /(currency) balance (player) - Shows a player's balance
 - /(currency) pay (player) (amount) - Pays money to a certain player
 - /(currency) withdraw (amount) - Withdraw a certain amount of money
+- /(currency) balancetop (page) - Shows the richest players
 - /(currency) set (player) (amount) - Sets the balance of a certain player
 - /(currency) add (player) (amount) - Adds money to a certain player
 - /(currency) remove (player) (amount) - Removes money to a certain player
