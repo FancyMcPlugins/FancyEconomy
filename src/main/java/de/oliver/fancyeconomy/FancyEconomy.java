@@ -56,6 +56,20 @@ public class FancyEconomy extends JavaPlugin {
     }
 
     @Override
+    public void onLoad() {
+        config.reload();
+
+        usingVault = getServer().getPluginManager().getPlugin("Vault") != null;
+        if(usingVault){
+            vaultEconomy = new FancyEconomyVault(CurrencyRegistry.getDefaultCurrency());
+            getServer().getServicesManager().register(Economy.class, vaultEconomy, instance, ServicePriority.Highest);
+            getLogger().info("Registered Vault economy");
+        }
+
+        CommandAPI.onLoad(new CommandAPIBukkitConfig(instance).silentLogs(true));
+    }
+
+    @Override
     public void onEnable() {
         CommandAPI.onEnable();
         FancyLib.setPlugin(this);
@@ -112,8 +126,6 @@ public class FancyEconomy extends JavaPlugin {
         lang.addDefaultLang("currency-list", "<b>List of all currencies:</b>");
         lang.load();
 
-        config.reload();
-
         database = config.getDatabase();
         database.connect();
         createDatabaseTables();
@@ -124,13 +136,6 @@ public class FancyEconomy extends JavaPlugin {
         Currency.WithdrawItem.WithdrawItemClick.INSTANCE.register();
 
         registerCommands();
-
-        usingVault = Bukkit.getPluginManager().isPluginEnabled("Vault");
-        if(usingVault){
-            vaultEconomy = new FancyEconomyVault(CurrencyRegistry.getDefaultCurrency());
-            getServer().getServicesManager().register(Economy.class, vaultEconomy, instance, ServicePriority.Normal);
-            getLogger().info("Registered Vault economy");
-        }
 
         usingPlaceholderAPI = Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI");
         if(usingPlaceholderAPI){
@@ -150,11 +155,6 @@ public class FancyEconomy extends JavaPlugin {
         }
 
         database.close();
-    }
-
-    @Override
-    public void onLoad() {
-        CommandAPI.onLoad(new CommandAPIBukkitConfig(instance).silentLogs(true));
     }
 
     private void registerCommands(){
