@@ -26,6 +26,8 @@ public class FancyEconomyConfig {
     private boolean useShortFormat;
     private double minWithdrawAmount;
     private double maxWithdrawAmount;
+    private boolean allowNegativeBalance;
+    private double maxNegativeBalance;
 
     public void reload() {
         FancyEconomy.getInstance().reloadConfig();
@@ -54,6 +56,9 @@ public class FancyEconomyConfig {
         useShortFormat = (boolean) ConfigHelper.getOrDefault(config, "use_short_format", false);
         minWithdrawAmount = (Double) ConfigHelper.getOrDefault(config, "minimum_withdraw_amount", 0.1d);
         maxWithdrawAmount = (Double) ConfigHelper.getOrDefault(config, "maximum_withdraw_amount", 1_000_000_000d);
+        allowNegativeBalance = (boolean) ConfigHelper.getOrDefault(config, "allow_negative_balance", false);
+        maxNegativeBalance = (Double) ConfigHelper.getOrDefault(config, "maximum_negative_balance", -10_000d);
+        config.setInlineComments("maximum_negative_balance", List.of("set to '0' to remove the limit"));
 
         String defaultCurrencyName = (String) ConfigHelper.getOrDefault(config, "default_currency", "money");
 
@@ -95,6 +100,14 @@ public class FancyEconomyConfig {
 
     public double getMaxWithdrawAmount() {
         return maxWithdrawAmount;
+    }
+
+    public boolean allowNegativeBalance() {
+        return allowNegativeBalance;
+    }
+
+    public double getMaxNegativeBalance() {
+        return maxNegativeBalance;
     }
 
     public Database getDatabase(){

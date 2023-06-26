@@ -1,5 +1,6 @@
 package de.oliver.fancyeconomy.integrations;
 
+import de.oliver.fancyeconomy.FancyEconomy;
 import de.oliver.fancyeconomy.currencies.Currency;
 import de.oliver.fancyeconomy.currencies.CurrencyPlayer;
 import de.oliver.fancyeconomy.currencies.CurrencyPlayerManager;
@@ -136,6 +137,16 @@ public class FancyEconomyVault implements Economy {
             return new EconomyResponse(v, 0, EconomyResponse.ResponseType.FAILURE, "Could not find player");
         }
 
+        boolean allowNegativeBalance = FancyEconomy.getInstance().getFancyEconomyConfig().allowNegativeBalance();
+        if(!allowNegativeBalance && currencyPlayer.getBalance() < v){
+            return new EconomyResponse(v, 0, EconomyResponse.ResponseType.FAILURE, "Not enough balance");
+        }
+
+        double maxNegativeBalance = FancyEconomy.getInstance().getFancyEconomyConfig().getMaxNegativeBalance();
+        if(allowNegativeBalance && currencyPlayer.getBalance() - maxNegativeBalance < v){
+            return new EconomyResponse(v, 0, EconomyResponse.ResponseType.FAILURE, "Not enough balance");
+        }
+
         currencyPlayer.removeBalance(currency, v);
         return new EconomyResponse(v, currencyPlayer.getBalance(currency), EconomyResponse.ResponseType.SUCCESS, null);
     }
@@ -145,6 +156,16 @@ public class FancyEconomyVault implements Economy {
         CurrencyPlayer currencyPlayer = CurrencyPlayerManager.getPlayer(offlinePlayer.getUniqueId());
         if(currencyPlayer == null){
             return new EconomyResponse(v, 0, EconomyResponse.ResponseType.FAILURE, "Could not find player");
+        }
+
+        boolean allowNegativeBalance = FancyEconomy.getInstance().getFancyEconomyConfig().allowNegativeBalance();
+        if(!allowNegativeBalance && currencyPlayer.getBalance() < v){
+            return new EconomyResponse(v, 0, EconomyResponse.ResponseType.FAILURE, "Not enough balance");
+        }
+
+        double maxNegativeBalance = FancyEconomy.getInstance().getFancyEconomyConfig().getMaxNegativeBalance();
+        if(allowNegativeBalance && currencyPlayer.getBalance() - maxNegativeBalance < v){
+            return new EconomyResponse(v, 0, EconomyResponse.ResponseType.FAILURE, "Not enough balance");
         }
 
         currencyPlayer.removeBalance(currency, v);
@@ -158,6 +179,16 @@ public class FancyEconomyVault implements Economy {
             return new EconomyResponse(v, 0, EconomyResponse.ResponseType.FAILURE, "Could not find player");
         }
 
+        boolean allowNegativeBalance = FancyEconomy.getInstance().getFancyEconomyConfig().allowNegativeBalance();
+        if(!allowNegativeBalance && currencyPlayer.getBalance() < v){
+            return new EconomyResponse(v, 0, EconomyResponse.ResponseType.FAILURE, "Not enough balance");
+        }
+
+        double maxNegativeBalance = FancyEconomy.getInstance().getFancyEconomyConfig().getMaxNegativeBalance();
+        if(allowNegativeBalance && currencyPlayer.getBalance() - maxNegativeBalance < v){
+            return new EconomyResponse(v, 0, EconomyResponse.ResponseType.FAILURE, "Not enough balance");
+        }
+
         currencyPlayer.removeBalance(currency, v);
         return new EconomyResponse(v, currencyPlayer.getBalance(currency), EconomyResponse.ResponseType.SUCCESS, null);
     }
@@ -167,6 +198,16 @@ public class FancyEconomyVault implements Economy {
         CurrencyPlayer currencyPlayer = CurrencyPlayerManager.getPlayer(offlinePlayer.getUniqueId());
         if(currencyPlayer == null){
             return new EconomyResponse(v, 0, EconomyResponse.ResponseType.FAILURE, "Could not find player");
+        }
+
+        boolean allowNegativeBalance = FancyEconomy.getInstance().getFancyEconomyConfig().allowNegativeBalance();
+        if(!allowNegativeBalance && currencyPlayer.getBalance() < v){
+            return new EconomyResponse(v, 0, EconomyResponse.ResponseType.FAILURE, "Not enough balance");
+        }
+
+        double maxNegativeBalance = FancyEconomy.getInstance().getFancyEconomyConfig().getMaxNegativeBalance();
+        if(allowNegativeBalance && currencyPlayer.getBalance() - maxNegativeBalance < v){
+            return new EconomyResponse(v, 0, EconomyResponse.ResponseType.FAILURE, "Not enough balance");
         }
 
         currencyPlayer.removeBalance(currency, v);

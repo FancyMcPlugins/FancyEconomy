@@ -63,7 +63,14 @@ public class PayCMD {
             to.setUsername(targetPlayer.getName());
         }
 
-        if(from.getBalance(currency) < amount){
+        boolean allowNegativeBalance = FancyEconomy.getInstance().getFancyEconomyConfig().allowNegativeBalance();
+        if(!allowNegativeBalance && from.getBalance(currency) < amount){
+            MessageHelper.error(player, FancyEconomy.getInstance().getLang().get("not-enough-money"));
+            return;
+        }
+
+        double maxNegativeBalance = FancyEconomy.getInstance().getFancyEconomyConfig().getMaxNegativeBalance();
+        if(allowNegativeBalance && from.getBalance(currency) - maxNegativeBalance < amount){
             MessageHelper.error(player, FancyEconomy.getInstance().getLang().get("not-enough-money"));
             return;
         }

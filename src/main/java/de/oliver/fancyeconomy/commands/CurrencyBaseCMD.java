@@ -111,7 +111,14 @@ public class CurrencyBaseCMD {
             to.setUsername(targetPlayer.getName());
         }
 
-        if(from.getBalance(currency) < amount){
+        boolean allowNegativeBalance = FancyEconomy.getInstance().getFancyEconomyConfig().allowNegativeBalance();
+        if(!allowNegativeBalance && from.getBalance(currency) < amount){
+            MessageHelper.error(player, FancyEconomy.getInstance().getLang().get("not-enough-money"));
+            return;
+        }
+
+        double maxNegativeBalance = FancyEconomy.getInstance().getFancyEconomyConfig().getMaxNegativeBalance();
+        if(allowNegativeBalance && from.getBalance(currency) - maxNegativeBalance < amount){
             MessageHelper.error(player, FancyEconomy.getInstance().getLang().get("not-enough-money"));
             return;
         }
@@ -165,7 +172,14 @@ public class CurrencyBaseCMD {
             return;
         }
 
-        if(currencyPlayer.getBalance(currency) < amount){
+        boolean allowNegativeBalance = FancyEconomy.getInstance().getFancyEconomyConfig().allowNegativeBalance();
+        if(!allowNegativeBalance && currencyPlayer.getBalance(currency) < amount){
+            MessageHelper.error(player, FancyEconomy.getInstance().getLang().get("not-enough-money"));
+            return;
+        }
+
+        double maxNegativeBalance = FancyEconomy.getInstance().getFancyEconomyConfig().getMaxNegativeBalance();
+        if(allowNegativeBalance && currencyPlayer.getBalance(currency) - maxNegativeBalance < amount){
             MessageHelper.error(player, FancyEconomy.getInstance().getLang().get("not-enough-money"));
             return;
         }

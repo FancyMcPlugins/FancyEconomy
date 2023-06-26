@@ -61,7 +61,14 @@ public class WithdrawCMD {
             return;
         }
 
-        if(currencyPlayer.getBalance(currency) < amount){
+        boolean allowNegativeBalance = FancyEconomy.getInstance().getFancyEconomyConfig().allowNegativeBalance();
+        if(!allowNegativeBalance && currencyPlayer.getBalance(currency) < amount){
+            MessageHelper.error(player, FancyEconomy.getInstance().getLang().get("not-enough-money"));
+            return;
+        }
+
+        double maxNegativeBalance = FancyEconomy.getInstance().getFancyEconomyConfig().getMaxNegativeBalance();
+        if(allowNegativeBalance && currencyPlayer.getBalance(currency) - maxNegativeBalance < amount){
             MessageHelper.error(player, FancyEconomy.getInstance().getLang().get("not-enough-money"));
             return;
         }
