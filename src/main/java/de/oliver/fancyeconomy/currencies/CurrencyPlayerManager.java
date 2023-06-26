@@ -6,14 +6,17 @@ import de.oliver.fancylib.databases.Database;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class CurrencyPlayerManager {
 
     private static final Map<UUID, CurrencyPlayer> cachedPlayers = new HashMap<>();
 
-    public static CurrencyPlayer getPlayer(UUID uuid){
-        if(cachedPlayers.containsKey(uuid)){
+    public static CurrencyPlayer getPlayer(UUID uuid) {
+        if (cachedPlayers.containsKey(uuid)) {
             return cachedPlayers.get(uuid);
         }
 
@@ -25,15 +28,15 @@ public class CurrencyPlayerManager {
         return player;
     }
 
-    public static CurrencyPlayer getPlayer(String username){
+    public static CurrencyPlayer getPlayer(String username) {
         for (CurrencyPlayer player : cachedPlayers.values()) {
-            if(player.getUsername().equalsIgnoreCase(username)){
+            if (player.getUsername().equalsIgnoreCase(username)) {
                 return player;
             }
         }
 
         UUID uuid = UUIDFetcher.getUUID(username);
-        if(uuid == null){
+        if (uuid == null) {
             return null;
         }
 
@@ -43,18 +46,18 @@ public class CurrencyPlayerManager {
         return player;
     }
 
-    public static Collection<CurrencyPlayer> getAllPlayers(){
+    public static Collection<CurrencyPlayer> getAllPlayers() {
         return cachedPlayers.values();
     }
 
-    public static String[] getAllPlayerNames(){
+    public static String[] getAllPlayerNames() {
         return cachedPlayers.values().stream()
                 .map(CurrencyPlayer::getUsername)
                 .filter(s -> !s.equalsIgnoreCase("N/A"))
                 .toArray(String[]::new);
     }
 
-    public static void loadPlayersFromDatabase(){
+    public static void loadPlayersFromDatabase() {
         Database db = FancyEconomy.getInstance().getDatabase();
 
         cachedPlayers.clear();
@@ -63,11 +66,11 @@ public class CurrencyPlayerManager {
             Load players
          */
         ResultSet rsPlayers = db.executeQuery("SELECT * FROM players");
-        try{
-            while(rsPlayers.next()){
+        try {
+            while (rsPlayers.next()) {
                 String uuidStr = rsPlayers.getString("uuid");
                 UUID uuid = UUID.fromString(uuidStr);
-                if(uuid == null){
+                if (uuid == null) {
                     continue;
                 }
 
@@ -77,7 +80,7 @@ public class CurrencyPlayerManager {
                 cachedPlayers.put(uuid, currencyPlayer);
                 FancyEconomy.getInstance().getSaveWorkload().addValue(() -> currencyPlayer);
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
@@ -85,17 +88,17 @@ public class CurrencyPlayerManager {
             Load balances
          */
         ResultSet rsBalances = db.executeQuery("SELECT * FROM balances");
-        try{
-            while(rsBalances.next()){
+        try {
+            while (rsBalances.next()) {
                 String uuidStr = rsBalances.getString("uuid");
                 UUID uuid = UUID.fromString(uuidStr);
-                if(uuid == null){
+                if (uuid == null) {
                     continue;
                 }
 
                 String currencyName = rsBalances.getString("currency");
                 Currency currency = CurrencyRegistry.getCurrencyByName(currencyName);
-                if(currency == null){
+                if (currency == null) {
                     continue;
                 }
 
@@ -107,7 +110,7 @@ public class CurrencyPlayerManager {
                 }
 
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }

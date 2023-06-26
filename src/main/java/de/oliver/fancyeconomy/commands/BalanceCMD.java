@@ -7,7 +7,10 @@ import de.oliver.fancyeconomy.currencies.CurrencyPlayerManager;
 import de.oliver.fancyeconomy.currencies.CurrencyRegistry;
 import de.oliver.fancylib.MessageHelper;
 import de.oliver.fancylib.UUIDFetcher;
-import dev.jorel.commandapi.annotations.*;
+import dev.jorel.commandapi.annotations.Alias;
+import dev.jorel.commandapi.annotations.Command;
+import dev.jorel.commandapi.annotations.Default;
+import dev.jorel.commandapi.annotations.Permission;
 import dev.jorel.commandapi.annotations.arguments.AStringArgument;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -45,13 +48,13 @@ public class BalanceCMD {
             @AStringArgument String targetName
     ) {
         Player targetPlayer = Bukkit.getPlayer(targetName);
-        if(targetPlayer != null){
+        if (targetPlayer != null) {
             targetName = targetPlayer.getName();
         }
 
         UUID uuid = targetPlayer != null ? targetPlayer.getUniqueId() : UUIDFetcher.getUUID(targetName);
 
-        if(uuid == null){
+        if (uuid == null) {
             MessageHelper.error(player, FancyEconomy.getInstance().getLang().get(
                     "player-not-found",
                     "player", targetName
@@ -61,7 +64,7 @@ public class BalanceCMD {
 
         CurrencyPlayer currencyPlayer = CurrencyPlayerManager.getPlayer(uuid);
 
-        if(targetPlayer != null){
+        if (targetPlayer != null) {
             currencyPlayer.setUsername(targetPlayer.getName());
         }
 

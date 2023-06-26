@@ -133,17 +133,17 @@ public class FancyEconomyVault implements Economy {
     @Override
     public EconomyResponse withdrawPlayer(String s, double v) {
         CurrencyPlayer currencyPlayer = CurrencyPlayerManager.getPlayer(s);
-        if(currencyPlayer == null){
+        if (currencyPlayer == null) {
             return new EconomyResponse(v, 0, EconomyResponse.ResponseType.FAILURE, "Could not find player");
         }
 
         boolean allowNegativeBalance = FancyEconomy.getInstance().getFancyEconomyConfig().allowNegativeBalance();
-        if(!allowNegativeBalance && currencyPlayer.getBalance() < v){
+        if (!allowNegativeBalance && currencyPlayer.getBalance() < v) {
             return new EconomyResponse(v, 0, EconomyResponse.ResponseType.FAILURE, "Not enough balance");
         }
 
         double maxNegativeBalance = FancyEconomy.getInstance().getFancyEconomyConfig().getMaxNegativeBalance();
-        if(allowNegativeBalance && currencyPlayer.getBalance() - maxNegativeBalance < v){
+        if (allowNegativeBalance && currencyPlayer.getBalance() - maxNegativeBalance < v) {
             return new EconomyResponse(v, 0, EconomyResponse.ResponseType.FAILURE, "Not enough balance");
         }
 
@@ -154,17 +154,17 @@ public class FancyEconomyVault implements Economy {
     @Override
     public EconomyResponse withdrawPlayer(OfflinePlayer offlinePlayer, double v) {
         CurrencyPlayer currencyPlayer = CurrencyPlayerManager.getPlayer(offlinePlayer.getUniqueId());
-        if(currencyPlayer == null){
+        if (currencyPlayer == null) {
             return new EconomyResponse(v, 0, EconomyResponse.ResponseType.FAILURE, "Could not find player");
         }
 
         boolean allowNegativeBalance = FancyEconomy.getInstance().getFancyEconomyConfig().allowNegativeBalance();
-        if(!allowNegativeBalance && currencyPlayer.getBalance() < v){
+        if (!allowNegativeBalance && currencyPlayer.getBalance() < v) {
             return new EconomyResponse(v, 0, EconomyResponse.ResponseType.FAILURE, "Not enough balance");
         }
 
         double maxNegativeBalance = FancyEconomy.getInstance().getFancyEconomyConfig().getMaxNegativeBalance();
-        if(allowNegativeBalance && currencyPlayer.getBalance() - maxNegativeBalance < v){
+        if (allowNegativeBalance && currencyPlayer.getBalance() - maxNegativeBalance < v) {
             return new EconomyResponse(v, 0, EconomyResponse.ResponseType.FAILURE, "Not enough balance");
         }
 
@@ -175,17 +175,17 @@ public class FancyEconomyVault implements Economy {
     @Override
     public EconomyResponse withdrawPlayer(String s, String s1, double v) {
         CurrencyPlayer currencyPlayer = CurrencyPlayerManager.getPlayer(s);
-        if(currencyPlayer == null){
+        if (currencyPlayer == null) {
             return new EconomyResponse(v, 0, EconomyResponse.ResponseType.FAILURE, "Could not find player");
         }
 
         boolean allowNegativeBalance = FancyEconomy.getInstance().getFancyEconomyConfig().allowNegativeBalance();
-        if(!allowNegativeBalance && currencyPlayer.getBalance() < v){
+        if (!allowNegativeBalance && currencyPlayer.getBalance() < v) {
             return new EconomyResponse(v, 0, EconomyResponse.ResponseType.FAILURE, "Not enough balance");
         }
 
         double maxNegativeBalance = FancyEconomy.getInstance().getFancyEconomyConfig().getMaxNegativeBalance();
-        if(allowNegativeBalance && currencyPlayer.getBalance() - maxNegativeBalance < v){
+        if (allowNegativeBalance && currencyPlayer.getBalance() - maxNegativeBalance < v) {
             return new EconomyResponse(v, 0, EconomyResponse.ResponseType.FAILURE, "Not enough balance");
         }
 
@@ -196,17 +196,17 @@ public class FancyEconomyVault implements Economy {
     @Override
     public EconomyResponse withdrawPlayer(OfflinePlayer offlinePlayer, String s, double v) {
         CurrencyPlayer currencyPlayer = CurrencyPlayerManager.getPlayer(offlinePlayer.getUniqueId());
-        if(currencyPlayer == null){
+        if (currencyPlayer == null) {
             return new EconomyResponse(v, 0, EconomyResponse.ResponseType.FAILURE, "Could not find player");
         }
 
         boolean allowNegativeBalance = FancyEconomy.getInstance().getFancyEconomyConfig().allowNegativeBalance();
-        if(!allowNegativeBalance && currencyPlayer.getBalance() < v){
+        if (!allowNegativeBalance && currencyPlayer.getBalance() < v) {
             return new EconomyResponse(v, 0, EconomyResponse.ResponseType.FAILURE, "Not enough balance");
         }
 
         double maxNegativeBalance = FancyEconomy.getInstance().getFancyEconomyConfig().getMaxNegativeBalance();
-        if(allowNegativeBalance && currencyPlayer.getBalance() - maxNegativeBalance < v){
+        if (allowNegativeBalance && currencyPlayer.getBalance() - maxNegativeBalance < v) {
             return new EconomyResponse(v, 0, EconomyResponse.ResponseType.FAILURE, "Not enough balance");
         }
 
@@ -217,7 +217,7 @@ public class FancyEconomyVault implements Economy {
     @Override
     public EconomyResponse depositPlayer(String s, double v) {
         CurrencyPlayer currencyPlayer = CurrencyPlayerManager.getPlayer(s);
-        if(currencyPlayer == null){
+        if (currencyPlayer == null) {
             return new EconomyResponse(v, 0, EconomyResponse.ResponseType.FAILURE, "Could not find player");
         }
 
@@ -228,7 +228,7 @@ public class FancyEconomyVault implements Economy {
     @Override
     public EconomyResponse depositPlayer(OfflinePlayer offlinePlayer, double v) {
         CurrencyPlayer currencyPlayer = CurrencyPlayerManager.getPlayer(offlinePlayer.getUniqueId());
-        if(currencyPlayer == null){
+        if (currencyPlayer == null) {
             return new EconomyResponse(v, 0, EconomyResponse.ResponseType.FAILURE, "Could not find player");
         }
 
@@ -239,7 +239,7 @@ public class FancyEconomyVault implements Economy {
     @Override
     public EconomyResponse depositPlayer(String s, String s1, double v) {
         CurrencyPlayer currencyPlayer = CurrencyPlayerManager.getPlayer(s);
-        if(currencyPlayer == null){
+        if (currencyPlayer == null) {
             return new EconomyResponse(v, 0, EconomyResponse.ResponseType.FAILURE, "Could not find player");
         }
 
@@ -250,7 +250,7 @@ public class FancyEconomyVault implements Economy {
     @Override
     public EconomyResponse depositPlayer(OfflinePlayer offlinePlayer, String s, double v) {
         CurrencyPlayer currencyPlayer = CurrencyPlayerManager.getPlayer(offlinePlayer.getUniqueId());
-        if(currencyPlayer == null){
+        if (currencyPlayer == null) {
             return new EconomyResponse(v, 0, EconomyResponse.ResponseType.FAILURE, "Could not find player");
         }
 

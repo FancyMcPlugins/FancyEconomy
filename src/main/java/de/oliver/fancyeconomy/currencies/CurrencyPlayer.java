@@ -10,8 +10,8 @@ import java.util.UUID;
 public class CurrencyPlayer {
 
     private final UUID uuid;
-    private String username;
     private final Map<Currency, Double> balances;
+    private String username;
     private boolean isDirty;
 
     public CurrencyPlayer(UUID uuid, String username, Map<Currency, Double> balances) {
@@ -21,7 +21,7 @@ public class CurrencyPlayer {
         this.isDirty = false;
     }
 
-    public CurrencyPlayer(UUID uuid, String username){
+    public CurrencyPlayer(UUID uuid, String username) {
         this.uuid = uuid;
         this.username = username;
         this.balances = new HashMap<>();
@@ -31,29 +31,29 @@ public class CurrencyPlayer {
     /**
      * @return the balance of the default currency
      */
-    public double getBalance(){
+    public double getBalance() {
         return balances.getOrDefault(CurrencyRegistry.getDefaultCurrency(), 0d);
     }
 
-    public double getBalance(Currency currency){
+    public double getBalance(Currency currency) {
         return balances.getOrDefault(currency, 0d);
     }
 
-    public void setBalance(Currency currency, double amount){
+    public void setBalance(Currency currency, double amount) {
         balances.put(currency, amount);
         isDirty = true;
     }
 
-    public void addBalance(Currency currency, double amount){
+    public void addBalance(Currency currency, double amount) {
         setBalance(currency, getBalance(currency) + amount);
     }
 
-    public void removeBalance(Currency currency, double amount){
+    public void removeBalance(Currency currency, double amount) {
         setBalance(currency, getBalance(currency) - amount);
     }
 
-    public void save(boolean force){
-        if(!(isDirty || force)){
+    public void save(boolean force) {
+        if (!(isDirty || force)) {
             return;
         }
 
@@ -86,7 +86,7 @@ public class CurrencyPlayer {
     }
 
     public void setUsername(String username) {
-        if(username != null && !this.username.equals(username)){
+        if (username != null && !this.username.equals(username)) {
             this.username = username;
             this.isDirty = true;
         }

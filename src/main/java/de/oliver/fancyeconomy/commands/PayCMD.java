@@ -35,13 +35,13 @@ public class PayCMD {
             @ADoubleArgument(min = 0.1) double amount
     ) {
         Player targetPlayer = Bukkit.getPlayer(targetName);
-        if(targetPlayer != null){
+        if (targetPlayer != null) {
             targetName = targetPlayer.getName();
         }
 
         UUID uuid = targetPlayer != null ? targetPlayer.getUniqueId() : UUIDFetcher.getUUID(targetName);
 
-        if(uuid == null){
+        if (uuid == null) {
             MessageHelper.error(player, FancyEconomy.getInstance().getLang().get(
                     "player-not-found",
                     "player", targetName
@@ -49,7 +49,7 @@ public class PayCMD {
             return;
         }
 
-        if(player.getUniqueId().equals(uuid)){
+        if (player.getUniqueId().equals(uuid)) {
             MessageHelper.warning(player, FancyEconomy.getInstance().getLang().get("cannot-pay-yourself"));
             return;
         }
@@ -59,18 +59,18 @@ public class PayCMD {
         CurrencyPlayer from = CurrencyPlayerManager.getPlayer(player.getUniqueId());
         CurrencyPlayer to = CurrencyPlayerManager.getPlayer(uuid);
 
-        if(targetPlayer != null){
+        if (targetPlayer != null) {
             to.setUsername(targetPlayer.getName());
         }
 
         boolean allowNegativeBalance = FancyEconomy.getInstance().getFancyEconomyConfig().allowNegativeBalance();
-        if(!allowNegativeBalance && from.getBalance(currency) < amount){
+        if (!allowNegativeBalance && from.getBalance(currency) < amount) {
             MessageHelper.error(player, FancyEconomy.getInstance().getLang().get("not-enough-money"));
             return;
         }
 
         double maxNegativeBalance = FancyEconomy.getInstance().getFancyEconomyConfig().getMaxNegativeBalance();
-        if(allowNegativeBalance && from.getBalance(currency) - maxNegativeBalance < amount){
+        if (allowNegativeBalance && from.getBalance(currency) - maxNegativeBalance < amount) {
             MessageHelper.error(player, FancyEconomy.getInstance().getLang().get("not-enough-money"));
             return;
         }
@@ -84,7 +84,7 @@ public class PayCMD {
                 "receiver", to.getUsername()
         ));
 
-        if(targetPlayer != null){
+        if (targetPlayer != null) {
             MessageHelper.info(player, FancyEconomy.getInstance().getLang().get(
                     "paid-receiver",
                     "amount", currency.format(amount),

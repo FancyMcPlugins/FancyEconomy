@@ -40,7 +40,7 @@ public class BalanceTopCMD {
 
         BalanceTop balanceTop = BalanceTop.getForCurrency(currency);
 
-        if((page-1) * ENTRIES_PER_PAGE > balanceTop.getAmountEntries()){
+        if ((page - 1) * ENTRIES_PER_PAGE > balanceTop.getAmountEntries()) {
             MessageHelper.warning(player, FancyEconomy.getInstance().getLang().get("balance-top-empty-page"));
             return;
         }
@@ -48,9 +48,9 @@ public class BalanceTopCMD {
         MessageHelper.info(player, "<b>Balance top: " + currency.name() + "</b> <gray>(Page #" + page + ")");
 
         for (int i = 1; i <= ENTRIES_PER_PAGE; i++) {
-            final int place = (page-1) * ENTRIES_PER_PAGE + i;
+            final int place = (page - 1) * ENTRIES_PER_PAGE + i;
             UUID uuid = balanceTop.getAtPlace(place);
-            if(uuid == null){
+            if (uuid == null) {
                 break;
             }
 

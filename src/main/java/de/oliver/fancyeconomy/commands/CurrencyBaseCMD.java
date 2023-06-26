@@ -34,7 +34,7 @@ public class CurrencyBaseCMD {
         MessageHelper.info(player, "/" + currency.name() + " remove <player> <amount> - Removes money to a certain player");
     }
 
-    public void balance(Player player){
+    public void balance(Player player) {
         CurrencyPlayer currencyPlayer = CurrencyPlayerManager.getPlayer(player.getUniqueId());
         double balance = currencyPlayer.getBalance(currency);
 
@@ -49,13 +49,13 @@ public class CurrencyBaseCMD {
             String targetName
     ) {
         Player targetPlayer = Bukkit.getPlayer(targetName);
-        if(targetPlayer != null){
+        if (targetPlayer != null) {
             targetName = targetPlayer.getName();
         }
 
         UUID uuid = targetPlayer != null ? targetPlayer.getUniqueId() : UUIDFetcher.getUUID(targetName);
 
-        if(uuid == null){
+        if (uuid == null) {
             MessageHelper.error(player, FancyEconomy.getInstance().getLang().get(
                     "player-not-found",
                     "player", targetName
@@ -65,7 +65,7 @@ public class CurrencyBaseCMD {
 
         CurrencyPlayer currencyPlayer = CurrencyPlayerManager.getPlayer(uuid);
 
-        if(targetPlayer != null){
+        if (targetPlayer != null) {
             currencyPlayer.setUsername(targetPlayer.getName());
         }
 
@@ -84,13 +84,13 @@ public class CurrencyBaseCMD {
             double amount
     ) {
         Player targetPlayer = Bukkit.getPlayer(targetName);
-        if(targetPlayer != null){
+        if (targetPlayer != null) {
             targetName = targetPlayer.getName();
         }
 
         UUID uuid = targetPlayer != null ? targetPlayer.getUniqueId() : UUIDFetcher.getUUID(targetName);
 
-        if(uuid == null){
+        if (uuid == null) {
             MessageHelper.error(player, FancyEconomy.getInstance().getLang().get(
                     "player-not-found",
                     "player", targetName
@@ -98,7 +98,7 @@ public class CurrencyBaseCMD {
             return;
         }
 
-        if(player.getUniqueId().equals(uuid)){
+        if (player.getUniqueId().equals(uuid)) {
             MessageHelper.warning(player, FancyEconomy.getInstance().getLang().get("cannot-pay-yourself"));
             return;
         }
@@ -107,18 +107,18 @@ public class CurrencyBaseCMD {
         CurrencyPlayer to = CurrencyPlayerManager.getPlayer(uuid);
         from.setUsername(player.getName());
 
-        if(targetPlayer != null){
+        if (targetPlayer != null) {
             to.setUsername(targetPlayer.getName());
         }
 
         boolean allowNegativeBalance = FancyEconomy.getInstance().getFancyEconomyConfig().allowNegativeBalance();
-        if(!allowNegativeBalance && from.getBalance(currency) < amount){
+        if (!allowNegativeBalance && from.getBalance(currency) < amount) {
             MessageHelper.error(player, FancyEconomy.getInstance().getLang().get("not-enough-money"));
             return;
         }
 
         double maxNegativeBalance = FancyEconomy.getInstance().getFancyEconomyConfig().getMaxNegativeBalance();
-        if(allowNegativeBalance && from.getBalance(currency) - maxNegativeBalance < amount){
+        if (allowNegativeBalance && from.getBalance(currency) - maxNegativeBalance < amount) {
             MessageHelper.error(player, FancyEconomy.getInstance().getLang().get("not-enough-money"));
             return;
         }
@@ -132,7 +132,7 @@ public class CurrencyBaseCMD {
                 "receiver", to.getUsername()
         ));
 
-        if(targetPlayer != null){
+        if (targetPlayer != null) {
             MessageHelper.info(player, FancyEconomy.getInstance().getLang().get(
                     "paid-receiver",
                     "amount", currency.format(amount),
@@ -145,7 +145,7 @@ public class CurrencyBaseCMD {
             Player player,
             double amount
     ) {
-        if(!currency.isWithdrawable()){
+        if (!currency.isWithdrawable()) {
             MessageHelper.error(player, FancyEconomy.getInstance().getLang().get("not-withdrawable"));
             return;
         }
@@ -156,7 +156,7 @@ public class CurrencyBaseCMD {
         double minWithdrawAmount = FancyEconomy.getInstance().getFancyEconomyConfig().getMinWithdrawAmount();
         double maxWithdrawAmount = FancyEconomy.getInstance().getFancyEconomyConfig().getMaxWithdrawAmount();
 
-        if(amount < minWithdrawAmount){
+        if (amount < minWithdrawAmount) {
             MessageHelper.error(player, FancyEconomy.getInstance().getLang().get(
                     "min-withdrawable",
                     "amount", currency.format(minWithdrawAmount)
@@ -164,7 +164,7 @@ public class CurrencyBaseCMD {
             return;
         }
 
-        if(amount > maxWithdrawAmount){
+        if (amount > maxWithdrawAmount) {
             MessageHelper.error(player, FancyEconomy.getInstance().getLang().get(
                     "max-withdrawable",
                     "amount", currency.format(maxWithdrawAmount)
@@ -173,13 +173,13 @@ public class CurrencyBaseCMD {
         }
 
         boolean allowNegativeBalance = FancyEconomy.getInstance().getFancyEconomyConfig().allowNegativeBalance();
-        if(!allowNegativeBalance && currencyPlayer.getBalance(currency) < amount){
+        if (!allowNegativeBalance && currencyPlayer.getBalance(currency) < amount) {
             MessageHelper.error(player, FancyEconomy.getInstance().getLang().get("not-enough-money"));
             return;
         }
 
         double maxNegativeBalance = FancyEconomy.getInstance().getFancyEconomyConfig().getMaxNegativeBalance();
-        if(allowNegativeBalance && currencyPlayer.getBalance(currency) - maxNegativeBalance < amount){
+        if (allowNegativeBalance && currencyPlayer.getBalance(currency) - maxNegativeBalance < amount) {
             MessageHelper.error(player, FancyEconomy.getInstance().getLang().get("not-enough-money"));
             return;
         }
@@ -187,7 +187,7 @@ public class CurrencyBaseCMD {
         ItemStack withdrawItem = currency.withdrawItem().construct(player, currency, amount);
 
         HashMap<Integer, ItemStack> leftOver = player.getInventory().addItem(withdrawItem);
-        if(leftOver.size() > 0){
+        if (leftOver.size() > 0) {
             MessageHelper.error(player, FancyEconomy.getInstance().getLang().get("no-inventory-space"));
             return;
         }
@@ -200,17 +200,17 @@ public class CurrencyBaseCMD {
         ));
     }
 
-    public void balancetop(Player player){
+    public void balancetop(Player player) {
         balancetop(player, 1);
     }
 
     public void balancetop(
             Player player,
             int page
-    ){
+    ) {
         BalanceTop balanceTop = BalanceTop.getForCurrency(currency);
 
-        if((page-1) * BalanceTopCMD.ENTRIES_PER_PAGE > balanceTop.getAmountEntries()){
+        if ((page - 1) * BalanceTopCMD.ENTRIES_PER_PAGE > balanceTop.getAmountEntries()) {
             MessageHelper.warning(player, FancyEconomy.getInstance().getLang().get("balance-top-empty-page"));
             return;
         }
@@ -218,9 +218,9 @@ public class CurrencyBaseCMD {
         MessageHelper.info(player, "<b>Balance top: " + currency.name() + "</b> <gray>(Page #" + page + ")");
 
         for (int i = 1; i <= BalanceTopCMD.ENTRIES_PER_PAGE; i++) {
-            final int place = (page-1) * BalanceTopCMD.ENTRIES_PER_PAGE + i;
+            final int place = (page - 1) * BalanceTopCMD.ENTRIES_PER_PAGE + i;
             UUID uuid = balanceTop.getAtPlace(place);
-            if(uuid == null){
+            if (uuid == null) {
                 break;
             }
 
@@ -241,13 +241,13 @@ public class CurrencyBaseCMD {
             double amount
     ) {
         Player targetPlayer = Bukkit.getPlayer(targetName);
-        if(targetPlayer != null){
+        if (targetPlayer != null) {
             targetName = targetPlayer.getName();
         }
 
         UUID uuid = targetPlayer != null ? targetPlayer.getUniqueId() : UUIDFetcher.getUUID(targetName);
 
-        if(uuid == null){
+        if (uuid == null) {
             MessageHelper.error(player, FancyEconomy.getInstance().getLang().get(
                     "player-not-found",
                     "player", targetName
@@ -271,13 +271,13 @@ public class CurrencyBaseCMD {
             double amount
     ) {
         Player targetPlayer = Bukkit.getPlayer(targetName);
-        if(targetPlayer != null){
+        if (targetPlayer != null) {
             targetName = targetPlayer.getName();
         }
 
         UUID uuid = targetPlayer != null ? targetPlayer.getUniqueId() : UUIDFetcher.getUUID(targetName);
 
-        if(uuid == null){
+        if (uuid == null) {
             MessageHelper.error(player, FancyEconomy.getInstance().getLang().get(
                     "player-not-found",
                     "player", targetName
@@ -301,13 +301,13 @@ public class CurrencyBaseCMD {
             double amount
     ) {
         Player targetPlayer = Bukkit.getPlayer(targetName);
-        if(targetPlayer != null){
+        if (targetPlayer != null) {
             targetName = targetPlayer.getName();
         }
 
         UUID uuid = targetPlayer != null ? targetPlayer.getUniqueId() : UUIDFetcher.getUUID(targetName);
 
-        if(uuid == null){
+        if (uuid == null) {
             MessageHelper.error(player, FancyEconomy.getInstance().getLang().get(
                     "player-not-found",
                     "player", targetName

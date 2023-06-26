@@ -55,12 +55,16 @@ public class FancyEconomy extends JavaPlugin {
         );
     }
 
+    public static FancyEconomy getInstance() {
+        return instance;
+    }
+
     @Override
     public void onLoad() {
         config.reload();
 
         usingVault = getServer().getPluginManager().getPlugin("Vault") != null;
-        if(usingVault){
+        if (usingVault) {
             vaultEconomy = new FancyEconomyVault(CurrencyRegistry.getDefaultCurrency());
             getServer().getServicesManager().register(Economy.class, vaultEconomy, instance, ServicePriority.Highest);
             getLogger().info("Registered Vault economy");
@@ -138,14 +142,14 @@ public class FancyEconomy extends JavaPlugin {
         registerCommands();
 
         usingPlaceholderAPI = Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI");
-        if(usingPlaceholderAPI){
+        if (usingPlaceholderAPI) {
             new FancyEconomyPlaceholderExpansion().register();
             getLogger().info("Registered PlaceholoderAPI expansion");
         }
 
-        scheduler.runTaskTimerAsynchronously(60, 60*5, saveWorkload);
+        scheduler.runTaskTimerAsynchronously(60, 60 * 5, saveWorkload);
 
-        scheduler.runTaskTimerAsynchronously(60, 60*5, BalanceTop::refreshAll);
+        scheduler.runTaskTimerAsynchronously(60, 60 * 5, BalanceTop::refreshAll);
     }
 
     @Override
@@ -157,7 +161,7 @@ public class FancyEconomy extends JavaPlugin {
         database.close();
     }
 
-    private void registerCommands(){
+    private void registerCommands() {
         CommandAPI.registerCommand(FancyEconomyCMD.class);
         CommandAPI.registerCommand(PayCMD.class);
         CommandAPI.registerCommand(BalanceCMD.class);
@@ -294,7 +298,7 @@ public class FancyEconomy extends JavaPlugin {
         }
     }
 
-    private void createDatabaseTables(){
+    private void createDatabaseTables() {
         database.executeNonQuery("""
                 CREATE TABLE IF NOT EXISTS players(
                     uuid VARCHAR(255) PRIMARY KEY,
@@ -342,9 +346,5 @@ public class FancyEconomy extends JavaPlugin {
 
     public boolean isUsingPlaceholderAPI() {
         return usingPlaceholderAPI;
-    }
-
-    public static FancyEconomy getInstance() {
-        return instance;
     }
 }

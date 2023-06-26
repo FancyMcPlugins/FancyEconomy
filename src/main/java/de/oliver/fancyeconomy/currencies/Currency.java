@@ -21,17 +21,17 @@ public record Currency(String name, String symbol, boolean isWithdrawable, Withd
 
     public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("###,###,###,###.##");
 
-    public String format(double amount){
+    public String format(double amount) {
         return FancyEconomy.getInstance().getFancyEconomyConfig().useShortFormat()
                 ? shortFormat(amount) + " " + name
                 : longFormat(amount) + " " + name;
     }
 
-    private String longFormat(double amount){
+    private String longFormat(double amount) {
         return symbol + DECIMAL_FORMAT.format(amount);
     }
 
-    private String shortFormat(double amount){
+    private String shortFormat(double amount) {
         DecimalFormat formatter = new DecimalFormat("#.##");
         if (amount >= 1.0E18D) {
             return formatter.format(amount / 1.0E18D) + "QT";
@@ -60,7 +60,7 @@ public record Currency(String name, String symbol, boolean isWithdrawable, Withd
         public static final NamespacedKey WITHDRAW_CURRENCY = new NamespacedKey(FancyEconomy.getInstance(), "withdraw_currency");
         public static final NamespacedKey WITHDRAW_AMOUNT = new NamespacedKey(FancyEconomy.getInstance(), "withdraw_amount");
 
-        public ItemStack construct(Player player, Currency currency, double amount){
+        public ItemStack construct(Player player, Currency currency, double amount) {
             ItemStack item = new ItemStack(material);
 
             item.editMeta(meta -> {
@@ -98,7 +98,8 @@ public record Currency(String name, String symbol, boolean isWithdrawable, Withd
                     WITHDRAW_AMOUNT
             );
 
-            private WithdrawItemClick() { }
+            private WithdrawItemClick() {
+            }
 
             @Override
             public String getId() {
@@ -116,7 +117,7 @@ public record Currency(String name, String symbol, boolean isWithdrawable, Withd
 
                 String currencyName = item.getItemMeta().getPersistentDataContainer().get(WITHDRAW_CURRENCY, PersistentDataType.STRING);
                 Currency currency = CurrencyRegistry.getCurrencyByName(currencyName);
-                if(currency == null){
+                if (currency == null) {
                     return;
                 }
 

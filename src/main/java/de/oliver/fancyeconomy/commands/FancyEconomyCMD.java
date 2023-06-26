@@ -53,7 +53,7 @@ public class FancyEconomyCMD {
 
     @Subcommand("currencies")
     @Permission("fancyeconomy.admin")
-    public static void currencies(CommandSender player){
+    public static void currencies(CommandSender player) {
         Currency defaultCurrency = CurrencyRegistry.getDefaultCurrency();
         MessageHelper.info(player, FancyEconomy.getInstance().getLang().get("currency-list"));
         for (Currency currency : CurrencyRegistry.CURRENCIES) {

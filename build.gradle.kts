@@ -42,11 +42,11 @@ java {
 }
 
 tasks {
-    runServer{
+    runServer {
         minecraftVersion(mcVersion)
     }
 
-    shadowJar{
+    shadowJar {
         archiveClassifier.set("")
         relocate("dev.jorel.commandapi", "de.oliver.fancyeconomy.commandapi")
     }

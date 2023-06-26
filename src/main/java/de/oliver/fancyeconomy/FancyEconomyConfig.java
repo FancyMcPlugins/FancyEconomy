@@ -37,7 +37,7 @@ public class FancyEconomyConfig {
             Database
          */
         dbType = DatabaseType.getByIdentifier((String) ConfigHelper.getOrDefault(config, "database.type", "sqlite"));
-        if(dbType == null){
+        if (dbType == null) {
             FancyEconomy.getInstance().getLogger().warning("Invalid database type provided in config");
         }
 
@@ -80,7 +80,7 @@ public class FancyEconomyConfig {
         }
 
         Currency defaultCurrency = CurrencyRegistry.getCurrencyByName(defaultCurrencyName);
-        if(defaultCurrency == null){
+        if (defaultCurrency == null) {
             FancyEconomy.getInstance().getLogger().warning("Could not find default currency: '" + defaultCurrencyName + "'");
         } else {
             CurrencyRegistry.setDefaultCurrency(defaultCurrency);
@@ -110,14 +110,14 @@ public class FancyEconomyConfig {
         return maxNegativeBalance;
     }
 
-    public Database getDatabase(){
-        if(dbType == null){
+    public Database getDatabase() {
+        if (dbType == null) {
             return null;
         }
 
         Database db = null;
 
-        switch (dbType){
+        switch (dbType) {
             case MYSQL -> db = new MySqlDatabase(dbHost, dbPort, dbDatabase, dbUsername, dbPassword);
             case SQLITE -> db = new SqliteDatabase(dbFile);
         }
@@ -125,7 +125,7 @@ public class FancyEconomyConfig {
         return db;
     }
 
-    enum DatabaseType{
+    enum DatabaseType {
         MYSQL("mysql"),
         SQLITE("sqlite");
 
@@ -135,18 +135,18 @@ public class FancyEconomyConfig {
             this.identifier = identifier;
         }
 
-        public String getIdentifier() {
-            return identifier;
-        }
-
-        public static DatabaseType getByIdentifier(String identifier){
+        public static DatabaseType getByIdentifier(String identifier) {
             for (DatabaseType type : values()) {
-                if(type.getIdentifier().equalsIgnoreCase(identifier)){
+                if (type.getIdentifier().equalsIgnoreCase(identifier)) {
                     return type;
                 }
             }
 
             return null;
+        }
+
+        public String getIdentifier() {
+            return identifier;
         }
     }
 }

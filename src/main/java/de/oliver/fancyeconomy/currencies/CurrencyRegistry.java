@@ -11,7 +11,7 @@ public class CurrencyRegistry {
     public static void registerCurrency(Currency currency) {
         CURRENCIES.add(currency);
 
-        if(defaultCurrency == null){
+        if (defaultCurrency == null) {
             defaultCurrency = currency;
         }
     }

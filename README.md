@@ -4,6 +4,7 @@
 [![Downloads](https://img.shields.io/modrinth/dt/fancyeconomy?color=00AF5C&label=modrinth&style=flat&logo=modrinth)](https://modrinth.com/plugin/fancyeconomy/versions)
 
 # Fancy Economy
+
 Simple economy plugin that lets you add multiple currencies
 
 **Only supported for 1.20.1** _(might work in other versions too tho)_<br>
@@ -33,6 +34,7 @@ You can download the latest versions at the following places:
 - /Balancetop (page) - Shows the richest players
 
 For each currency there will a command:
+
 - /(currency) balance - Shows your balance
 - /(currency) balance (player) - Shows a player's balance
 - /(currency) pay (player) (amount) - Pays money to a certain player
@@ -48,8 +50,8 @@ For each currency there will a command:
 `FancyEconomy.pay` - access to the /pay command<br>
 `FancyEconomy.withdraw` - access to the /withdraw command<br>
 `FancyEconomy.admin` - access to the /FancyEconomy command<br>
-`FancyEconomy.<currency>` - access to the /(currency) balance|pay  commands<br>
-`FancyEconomy.<currency>.admin` - access to the /(currency) set|add|remove  commands<br>
+`FancyEconomy.<currency>` - access to the /(currency) balance|pay commands<br>
+`FancyEconomy.<currency>.admin` - access to the /(currency) set|add|remove commands<br>
 
 ## Placeholders
 
@@ -57,5 +59,6 @@ For each currency there will a command:
 `%%FancyEconomy_balance_<currency>%%` - displays the player's balance for a certain currency
 
 ## Build from source
+
 1. Clone this repo and run `gradlew shadowJar`
 2. The jar file will be in `build/libs/FancyEconomy-<version>.jar`

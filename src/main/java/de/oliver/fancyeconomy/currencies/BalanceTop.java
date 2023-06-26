@@ -9,13 +9,29 @@ public class BalanceTop {
     private Map<Integer, UUID> baltopPlaces;
     private Map<UUID, Integer> baltopPlayers;
 
-    public BalanceTop(Currency currency){
+    public BalanceTop(Currency currency) {
         this.currency = currency;
         this.baltopPlaces = new HashMap<>();
         this.baltopPlayers = new HashMap<>();
     }
 
-    public void refreshBaltop(){
+    public static BalanceTop getForCurrency(Currency currency) {
+        if (balanceTops.containsKey(currency)) {
+            return balanceTops.get(currency);
+        }
+
+        BalanceTop baltop = new BalanceTop(currency);
+        baltop.refreshBaltop();
+        balanceTops.put(currency, baltop);
+
+        return baltop;
+    }
+
+    public static void refreshAll() {
+        balanceTops.values().forEach(BalanceTop::refreshBaltop);
+    }
+
+    public void refreshBaltop() {
         baltopPlaces.clear();
         baltopPlayers.clear();
 
@@ -35,35 +51,19 @@ public class BalanceTop {
         }
     }
 
-    public UUID getAtPlace(int place){
+    public UUID getAtPlace(int place) {
         return baltopPlaces.getOrDefault(place, null);
     }
 
-    public int getPlayerPlace(UUID player){
+    public int getPlayerPlace(UUID player) {
         return baltopPlayers.getOrDefault(player, -1);
     }
 
-    public int getAmountEntries(){
+    public int getAmountEntries() {
         return baltopPlaces.size();
     }
 
     public Currency getCurrency() {
         return currency;
-    }
-
-    public static BalanceTop getForCurrency(Currency currency){
-        if(balanceTops.containsKey(currency)){
-            return balanceTops.get(currency);
-        }
-
-        BalanceTop baltop = new BalanceTop(currency);
-        baltop.refreshBaltop();
-        balanceTops.put(currency, baltop);
-
-        return baltop;
-    }
-
-    public static void refreshAll(){
-        balanceTops.values().forEach(BalanceTop::refreshBaltop);
     }
 }
