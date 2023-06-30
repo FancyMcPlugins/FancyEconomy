@@ -7,7 +7,7 @@ plugins {
 
 group = "de.oliver"
 description = "Economy plugin"
-version = "1.0.1"
+version = "1.0.2"
 val mcVersion = "1.20.1"
 
 repositories {
@@ -25,7 +25,7 @@ repositories {
 dependencies {
     compileOnly("io.papermc.paper:paper-api:$mcVersion-R0.1-SNAPSHOT")
 
-    implementation("de.oliver:FancyLib:1.0.3-beta3")
+    implementation("de.oliver:FancyLib:1.0.3-beta11")
 
     compileOnly("com.github.MilkBowl:VaultAPI:1.7")
 
