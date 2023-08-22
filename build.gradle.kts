@@ -7,7 +7,7 @@ plugins {
 
 group = "de.oliver"
 description = "Economy plugin"
-version = "1.0.2"
+version = "1.0.3"
 val mcVersion = "1.20.1"
 
 repositories {
