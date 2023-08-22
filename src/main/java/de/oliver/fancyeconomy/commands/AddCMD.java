@@ -62,11 +62,11 @@ public class AddCMD {
         MessageHelper.success(player, FancyEconomy.getInstance().getLang().get(
                 "add-success",
                 "amount", currency.format(amount),
-                "receiver", to.getUsername()
+                "player", to.getUsername()
         ));
 
         if (targetPlayer != null) {
-            MessageHelper.info(player, FancyEconomy.getInstance().getLang().get(
+            MessageHelper.info(targetPlayer, FancyEconomy.getInstance().getLang().get(
                     "add-receiver",
                     "amount", currency.format(amount)
             ));
