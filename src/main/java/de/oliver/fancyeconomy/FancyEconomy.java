@@ -128,6 +128,7 @@ public class FancyEconomy extends JavaPlugin {
 
         lang.addDefaultLang("reloaded-config", "Successfully reloaded the config");
         lang.addDefaultLang("currency-list", "<b>List of all currencies:</b>");
+        lang.addDefaultLang("add-receiver", "Received {amount}");
         lang.load();
 
         database = config.getDatabase();
@@ -167,6 +168,7 @@ public class FancyEconomy extends JavaPlugin {
         CommandAPI.registerCommand(BalanceCMD.class);
         CommandAPI.registerCommand(WithdrawCMD.class);
         CommandAPI.registerCommand(BalanceTopCMD.class);
+        CommandAPI.registerCommand(AddCMD.class);
 
         ArgumentSuggestions<CommandSender> allPlayersSuggestion = ArgumentSuggestions.strings(commandSenderSuggestionInfo -> CurrencyPlayerManager.getAllPlayerNames());
 
