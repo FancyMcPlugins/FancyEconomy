@@ -11,6 +11,8 @@ import de.oliver.fancylib.serverSoftware.ServerSoftware;
 import de.oliver.fancylib.serverSoftware.schedulers.BukkitScheduler;
 import de.oliver.fancylib.serverSoftware.schedulers.FancyScheduler;
 import de.oliver.fancylib.serverSoftware.schedulers.FoliaScheduler;
+import de.oliver.fancylib.versionFetcher.MasterVersionFetcher;
+import de.oliver.fancylib.versionFetcher.VersionFetcher;
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIBukkitConfig;
 import dev.jorel.commandapi.CommandAPICommand;
@@ -45,7 +47,7 @@ public class FancyEconomy extends JavaPlugin {
                 : new BukkitScheduler(instance);
         lang = new LanguageConfig(instance);
         config = new FancyEconomyConfig();
-        versionFetcher = new VersionFetcher("https://api.modrinth.com/v2/project/fancyeconomy/version", "https://modrinth.com/plugin/fancyeconomy/versions");
+        versionFetcher = new MasterVersionFetcher("FancyEconomy");
         saveWorkload = new DistributedWorkload<>(
                 "FancyEconomy_save",
                 player -> player.save(false),
@@ -79,7 +81,7 @@ public class FancyEconomy extends JavaPlugin {
         FancyLib.setPlugin(this);
 
         scheduler.runTaskAsynchronously(() -> {
-            ComparableVersion newestVersion = versionFetcher.getNewestVersion();
+            ComparableVersion newestVersion = versionFetcher.fetchNewestVersion();
             ComparableVersion currentVersion = new ComparableVersion(getDescription().getVersion());
             if (newestVersion == null) {
                 getLogger().warning("Could not fetch latest plugin version");

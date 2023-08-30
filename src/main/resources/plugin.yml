@@ -6,6 +6,7 @@ version: $version
 website: https://github.com/FancyMcPlugins/FancyEconomy
 main: de.oliver.fancyeconomy.FancyEconomy
 api-version: 1.19
+folia-supported: true
 softdepend:
   - Vault
   - PlaceholderAPI

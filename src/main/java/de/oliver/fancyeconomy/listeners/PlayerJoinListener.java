@@ -18,7 +18,7 @@ public class PlayerJoinListener implements Listener {
 
         if (event.getPlayer().hasPermission("FancyEconomy.admin.notification")) {
             FancyEconomy.getInstance().getScheduler().runTaskAsynchronously(() -> {
-                ComparableVersion newestVersion = FancyEconomy.getInstance().getVersionFetcher().getNewestVersion();
+                ComparableVersion newestVersion = FancyEconomy.getInstance().getVersionFetcher().fetchNewestVersion();
                 ComparableVersion currentVersion = new ComparableVersion(FancyEconomy.getInstance().getDescription().getVersion());
                 if (newestVersion != null && newestVersion.compareTo(currentVersion) > 0) {
                     MessageHelper.warning(event.getPlayer(), "You are using an outdated version of the FancyEconomy Plugin");

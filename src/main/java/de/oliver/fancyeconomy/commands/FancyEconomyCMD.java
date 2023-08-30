@@ -29,7 +29,7 @@ public class FancyEconomyCMD {
     public static void version(CommandSender player) {
         MessageHelper.info(player, "<i>Checking version, please wait...</i>");
         FancyEconomy.getInstance().getScheduler().runTaskAsynchronously(() -> {
-            ComparableVersion newestVersion = FancyEconomy.getInstance().getVersionFetcher().getNewestVersion();
+            ComparableVersion newestVersion = FancyEconomy.getInstance().getVersionFetcher().fetchNewestVersion();
             ComparableVersion currentVersion = new ComparableVersion(FancyEconomy.getInstance().getDescription().getVersion());
             if (newestVersion == null) {
                 MessageHelper.error(player, "Could not find latest version");

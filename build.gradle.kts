@@ -18,20 +18,19 @@ repositories {
     maven("https://jitpack.io")
     maven("https://repo.alessiodp.com/releases/")
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
-//    maven("https://repo.fancyplugins.de/releases/")
-    maven("https://repo.fancyplugins.de/snapshots/")
+    maven("https://repo.fancyplugins.de/releases/")
 }
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:$mcVersion-R0.1-SNAPSHOT")
 
-    implementation("de.oliver:FancyLib:1.0.3-beta11")
+    implementation("de.oliver:FancyLib:1.0.4")
 
-    compileOnly("com.github.MilkBowl:VaultAPI:1.7")
+    compileOnly("com.github.MilkBowl:VaultAPI:1.7.1")
 
     compileOnly("me.clip:placeholderapi:2.11.3")
 
-    val commandapiVersion = "9.0.3"
+    val commandapiVersion = "9.1.0"
     implementation("dev.jorel:commandapi-bukkit-shade:$commandapiVersion")
     compileOnly("dev.jorel:commandapi-annotations:$commandapiVersion")
     annotationProcessor("dev.jorel:commandapi-annotations:$commandapiVersion")
