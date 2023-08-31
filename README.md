@@ -59,8 +59,8 @@ For each currency there will a command:
 
 `%FancyEconomy_balance%` - displays the player's balance (default currency)<br>
 `%FancyEconomy_balance_raw%` - displays the player's balance in a raw format (e.g. "5127422587,43")<br>
-`%%FancyEconomy_balance_<currency>%%` - displays the player's balance for a certain currency
-`%%FancyEconomy_balance_raw_<currency>%%` - displays the player's balance for a certain currency in a raw format
+`%FancyEconomy_balance_<currency>%` - displays the player's balance for a certain currency
+`%FancyEconomy_balance_raw_<currency>%` - displays the player's balance for a certain currency in a raw format
 
 ## Build from source
 
