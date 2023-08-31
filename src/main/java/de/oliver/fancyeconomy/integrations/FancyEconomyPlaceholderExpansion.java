@@ -35,11 +35,17 @@ public class FancyEconomyPlaceholderExpansion extends PlaceholderExpansion {
         if (params.equalsIgnoreCase("balance")) {
             return defaultCurrency.format(currencyPlayer.getBalance(defaultCurrency));
         }
+        // %FancyEconomy_balance_raw%
+        else if (params.equalsIgnoreCase("balance_raw")){
+            return Currency.DECIMAL_FORMAT_RAW.format(currencyPlayer.getBalance(defaultCurrency));
+        }
 
         // %FancyEconomy_balance_<currency>%
         for (Currency currency : CurrencyRegistry.CURRENCIES) {
             if (params.equalsIgnoreCase("balance_" + currency.name())) {
                 return currency.format(currencyPlayer.getBalance(currency));
+            } else if (params.equalsIgnoreCase("balance_raw_" + currency.name())){
+                return Currency.DECIMAL_FORMAT_RAW.format(currencyPlayer.getBalance(currency));
             }
         }
 

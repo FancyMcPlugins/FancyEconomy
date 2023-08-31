@@ -20,6 +20,7 @@ import java.util.List;
 public record Currency(String name, String symbol, boolean isWithdrawable, WithdrawItem withdrawItem) {
 
     public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("###,###,###,###.##");
+    public static final DecimalFormat DECIMAL_FORMAT_RAW = new DecimalFormat("##################.##");
 
     public String format(double amount) {
         return FancyEconomy.getInstance().getFancyEconomyConfig().useShortFormat()
