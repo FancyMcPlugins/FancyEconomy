@@ -105,6 +105,7 @@ public class FancyEconomy extends JavaPlugin {
         Metrics metrics = new Metrics(instance, 18569);
 
         lang.addDefaultLang("player-not-found", "Could not find target player: '{player}'");
+        lang.addDefaultLang("no-permissions", "You don't have permissions to execute this command");
         lang.addDefaultLang("no-inventory-space", "You don't have enough space in your inventory");
 
         lang.addDefaultLang("your-balance", "Your balance: {balance}");

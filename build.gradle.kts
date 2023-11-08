@@ -8,7 +8,7 @@ plugins {
 group = "de.oliver"
 description = "Economy plugin"
 version = "1.0.3"
-val mcVersion = "1.20.1"
+val mcVersion = "1.20.2"
 
 repositories {
     mavenLocal()
@@ -24,13 +24,13 @@ repositories {
 dependencies {
     compileOnly("io.papermc.paper:paper-api:$mcVersion-R0.1-SNAPSHOT")
 
-    implementation("de.oliver:FancyLib:1.0.4")
+    implementation("de.oliver:FancyLib:1.0.5")
 
     compileOnly("com.github.MilkBowl:VaultAPI:1.7.1")
 
-    compileOnly("me.clip:placeholderapi:2.11.3")
+    compileOnly("me.clip:placeholderapi:2.11.5")
 
-    val commandapiVersion = "9.1.0"
+    val commandapiVersion = "9.2.0"
     implementation("dev.jorel:commandapi-bukkit-shade:$commandapiVersion")
     compileOnly("dev.jorel:commandapi-annotations:$commandapiVersion")
     annotationProcessor("dev.jorel:commandapi-annotations:$commandapiVersion")

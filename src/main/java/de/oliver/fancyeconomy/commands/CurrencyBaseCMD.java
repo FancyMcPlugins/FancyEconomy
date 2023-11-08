@@ -29,9 +29,11 @@ public class CurrencyBaseCMD {
         MessageHelper.info(player, "/" + currency.name() + " pay <player> <amount> - Pays money to a certain player");
         MessageHelper.info(player, "/" + currency.name() + " withdraw <amount> - Withdraw a certain amount of money");
         MessageHelper.info(player, "/" + currency.name() + " top <page> - Shows the richest players");
-        MessageHelper.info(player, "/" + currency.name() + " set <player> <amount> - Sets the balance of a certain player");
-        MessageHelper.info(player, "/" + currency.name() + " add <player> <amount> - Adds money to a certain player");
-        MessageHelper.info(player, "/" + currency.name() + " remove <player> <amount> - Removes money to a certain player");
+        if(player.hasPermission("fancyeconomy." + currency.name() + ".admin")){
+            MessageHelper.info(player, "/" + currency.name() + " set <player> <amount> - Sets the balance of a certain player");
+            MessageHelper.info(player, "/" + currency.name() + " add <player> <amount> - Adds money to a certain player");
+            MessageHelper.info(player, "/" + currency.name() + " remove <player> <amount> - Removes money to a certain player");
+        }
     }
 
     public void balance(Player player) {
@@ -240,6 +242,11 @@ public class CurrencyBaseCMD {
             String targetName,
             double amount
     ) {
+        if(!player.hasPermission("fancyeconomy." + currency.name() + ".admin")){
+            MessageHelper.error(player, FancyEconomy.getInstance().getLang().get("no-permissions"));
+            return;
+        }
+
         Player targetPlayer = Bukkit.getPlayer(targetName);
         if (targetPlayer != null) {
             targetName = targetPlayer.getName();
@@ -270,6 +277,11 @@ public class CurrencyBaseCMD {
             String targetName,
             double amount
     ) {
+        if(!player.hasPermission("fancyeconomy." + currency.name() + ".admin")){
+            MessageHelper.error(player, FancyEconomy.getInstance().getLang().get("no-permissions"));
+            return;
+        }
+
         Player targetPlayer = Bukkit.getPlayer(targetName);
         if (targetPlayer != null) {
             targetName = targetPlayer.getName();
@@ -300,6 +312,11 @@ public class CurrencyBaseCMD {
             String targetName,
             double amount
     ) {
+        if(!player.hasPermission("fancyeconomy." + currency.name() + ".admin")){
+            MessageHelper.error(player, FancyEconomy.getInstance().getLang().get("no-permissions"));
+            return;
+        }
+
         Player targetPlayer = Bukkit.getPlayer(targetName);
         if (targetPlayer != null) {
             targetName = targetPlayer.getName();
