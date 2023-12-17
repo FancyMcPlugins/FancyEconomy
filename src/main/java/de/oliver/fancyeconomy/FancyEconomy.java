@@ -108,6 +108,15 @@ public class FancyEconomy extends JavaPlugin {
         lang.addDefaultLang("no-permissions", "You don't have permissions to execute this command");
         lang.addDefaultLang("no-inventory-space", "You don't have enough space in your inventory");
 
+        lang.addDefaultLang("help-balance", "/{currency} balance - Shows your balance");
+        lang.addDefaultLang("help-balance-others", "/{currency} balance <player> - Shows a player's balance");
+        lang.addDefaultLang("help-pay", "/{currency} pay <player> <amount> - Pays money to a certain player");
+        lang.addDefaultLang("help-withdraw", "/{currency} withdraw <amount> - Withdraw a certain amount of money");
+        lang.addDefaultLang("help-top", "/{currency} top <page> - Shows the richest players");
+        lang.addDefaultLang("help-set", "/{currency} set <player> <amount> - Sets the balance of a certain player");
+        lang.addDefaultLang("help-add", "/{currency} add <player> <amount> - Adds money to a certain player");
+        lang.addDefaultLang("help-remove", "/{currency} remove <player> <amount> - Removes money to a certain player");
+
         lang.addDefaultLang("your-balance", "Your balance: {balance}");
         lang.addDefaultLang("balance-others", "{player}'s balance: {balance}");
 

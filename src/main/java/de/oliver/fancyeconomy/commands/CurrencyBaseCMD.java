@@ -23,16 +23,47 @@ public class CurrencyBaseCMD {
     }
 
     public void info(Player player) {
-        MessageHelper.info(player, " --- FancyEconomy Info ---");
-        MessageHelper.info(player, "/" + currency.name() + " balance - Shows your balance");
-        MessageHelper.info(player, "/" + currency.name() + " balance <player> - Shows a player's balance");
-        MessageHelper.info(player, "/" + currency.name() + " pay <player> <amount> - Pays money to a certain player");
-        MessageHelper.info(player, "/" + currency.name() + " withdraw <amount> - Withdraw a certain amount of money");
-        MessageHelper.info(player, "/" + currency.name() + " top <page> - Shows the richest players");
+        MessageHelper.info(player, " --- FancyEconomy Help ---");
+        MessageHelper.info(player, FancyEconomy.getInstance().getLang().get(
+                "help-balance",
+                "currency", currency.name()
+                ));
+
+        MessageHelper.info(player, FancyEconomy.getInstance().getLang().get(
+                "help-balance-others",
+                "currency", currency.name()
+        ));
+
+        MessageHelper.info(player, FancyEconomy.getInstance().getLang().get(
+                "help-pay",
+                "currency", currency.name()
+        ));
+
+        MessageHelper.info(player, FancyEconomy.getInstance().getLang().get(
+                "help-withdraw",
+                "currency", currency.name()
+        ));
+
+        MessageHelper.info(player, FancyEconomy.getInstance().getLang().get(
+                "help-top",
+                "currency", currency.name()
+        ));
+
         if(player.hasPermission("fancyeconomy." + currency.name() + ".admin")){
-            MessageHelper.info(player, "/" + currency.name() + " set <player> <amount> - Sets the balance of a certain player");
-            MessageHelper.info(player, "/" + currency.name() + " add <player> <amount> - Adds money to a certain player");
-            MessageHelper.info(player, "/" + currency.name() + " remove <player> <amount> - Removes money to a certain player");
+            MessageHelper.info(player, FancyEconomy.getInstance().getLang().get(
+                    "help-set",
+                    "currency", currency.name()
+            ));
+
+            MessageHelper.info(player, FancyEconomy.getInstance().getLang().get(
+                    "help-add",
+                    "currency", currency.name()
+            ));
+
+            MessageHelper.info(player, FancyEconomy.getInstance().getLang().get(
+                    "help-remove",
+                    "currency", currency.name()
+            ));
         }
     }
 
