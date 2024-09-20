@@ -30,7 +30,7 @@ dependencies {
 
     compileOnly("me.clip:placeholderapi:2.11.5")
 
-    val commandapiVersion = "9.3.0"
+    val commandapiVersion = "9.5.3"
     implementation("dev.jorel:commandapi-bukkit-shade:$commandapiVersion")
     compileOnly("dev.jorel:commandapi-annotations:$commandapiVersion")
     annotationProcessor("dev.jorel:commandapi-annotations:$commandapiVersion")
