@@ -8,7 +8,7 @@ plugins {
 group = "de.oliver"
 description = "Economy plugin"
 version = "1.0.3"
-val mcVersion = "1.20.2"
+val mcVersion = "1.20.4"
 
 repositories {
     mavenLocal()
@@ -30,7 +30,7 @@ dependencies {
 
     compileOnly("me.clip:placeholderapi:2.11.5")
 
-    val commandapiVersion = "9.2.0"
+    val commandapiVersion = "9.3.0"
     implementation("dev.jorel:commandapi-bukkit-shade:$commandapiVersion")
     compileOnly("dev.jorel:commandapi-annotations:$commandapiVersion")
     annotationProcessor("dev.jorel:commandapi-annotations:$commandapiVersion")
