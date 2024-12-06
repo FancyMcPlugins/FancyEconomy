@@ -7,6 +7,12 @@
 ![GitHub Downloads](https://img.shields.io/github/downloads/FancyMcPlugins/FancyEconomy/total?logo=GitHub&style=flat-square)
 [![Downloads](https://img.shields.io/modrinth/dt/fancyeconomy?color=00AF5C&label=modrinth&style=flat&logo=modrinth)](https://modrinth.com/plugin/fancyeconomy/versions)
 
+**-------------------------------------------**
+
+**This plugin is no longer being supported, developed and maintained. There will be only updates for real high critical security issues. Do not expect any new feature or bug fixed.**
+
+**-------------------------------------------**
+
 Simple economy plugin that lets you add multiple currencies
 
 **Only supported for 1.20.1** _(might work in other versions too tho)_<br>
