@@ -1,8 +1,8 @@
 package de.oliver.fancyeconomy;
 
+import com.fancyinnovations.config.ConfigHelper;
 import de.oliver.fancyeconomy.currencies.Currency;
 import de.oliver.fancyeconomy.currencies.CurrencyRegistry;
-import de.oliver.fancylib.ConfigHelper;
 import de.oliver.fancylib.databases.Database;
 import de.oliver.fancylib.databases.MySqlDatabase;
 import de.oliver.fancylib.databases.SqliteDatabase;

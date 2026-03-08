@@ -5,17 +5,23 @@ import de.oliver.fancyeconomy.currencies.*;
 import de.oliver.fancyeconomy.integrations.FancyEconomyPlaceholderExpansion;
 import de.oliver.fancyeconomy.integrations.FancyEconomyVault;
 import de.oliver.fancyeconomy.listeners.PlayerJoinListener;
+import de.oliver.fancyeconomy.utils.DistributedWorkload;
 import de.oliver.fancylib.*;
 import de.oliver.fancylib.databases.Database;
 import de.oliver.fancylib.serverSoftware.ServerSoftware;
 import de.oliver.fancylib.serverSoftware.schedulers.BukkitScheduler;
 import de.oliver.fancylib.serverSoftware.schedulers.FancyScheduler;
 import de.oliver.fancylib.serverSoftware.schedulers.FoliaScheduler;
+import de.oliver.fancylib.translations.Language;
+import de.oliver.fancylib.translations.TextConfig;
+import de.oliver.fancylib.translations.Translator;
+import de.oliver.fancylib.translations.message.SimpleMessage;
 import de.oliver.fancylib.versionFetcher.MasterVersionFetcher;
 import de.oliver.fancylib.versionFetcher.VersionFetcher;
 import dev.jorel.commandapi.CommandAPI;
 import dev.jorel.commandapi.CommandAPIBukkitConfig;
 import dev.jorel.commandapi.CommandAPICommand;
+import dev.jorel.commandapi.CommandAPIPaperConfig;
 import dev.jorel.commandapi.arguments.*;
 import net.milkbowl.vault.economy.Economy;
 import org.apache.maven.artifact.versioning.ComparableVersion;
@@ -32,7 +38,7 @@ public class FancyEconomy extends JavaPlugin {
     private static FancyEconomy instance;
     private final FancyScheduler scheduler;
     private final VersionFetcher versionFetcher;
-    private final LanguageConfig lang;
+    private Translator translator;
     private final FancyEconomyConfig config;
     private FancyEconomyVault vaultEconomy;
     private Database database;
@@ -45,7 +51,6 @@ public class FancyEconomy extends JavaPlugin {
         this.scheduler = ServerSoftware.isFolia()
                 ? new FoliaScheduler(instance)
                 : new BukkitScheduler(instance);
-        lang = new LanguageConfig(instance);
         config = new FancyEconomyConfig();
         versionFetcher = new MasterVersionFetcher("FancyEconomy");
         saveWorkload = new DistributedWorkload<>(
@@ -65,20 +70,21 @@ public class FancyEconomy extends JavaPlugin {
     public void onLoad() {
         config.reload();
 
+        CommandAPI.onLoad(new CommandAPIPaperConfig(instance).silentLogs(true));
+        registerCommands();
+
         usingVault = getServer().getPluginManager().getPlugin("Vault") != null;
         if (usingVault) {
             vaultEconomy = new FancyEconomyVault(CurrencyRegistry.getDefaultCurrency());
             getServer().getServicesManager().register(Economy.class, vaultEconomy, instance, ServicePriority.Highest);
             getLogger().info("Registered Vault economy");
         }
-
-        CommandAPI.onLoad(new CommandAPIBukkitConfig(instance).silentLogs(true));
     }
 
     @Override
     public void onEnable() {
         CommandAPI.onEnable();
-        FancyLib.setPlugin(this);
+        new FancyLib(this);
 
         scheduler.runTaskAsynchronously(() -> {
             ComparableVersion newestVersion = versionFetcher.fetchNewestVersion();
@@ -104,43 +110,47 @@ public class FancyEconomy extends JavaPlugin {
 
         Metrics metrics = new Metrics(instance, 18569);
 
-        lang.addDefaultLang("player-not-found", "Could not find target player: '{player}'");
-        lang.addDefaultLang("no-permissions", "You don't have permissions to execute this command");
-        lang.addDefaultLang("no-inventory-space", "You don't have enough space in your inventory");
+        TextConfig textConfig = new TextConfig("#E3CA66", "#35ad1d", "#81E366", "#E3CA66", "#E36666", "");
+        translator = new Translator(textConfig);
 
-        lang.addDefaultLang("help-balance", "/{currency} balance - Shows your balance");
-        lang.addDefaultLang("help-balance-others", "/{currency} balance <player> - Shows a player's balance");
-        lang.addDefaultLang("help-pay", "/{currency} pay <player> <amount> - Pays money to a certain player");
-        lang.addDefaultLang("help-withdraw", "/{currency} withdraw <amount> - Withdraw a certain amount of money");
-        lang.addDefaultLang("help-top", "/{currency} top <page> - Shows the richest players");
-        lang.addDefaultLang("help-set", "/{currency} set <player> <amount> - Sets the balance of a certain player");
-        lang.addDefaultLang("help-add", "/{currency} add <player> <amount> - Adds money to a certain player");
-        lang.addDefaultLang("help-remove", "/{currency} remove <player> <amount> - Removes money to a certain player");
+        Language lang = new Language("default", "default");
+        lang.addMessage("player-not-found", new SimpleMessage(textConfig, "<dark_gray>› {errorColor}Could not find target player: '{player}'"));
+        lang.addMessage("no-permissions", new SimpleMessage(textConfig, "<dark_gray>› {errorColor}You don't have permissions to execute this command"));
+        lang.addMessage("no-inventory-space", new SimpleMessage(textConfig, "<dark_gray>› {errorColor}You don't have enough space in your inventory"));
 
-        lang.addDefaultLang("your-balance", "Your balance: {balance}");
-        lang.addDefaultLang("balance-others", "{player}'s balance: {balance}");
+        lang.addMessage("help-balance", new SimpleMessage(textConfig, "<dark_gray>› {primaryColor}/{currency} balance <gray>- Shows your balance"));
+        lang.addMessage("help-balance-others", new SimpleMessage(textConfig, "<dark_gray>› {primaryColor}/{currency} balance <player> <gray>- Shows a player's balance"));
+        lang.addMessage("help-pay", new SimpleMessage(textConfig, "<dark_gray>› {primaryColor}/{currency} pay <player> <amount> <gray>- Pays money to a certain player"));
+        lang.addMessage("help-withdraw", new SimpleMessage(textConfig, "<dark_gray>› {primaryColor}/{currency} withdraw <amount> <gray>- Withdraw a certain amount of money"));
+        lang.addMessage("help-top", new SimpleMessage(textConfig, "<dark_gray>› {primaryColor}/{currency} top <page> <gray>- Shows the richest players"));
+        lang.addMessage("help-set", new SimpleMessage(textConfig, "<dark_gray>› {primaryColor}/{currency} set <player> <amount> <gray>- Sets the balance of a certain player"));
+        lang.addMessage("help-add", new SimpleMessage(textConfig, "<dark_gray>› {primaryColor}/{currency} add <player> <amount> <gray>- Adds money to a certain player"));
+        lang.addMessage("help-remove", new SimpleMessage(textConfig, "<dark_gray>› {primaryColor}/{currency} remove <player> <amount> <gray>- Removes money to a certain player"));
 
-        lang.addDefaultLang("cannot-pay-yourself", "You cannot pay yourself");
-        lang.addDefaultLang("not-enough-money", "Insufficient balance");
-        lang.addDefaultLang("paid-sender", "Successfully paid {amount} to {receiver}");
-        lang.addDefaultLang("paid-receiver", "Received {amount} from {sender}");
+        lang.addMessage("your-balance", new SimpleMessage(textConfig, "<dark_gray>› <gray>Your balance: {primaryColor}{balance}"));
+        lang.addMessage("balance-others", new SimpleMessage(textConfig, "<dark_gray>› {primaryColor}{player}'s <gray>balance: {primaryColor}{balance}"));
 
-        lang.addDefaultLang("not-withdrawable", "This currency is not withdrawable");
-        lang.addDefaultLang("min-withdrawable", "The minimum withdraw amount is: {amount}");
-        lang.addDefaultLang("max-withdrawable", "The maximum withdraw amount is: {amount}");
-        lang.addDefaultLang("withdraw-success", "Successfully withdraw {amount}");
-        lang.addDefaultLang("deposit-note", "+ {amount}");
+        lang.addMessage("cannot-pay-yourself", new SimpleMessage(textConfig, "<dark_gray>› {errorColor}You cannot pay yourself"));
+        lang.addMessage("not-enough-money", new SimpleMessage(textConfig, "<dark_gray>› {errorColor}Insufficient balance"));
+        lang.addMessage("paid-sender", new SimpleMessage(textConfig, "<dark_gray>› <gray>Successfully paid {primaryColor}{amount} <gray>to {primaryColor}{receiver}"));
+        lang.addMessage("paid-receiver", new SimpleMessage(textConfig, "<dark_gray>› <gray>Received {primaryColor}{amount} <gray>from {primaryColor}{sender}"));
 
-        lang.addDefaultLang("set-success", "Successfully set {player}'s balance to {amount}");
-        lang.addDefaultLang("add-success", "Successfully added {amount} to {player}");
-        lang.addDefaultLang("remove-success", "Successfully removed {amount} from {player}");
+        lang.addMessage("not-withdrawable", new SimpleMessage(textConfig, "<dark_gray>› {errorColor}This currency is not withdrawable"));
+        lang.addMessage("min-withdrawable", new SimpleMessage(textConfig, "<dark_gray>› {errorColor}The minimum withdraw amount is: {primaryColor}{amount}"));
+        lang.addMessage("max-withdrawable", new SimpleMessage(textConfig, "<dark_gray>› {errorColor}The maximum withdraw amount is: {primaryColor}{amount}"));
+        lang.addMessage("withdraw-success", new SimpleMessage(textConfig, "<dark_gray>› <gray>Successfully withdraw {primaryColor}{amount}"));
+        lang.addMessage("deposit-note", new SimpleMessage(textConfig, "<dark_gray>› {primaryColor}+ {amount}"));
 
-        lang.addDefaultLang("balancetop-your-place", "Your place: #{place}");
-        lang.addDefaultLang("balance-top-empty-page", "No data for this page");
+        lang.addMessage("set-success", new SimpleMessage(textConfig, "<dark_gray>› <gray>Successfully set {primaryColor}{player}'s <gray>balance to {primaryColor}{amount}"));
+        lang.addMessage("add-success", new SimpleMessage(textConfig, "<dark_gray>› <gray>Successfully added {primaryColor}{amount} <gray>to {primaryColor}{player}"));
+        lang.addMessage("remove-success", new SimpleMessage(textConfig, "<dark_gray>› <gray>Successfully removed {primaryColor}{amount} <gray>from {primaryColor}{player}"));
 
-        lang.addDefaultLang("reloaded-config", "Successfully reloaded the config");
-        lang.addDefaultLang("currency-list", "<b>List of all currencies:</b>");
-        lang.load();
+        lang.addMessage("balancetop-your-place", new SimpleMessage(textConfig, "<dark_gray>› <gray>Your place: {primaryColor}#{place}"));
+        lang.addMessage("balance-top-empty-page", new SimpleMessage(textConfig, "<dark_gray>› <gray>No data for this page"));
+
+        lang.addMessage("reloaded-config", new SimpleMessage(textConfig, "<dark_gray>› <gray>Successfully reloaded the config"));
+        lang.addMessage("currency-list", new SimpleMessage(textConfig, "{primaryColor}<b>List of all currencies:</b>"));
+        translator.setSelectedLanguage(lang);
 
         database = config.getDatabase();
         database.connect();
@@ -150,8 +160,6 @@ public class FancyEconomy extends JavaPlugin {
 
         Bukkit.getPluginManager().registerEvents(new PlayerJoinListener(), instance);
         Currency.WithdrawItem.WithdrawItemClick.INSTANCE.register();
-
-        registerCommands();
 
         usingPlaceholderAPI = Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI");
         if (usingPlaceholderAPI) {
@@ -166,6 +174,8 @@ public class FancyEconomy extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        CommandAPI.onDisable();
+
         for (CurrencyPlayer player : CurrencyPlayerManager.getAllPlayers()) {
             player.save(true);
         }
@@ -198,8 +208,8 @@ public class FancyEconomy extends JavaPlugin {
             new CommandAPICommand(currency.name())
                     .withPermission("fancyeconomy." + currency.name())
                     .withArguments(
-                            new MultiLiteralArgument(null, List.of("bal", "balance"))
-                                    .setListed(false)
+                            new LiteralArgument("bal").setListed(false),
+                            new LiteralArgument("balance").setListed(false)
                     )
                     .executesPlayer((sender, args) -> {
                         baseCMD.balance(sender);
@@ -210,8 +220,8 @@ public class FancyEconomy extends JavaPlugin {
             new CommandAPICommand(currency.name())
                     .withPermission("fancyeconomy." + currency.name())
                     .withArguments(
-                            new MultiLiteralArgument(null, List.of("bal", "balance"))
-                                    .setListed(false)
+                            new LiteralArgument("bal").setListed(false),
+                            new LiteralArgument("balance").setListed(false)
                     )
                     .withArguments(new StringArgument("targetName").includeSuggestions(allPlayersSuggestion))
                     .executesPlayer((sender, args) -> {
@@ -223,8 +233,7 @@ public class FancyEconomy extends JavaPlugin {
             new CommandAPICommand(currency.name())
                     .withPermission("fancyeconomy." + currency.name())
                     .withArguments(
-                            new MultiLiteralArgument(null, List.of("pay"))
-                                    .setListed(false)
+                            new LiteralArgument("pay").setListed(false)
                     )
                     .withArguments(new StringArgument("targetName").includeSuggestions(allPlayersSuggestion), new DoubleArgument("amount", 0.01))
                     .executesPlayer((sender, args) -> {
@@ -236,8 +245,7 @@ public class FancyEconomy extends JavaPlugin {
             new CommandAPICommand(currency.name())
                     .withPermission("fancyeconomy." + currency.name())
                     .withArguments(
-                            new MultiLiteralArgument(null, List.of("withdraw"))
-                                    .setListed(false)
+                            new LiteralArgument("withdraw").setListed(false)
                     )
                     .withArguments(new DoubleArgument("amount"))
                     .executesPlayer((sender, args) -> {
@@ -249,8 +257,7 @@ public class FancyEconomy extends JavaPlugin {
             new CommandAPICommand(currency.name())
                     .withPermission("fancyeconomy." + currency.name())
                     .withArguments(
-                            new MultiLiteralArgument(null, List.of("top"))
-                                    .setListed(false)
+                            new LiteralArgument("top").setListed(false)
                     )
                     .executesPlayer((sender, args) -> {
                         baseCMD.balancetop(sender);
@@ -260,8 +267,7 @@ public class FancyEconomy extends JavaPlugin {
             new CommandAPICommand(currency.name())
                     .withPermission("fancyeconomy." + currency.name())
                     .withArguments(
-                            new MultiLiteralArgument(null, List.of("top"))
-                                    .setListed(false)
+                            new LiteralArgument("top").setListed(false)
                     )
                     .withArguments(new IntegerArgument("page", 1))
                     .executesPlayer((sender, args) -> {
@@ -273,8 +279,7 @@ public class FancyEconomy extends JavaPlugin {
             new CommandAPICommand(currency.name())
                     .withPermission("fancyeconomy." + currency.name() + ".admin")
                     .withArguments(
-                            new MultiLiteralArgument(null, List.of("set"))
-                                    .setListed(false)
+                            new LiteralArgument("set").setListed(false)
                     )
                     .withArguments(new StringArgument("targetName").includeSuggestions(allPlayersSuggestion), new DoubleArgument("amount", 0.01))
                     .executesPlayer((sender, args) -> {
@@ -286,8 +291,7 @@ public class FancyEconomy extends JavaPlugin {
             new CommandAPICommand(currency.name())
                     .withPermission("fancyeconomy." + currency.name() + ".admin")
                     .withArguments(
-                            new MultiLiteralArgument(null, List.of("add"))
-                                    .setListed(false)
+                            new LiteralArgument("add").setListed(false)
                     )
                     .withArguments(new StringArgument("targetName").includeSuggestions(allPlayersSuggestion), new DoubleArgument("amount", 0.01))
                     .executesPlayer((sender, args) -> {
@@ -299,8 +303,7 @@ public class FancyEconomy extends JavaPlugin {
             new CommandAPICommand(currency.name())
                     .withPermission("fancyeconomy." + currency.name() + ".admin")
                     .withArguments(
-                            new MultiLiteralArgument(null, List.of("remove"))
-                                    .setListed(false)
+                            new LiteralArgument("remove").setListed(false)
                     )
                     .withArguments(new StringArgument("targetName").includeSuggestions(allPlayersSuggestion), new DoubleArgument("amount", 0.01))
                     .executesPlayer((sender, args) -> {
@@ -336,8 +339,8 @@ public class FancyEconomy extends JavaPlugin {
         return versionFetcher;
     }
 
-    public LanguageConfig getLang() {
-        return lang;
+    public Translator getTranslator() {
+        return translator;
     }
 
     public FancyEconomyConfig getFancyEconomyConfig() {

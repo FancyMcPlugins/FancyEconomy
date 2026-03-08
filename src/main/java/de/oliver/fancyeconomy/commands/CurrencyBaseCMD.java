@@ -24,46 +24,46 @@ public class CurrencyBaseCMD {
 
     public void info(Player player) {
         MessageHelper.info(player, " --- FancyEconomy Help ---");
-        MessageHelper.info(player, FancyEconomy.getInstance().getLang().get(
-                "help-balance",
-                "currency", currency.name()
-                ));
+        FancyEconomy.getInstance().getTranslator()
+                .translate("help-balance")
+                .replace("currency", currency.name())
+                .send(player);
 
-        MessageHelper.info(player, FancyEconomy.getInstance().getLang().get(
-                "help-balance-others",
-                "currency", currency.name()
-        ));
+        FancyEconomy.getInstance().getTranslator()
+                .translate("help-balance-others")
+                .replace("currency", currency.name())
+                .send(player);
 
-        MessageHelper.info(player, FancyEconomy.getInstance().getLang().get(
-                "help-pay",
-                "currency", currency.name()
-        ));
+        FancyEconomy.getInstance().getTranslator()
+                .translate("help-pay")
+                .replace("currency", currency.name())
+                .send(player);
 
-        MessageHelper.info(player, FancyEconomy.getInstance().getLang().get(
-                "help-withdraw",
-                "currency", currency.name()
-        ));
+        FancyEconomy.getInstance().getTranslator()
+                .translate("help-withdraw")
+                .replace("currency", currency.name())
+                .send(player);
 
-        MessageHelper.info(player, FancyEconomy.getInstance().getLang().get(
-                "help-top",
-                "currency", currency.name()
-        ));
+        FancyEconomy.getInstance().getTranslator()
+                .translate("help-top")
+                .replace("currency", currency.name())
+                .send(player);
 
         if(player.hasPermission("fancyeconomy." + currency.name() + ".admin")){
-            MessageHelper.info(player, FancyEconomy.getInstance().getLang().get(
-                    "help-set",
-                    "currency", currency.name()
-            ));
+            FancyEconomy.getInstance().getTranslator()
+                    .translate("help-set")
+                    .replace("currency", currency.name())
+                    .send(player);
 
-            MessageHelper.info(player, FancyEconomy.getInstance().getLang().get(
-                    "help-add",
-                    "currency", currency.name()
-            ));
+            FancyEconomy.getInstance().getTranslator()
+                    .translate("help-add")
+                    .replace("currency", currency.name())
+                    .send(player);
 
-            MessageHelper.info(player, FancyEconomy.getInstance().getLang().get(
-                    "help-remove",
-                    "currency", currency.name()
-            ));
+            FancyEconomy.getInstance().getTranslator()
+                    .translate("help-remove")
+                    .replace("currency", currency.name())
+                    .send(player);
         }
     }
 
@@ -71,10 +71,10 @@ public class CurrencyBaseCMD {
         CurrencyPlayer currencyPlayer = CurrencyPlayerManager.getPlayer(player.getUniqueId());
         double balance = currencyPlayer.getBalance(currency);
 
-        MessageHelper.info(player, FancyEconomy.getInstance().getLang().get(
-                "your-balance",
-                "balance", currency.format(balance)
-        ));
+        FancyEconomy.getInstance().getTranslator()
+                .translate("your-balance")
+                .replace("balance", currency.format(balance))
+                .send(player);
     }
 
     public void balance(
@@ -89,10 +89,11 @@ public class CurrencyBaseCMD {
         UUID uuid = targetPlayer != null ? targetPlayer.getUniqueId() : UUIDFetcher.getUUID(targetName);
 
         if (uuid == null) {
-            MessageHelper.error(player, FancyEconomy.getInstance().getLang().get(
-                    "player-not-found",
-                    "player", targetName
-            ));
+            FancyEconomy.getInstance().getTranslator()
+                    .translate("player-not-found")
+                    .replace("player", targetName)
+                    .send(player);
+
             return;
         }
 
@@ -104,11 +105,11 @@ public class CurrencyBaseCMD {
 
         double balance = currencyPlayer.getBalance(currency);
 
-        MessageHelper.info(player, FancyEconomy.getInstance().getLang().get(
-                "balance-others",
-                "player", currencyPlayer.getUsername(),
-                "balance", currency.format(balance)
-        ));
+        FancyEconomy.getInstance().getTranslator()
+                .translate("balance-others")
+                .replace("player", currencyPlayer.getUsername())
+                .replace("balance", currency.format(balance))
+                .send(player);
     }
 
     public void pay(
@@ -124,15 +125,17 @@ public class CurrencyBaseCMD {
         UUID uuid = targetPlayer != null ? targetPlayer.getUniqueId() : UUIDFetcher.getUUID(targetName);
 
         if (uuid == null) {
-            MessageHelper.error(player, FancyEconomy.getInstance().getLang().get(
-                    "player-not-found",
-                    "player", targetName
-            ));
+            FancyEconomy.getInstance().getTranslator()
+                    .translate("player-not-found")
+                    .replace("player", targetName)
+                    .send(player);
             return;
         }
 
         if (player.getUniqueId().equals(uuid)) {
-            MessageHelper.warning(player, FancyEconomy.getInstance().getLang().get("cannot-pay-yourself"));
+            FancyEconomy.getInstance().getTranslator()
+                    .translate("cannot-pay-yourself")
+                    .send(player);
             return;
         }
 
@@ -146,31 +149,35 @@ public class CurrencyBaseCMD {
 
         boolean allowNegativeBalance = FancyEconomy.getInstance().getFancyEconomyConfig().allowNegativeBalance();
         if (!allowNegativeBalance && from.getBalance(currency) < amount) {
-            MessageHelper.error(player, FancyEconomy.getInstance().getLang().get("not-enough-money"));
+            FancyEconomy.getInstance().getTranslator()
+                    .translate("not-enough-money")
+                    .send(player);
             return;
         }
 
         double maxNegativeBalance = FancyEconomy.getInstance().getFancyEconomyConfig().getMaxNegativeBalance();
         if (allowNegativeBalance && from.getBalance(currency) - maxNegativeBalance < amount) {
-            MessageHelper.error(player, FancyEconomy.getInstance().getLang().get("not-enough-money"));
+            FancyEconomy.getInstance().getTranslator()
+                    .translate("not-enough-money")
+                    .send(player);
             return;
         }
 
         from.removeBalance(currency, amount);
         to.addBalance(currency, amount);
 
-        MessageHelper.success(player, FancyEconomy.getInstance().getLang().get(
-                "paid-sender",
-                "amount", currency.format(amount),
-                "receiver", to.getUsername()
-        ));
+        FancyEconomy.getInstance().getTranslator()
+                .translate("paid-sender")
+                .replace("amount", currency.format(amount))
+                .replace("receiver", to.getUsername())
+                .send(player);
 
         if (targetPlayer != null) {
-            MessageHelper.info(player, FancyEconomy.getInstance().getLang().get(
-                    "paid-receiver",
-                    "amount", currency.format(amount),
-                    "sender", from.getUsername()
-            ));
+            FancyEconomy.getInstance().getTranslator()
+                    .translate("paid-receiver")
+                    .replace("amount", currency.format(amount))
+                    .replace("sender", from.getUsername())
+                    .send(targetPlayer);
         }
     }
 
@@ -179,7 +186,9 @@ public class CurrencyBaseCMD {
             double amount
     ) {
         if (!currency.isWithdrawable()) {
-            MessageHelper.error(player, FancyEconomy.getInstance().getLang().get("not-withdrawable"));
+            FancyEconomy.getInstance().getTranslator()
+                    .translate("not-withdrawable")
+                    .send(player);
             return;
         }
 
@@ -190,30 +199,34 @@ public class CurrencyBaseCMD {
         double maxWithdrawAmount = FancyEconomy.getInstance().getFancyEconomyConfig().getMaxWithdrawAmount();
 
         if (amount < minWithdrawAmount) {
-            MessageHelper.error(player, FancyEconomy.getInstance().getLang().get(
-                    "min-withdrawable",
-                    "amount", currency.format(minWithdrawAmount)
-            ));
+            FancyEconomy.getInstance().getTranslator()
+                    .translate("min-withdrawable")
+                    .replace("amount", currency.format(minWithdrawAmount))
+                    .send(player);
             return;
         }
 
         if (amount > maxWithdrawAmount) {
-            MessageHelper.error(player, FancyEconomy.getInstance().getLang().get(
-                    "max-withdrawable",
-                    "amount", currency.format(maxWithdrawAmount)
-            ));
+            FancyEconomy.getInstance().getTranslator()
+                    .translate("max-withdrawable")
+                    .replace("amount", currency.format(maxWithdrawAmount))
+                    .send(player);
             return;
         }
 
         boolean allowNegativeBalance = FancyEconomy.getInstance().getFancyEconomyConfig().allowNegativeBalance();
         if (!allowNegativeBalance && currencyPlayer.getBalance(currency) < amount) {
-            MessageHelper.error(player, FancyEconomy.getInstance().getLang().get("not-enough-money"));
+            FancyEconomy.getInstance().getTranslator()
+                    .translate("not-enough-money")
+                    .send(player);
             return;
         }
 
         double maxNegativeBalance = FancyEconomy.getInstance().getFancyEconomyConfig().getMaxNegativeBalance();
         if (allowNegativeBalance && currencyPlayer.getBalance(currency) - maxNegativeBalance < amount) {
-            MessageHelper.error(player, FancyEconomy.getInstance().getLang().get("not-enough-money"));
+            FancyEconomy.getInstance().getTranslator()
+                    .translate("not-enough-money")
+                    .send(player);
             return;
         }
 
@@ -221,16 +234,18 @@ public class CurrencyBaseCMD {
 
         HashMap<Integer, ItemStack> leftOver = player.getInventory().addItem(withdrawItem);
         if (leftOver.size() > 0) {
-            MessageHelper.error(player, FancyEconomy.getInstance().getLang().get("no-inventory-space"));
+            FancyEconomy.getInstance().getTranslator()
+                    .translate("no-inventory-space")
+                    .send(player);
             return;
         }
 
         currencyPlayer.removeBalance(currency, amount);
 
-        MessageHelper.success(player, FancyEconomy.getInstance().getLang().get(
-                "withdraw-success",
-                "amount", currency.format(amount)
-        ));
+        FancyEconomy.getInstance().getTranslator()
+                .translate("withdraw-success")
+                .replace("amount", currency.format(amount))
+                .send(player);
     }
 
     public void balancetop(Player player) {
@@ -244,7 +259,9 @@ public class CurrencyBaseCMD {
         BalanceTop balanceTop = BalanceTop.getForCurrency(currency);
 
         if ((page - 1) * BalanceTopCMD.ENTRIES_PER_PAGE > balanceTop.getAmountEntries()) {
-            MessageHelper.warning(player, FancyEconomy.getInstance().getLang().get("balance-top-empty-page"));
+            FancyEconomy.getInstance().getTranslator()
+                    .translate("balance-top-empty-page")
+                    .send(player);
             return;
         }
 
@@ -262,10 +279,10 @@ public class CurrencyBaseCMD {
         }
 
         int yourPlace = balanceTop.getPlayerPlace(player.getUniqueId());
-        MessageHelper.info(player, FancyEconomy.getInstance().getLang().get(
-                "balancetop-your-place",
-                "place", yourPlace > 0 ? String.valueOf(yourPlace) : "N/A"
-        ));
+        FancyEconomy.getInstance().getTranslator()
+                .translate("balancetop-your-place")
+                .replace("place", yourPlace > 0 ? String.valueOf(yourPlace) : "N/A")
+                .send(player);
     }
 
     public void set(
@@ -274,7 +291,9 @@ public class CurrencyBaseCMD {
             double amount
     ) {
         if(!player.hasPermission("fancyeconomy." + currency.name() + ".admin")){
-            MessageHelper.error(player, FancyEconomy.getInstance().getLang().get("no-permissions"));
+            FancyEconomy.getInstance().getTranslator()
+                    .translate("no-permissions")
+                    .send(player);
             return;
         }
 
@@ -286,21 +305,21 @@ public class CurrencyBaseCMD {
         UUID uuid = targetPlayer != null ? targetPlayer.getUniqueId() : UUIDFetcher.getUUID(targetName);
 
         if (uuid == null) {
-            MessageHelper.error(player, FancyEconomy.getInstance().getLang().get(
-                    "player-not-found",
-                    "player", targetName
-            ));
+            FancyEconomy.getInstance().getTranslator()
+                    .translate("player-not-found")
+                    .replace("player", targetName)
+                    .send(player);
             return;
         }
 
         CurrencyPlayer currencyPlayer = CurrencyPlayerManager.getPlayer(uuid);
         currencyPlayer.setBalance(currency, amount);
 
-        MessageHelper.success(player, FancyEconomy.getInstance().getLang().get(
-                "set-success",
-                "player", currencyPlayer.getUsername(),
-                "amount", currency.format(amount)
-        ));
+        FancyEconomy.getInstance().getTranslator()
+                .translate("set-success")
+                .replace("player", currencyPlayer.getUsername())
+                .replace("amount", currency.format(amount))
+                .send(player);
     }
 
     public void add(
@@ -309,7 +328,9 @@ public class CurrencyBaseCMD {
             double amount
     ) {
         if(!player.hasPermission("fancyeconomy." + currency.name() + ".admin")){
-            MessageHelper.error(player, FancyEconomy.getInstance().getLang().get("no-permissions"));
+            FancyEconomy.getInstance().getTranslator()
+                    .translate("no-permissions")
+                    .send(player);
             return;
         }
 
@@ -321,21 +342,21 @@ public class CurrencyBaseCMD {
         UUID uuid = targetPlayer != null ? targetPlayer.getUniqueId() : UUIDFetcher.getUUID(targetName);
 
         if (uuid == null) {
-            MessageHelper.error(player, FancyEconomy.getInstance().getLang().get(
-                    "player-not-found",
-                    "player", targetName
-            ));
+            FancyEconomy.getInstance().getTranslator()
+                    .translate("player-not-found")
+                    .replace("player", targetName)
+                    .send(player);
             return;
         }
 
         CurrencyPlayer currencyPlayer = CurrencyPlayerManager.getPlayer(uuid);
         currencyPlayer.addBalance(currency, amount);
 
-        MessageHelper.success(player, FancyEconomy.getInstance().getLang().get(
-                "add-success",
-                "player", currencyPlayer.getUsername(),
-                "amount", currency.format(amount)
-        ));
+        FancyEconomy.getInstance().getTranslator()
+                .translate("add-success")
+                .replace("player", currencyPlayer.getUsername())
+                .replace("amount", currency.format(amount))
+                .send(Bukkit.getPlayer(uuid));
     }
 
     public void remove(
@@ -344,7 +365,9 @@ public class CurrencyBaseCMD {
             double amount
     ) {
         if(!player.hasPermission("fancyeconomy." + currency.name() + ".admin")){
-            MessageHelper.error(player, FancyEconomy.getInstance().getLang().get("no-permissions"));
+            FancyEconomy.getInstance().getTranslator()
+                    .translate("no-permissions")
+                    .send(player);
             return;
         }
 
@@ -356,20 +379,20 @@ public class CurrencyBaseCMD {
         UUID uuid = targetPlayer != null ? targetPlayer.getUniqueId() : UUIDFetcher.getUUID(targetName);
 
         if (uuid == null) {
-            MessageHelper.error(player, FancyEconomy.getInstance().getLang().get(
-                    "player-not-found",
-                    "player", targetName
-            ));
+            FancyEconomy.getInstance().getTranslator()
+                    .translate("player-not-found")
+                    .replace("player", targetName)
+                    .send(player);
             return;
         }
 
         CurrencyPlayer currencyPlayer = CurrencyPlayerManager.getPlayer(uuid);
         currencyPlayer.removeBalance(currency, amount);
 
-        MessageHelper.success(player, FancyEconomy.getInstance().getLang().get(
-                "remove-success",
-                "player", currencyPlayer.getUsername(),
-                "amount", currency.format(amount)
-        ));
+        FancyEconomy.getInstance().getTranslator()
+                .translate("remove-success")
+                .replace("player", currencyPlayer.getUsername())
+                .replace("amount", currency.format(amount))
+                .send(Bukkit.getPlayer(uuid));
     }
 }

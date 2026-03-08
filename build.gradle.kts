@@ -1,48 +1,84 @@
+import net.minecrell.pluginyml.bukkit.BukkitPluginDescription
+import net.minecrell.pluginyml.paper.PaperPluginDescription
+
 plugins {
     id("java-library")
-    id("xyz.jpenilla.run-paper") version "2.1.0" // Adds runServer and runMojangMappedServer tasks for testing
     id("maven-publish")
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("xyz.jpenilla.run-paper") version "3.0.2"
+    id("com.gradleup.shadow") version "9.3.1"
+    id("de.eldoria.plugin-yml.paper") version "0.8.0"
 }
 
 group = "de.oliver"
 description = "Economy plugin"
-version = "1.0.3"
-val mcVersion = "1.20.4"
+version = getFEVersion()
 
 repositories {
     mavenLocal()
     mavenCentral()
-    maven("https://repo.codemc.org/repository/maven-public/")
+    maven (url = "https://maven.fancyspaces.net/fancyinnovations/releases")
+    maven (url = "https://maven.fancyspaces.net/fancyinnovations/snapshots")
+    maven(url = "https://repo.fancyinnovations.com/snapshots")
+    maven(url = "https://repo.fancyinnovations.com/releases")
     maven("https://repo.papermc.io/repository/maven-public/")
-    maven("https://jitpack.io")
+    maven("https://repo.codemc.org/repository/maven-public/")
     maven("https://repo.alessiodp.com/releases/")
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
-    maven("https://repo.fancyplugins.de/releases/")
+    maven("https://nexus.hc.to/content/repositories/pub_releases")
 }
 
 dependencies {
-    compileOnly("io.papermc.paper:paper-api:$mcVersion-R0.1-SNAPSHOT")
+    compileOnly("io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT")
 
-    implementation("de.oliver:FancyLib:1.0.5")
+    implementation("de.oliver:FancyLib:38")
+    implementation("de.oliver:config:1.0.1")
+    implementation("de.oliver.FancyAnalytics:java-sdk:0.0.6")
+    implementation("de.oliver.FancyAnalytics:mc-api:0.1.13")
+    implementation("de.oliver.FancyAnalytics:logger:0.0.8")
 
-    compileOnly("com.github.MilkBowl:VaultAPI:1.7.1")
+    compileOnly("net.milkbowl.vault:VaultAPI:1.7")
 
     compileOnly("me.clip:placeholderapi:2.11.5")
 
-    val commandapiVersion = "9.3.0"
-    implementation("dev.jorel:commandapi-bukkit-shade:$commandapiVersion")
-    compileOnly("dev.jorel:commandapi-annotations:$commandapiVersion")
-    annotationProcessor("dev.jorel:commandapi-annotations:$commandapiVersion")
+    val commandapiVersion = "11.1.0"
+    implementation("dev.jorel:commandapi-paper-shade:$commandapiVersion")
+    compileOnly("dev.jorel:commandapi-paper-annotations:$commandapiVersion")
+    annotationProcessor("dev.jorel:commandapi-paper-annotations:$commandapiVersion")
+
+    implementation("io.github.revxrsal:lamp.common:4.0.0-rc.12")
+    implementation("io.github.revxrsal:lamp.bukkit:4.0.0-rc.12")
+}
+
+paper {
+    name = "FancyEconomy"
+    main = "de.oliver.fancyeconomy.FancyEconomy"
+    bootstrapper = "de.oliver.fancyeconomy.FancyEconomyBootstrapper"
+    loader = "de.oliver.fancyeconomy.FancyEconomyLoader"
+    foliaSupported = true
+    version = getFEVersion()
+    description = "Simple and lightweight economy plugin with support for multiple currencies and a powerful API"
+    apiVersion = "1.19"
+    load = BukkitPluginDescription.PluginLoadOrder.POSTWORLD
+    serverDependencies {
+        register("Vault") {
+            required = false
+            load = PaperPluginDescription.RelativeLoadOrder.BEFORE
+        }
+        register("PlaceholderAPI") {
+            required = false
+            load = PaperPluginDescription.RelativeLoadOrder.BEFORE
+        }
+    }
+    hasOpenClassloader = true
 }
 
 java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+    toolchain.languageVersion.set(JavaLanguageVersion.of(21))
 }
 
 tasks {
     runServer {
-        minecraftVersion(mcVersion)
+        minecraftVersion("1.21.11")
     }
 
     shadowJar {
@@ -54,7 +90,7 @@ tasks {
         repositories {
             maven {
                 name = "fancypluginsReleases"
-                url = uri("https://repo.fancyplugins.de/releases")
+                url = uri("https://repo.fancyinnovations.com/releases")
                 credentials(PasswordCredentials::class)
                 authentication {
                     isAllowInsecureProtocol = true
@@ -64,7 +100,7 @@ tasks {
 
             maven {
                 name = "fancypluginsSnapshots"
-                url = uri("https://repo.fancyplugins.de/snapshots")
+                url = uri("https://repo.fancyinnovations.com/snapshots")
                 credentials(PasswordCredentials::class)
                 authentication {
                     isAllowInsecureProtocol = true
@@ -76,7 +112,7 @@ tasks {
             create<MavenPublication>("maven") {
                 groupId = project.group.toString()
                 artifactId = project.name
-                version = project.version.toString()
+                version = getFEVersion()
                 from(project.components["java"])
             }
         }
@@ -91,20 +127,34 @@ tasks {
 
         // Set the release flag. This configures what version bytecode the compiler will emit, as well as what JDK APIs are usable.
         // See https://openjdk.java.net/jeps/247 for more information.
-        options.release.set(17)
+        options.release.set(21)
     }
     javadoc {
         options.encoding = Charsets.UTF_8.name() // We want UTF-8 for everything
     }
     processResources {
         filteringCharset = Charsets.UTF_8.name() // We want UTF-8 for everything
+
         val props = mapOf(
-            "version" to project.version,
             "description" to project.description,
+            "version" to getFEVersion(),
+            "commit_hash" to "",
+            "channel" to (System.getenv("RELEASE_CHANNEL") ?: "").ifEmpty { "undefined" },
+            "platform" to (System.getenv("RELEASE_PLATFORM") ?: "").ifEmpty { "undefined" }
         )
+
         inputs.properties(props)
-        filesMatching("plugin.yml") {
+
+        filesMatching("paper-plugin.yml") {
+            expand(props)
+        }
+
+        filesMatching("version.yml") {
             expand(props)
         }
     }
+}
+
+fun getFEVersion(): String {
+    return file("VERSION").readText()
 }

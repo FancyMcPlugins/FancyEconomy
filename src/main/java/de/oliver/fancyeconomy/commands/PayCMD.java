@@ -42,15 +42,17 @@ public class PayCMD {
         UUID uuid = targetPlayer != null ? targetPlayer.getUniqueId() : UUIDFetcher.getUUID(targetName);
 
         if (uuid == null) {
-            MessageHelper.error(player, FancyEconomy.getInstance().getLang().get(
-                    "player-not-found",
-                    "player", targetName
-            ));
+            FancyEconomy.getInstance().getTranslator()
+                    .translate("player-not-found")
+                    .replace("player", targetName)
+                    .send(player);
             return;
         }
 
         if (player.getUniqueId().equals(uuid)) {
-            MessageHelper.warning(player, FancyEconomy.getInstance().getLang().get("cannot-pay-yourself"));
+            FancyEconomy.getInstance().getTranslator()
+                    .translate("cannot-pay-yourself")
+                    .send(player);
             return;
         }
 
@@ -65,31 +67,33 @@ public class PayCMD {
 
         boolean allowNegativeBalance = FancyEconomy.getInstance().getFancyEconomyConfig().allowNegativeBalance();
         if (!allowNegativeBalance && from.getBalance(currency) < amount) {
-            MessageHelper.error(player, FancyEconomy.getInstance().getLang().get("not-enough-money"));
+            FancyEconomy.getInstance().getTranslator()
+                    .translate("not-enough-money")
+                    .send(player);
             return;
         }
 
         double maxNegativeBalance = FancyEconomy.getInstance().getFancyEconomyConfig().getMaxNegativeBalance();
         if (allowNegativeBalance && from.getBalance(currency) - maxNegativeBalance < amount) {
-            MessageHelper.error(player, FancyEconomy.getInstance().getLang().get("not-enough-money"));
+            FancyEconomy.getInstance().getTranslator()
+                    .translate("not-enough-money")
+                    .send(player);
             return;
         }
 
         from.removeBalance(currency, amount);
         to.addBalance(currency, amount);
 
-        MessageHelper.success(player, FancyEconomy.getInstance().getLang().get(
-                "paid-sender",
-                "amount", currency.format(amount),
-                "receiver", to.getUsername()
-        ));
+        FancyEconomy.getInstance().getTranslator().translate("paid-sender")
+                .replace("amount", currency.format(amount))
+                .replace("receiver", to.getUsername())
+                .send(player);
 
         if (targetPlayer != null) {
-            MessageHelper.info(player, FancyEconomy.getInstance().getLang().get(
-                    "paid-receiver",
-                    "amount", currency.format(amount),
-                    "sender", from.getUsername()
-            ));
+            FancyEconomy.getInstance().getTranslator().translate("paid-receiver")
+                    .replace("amount", currency.format(amount))
+                    .replace("sender", from.getUsername())
+                    .send(targetPlayer);
         }
     }
 

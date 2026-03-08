@@ -35,10 +35,10 @@ public class BalanceCMD {
         Currency currency = CurrencyRegistry.getDefaultCurrency();
         double balance = currencyPlayer.getBalance(currency);
 
-        MessageHelper.info(player, FancyEconomy.getInstance().getLang().get(
-                "your-balance",
-                "balance", currency.format(balance)
-        ));
+        FancyEconomy.getInstance().getTranslator()
+                .translate("your-balance")
+                .replace("balance", currency.format(balance))
+                .send(player);
     }
 
     @Default
@@ -55,10 +55,10 @@ public class BalanceCMD {
         UUID uuid = targetPlayer != null ? targetPlayer.getUniqueId() : UUIDFetcher.getUUID(targetName);
 
         if (uuid == null) {
-            MessageHelper.error(player, FancyEconomy.getInstance().getLang().get(
-                    "player-not-found",
-                    "player", targetName
-            ));
+            FancyEconomy.getInstance().getTranslator()
+                    .translate("player-not-found")
+                    .replace("player", targetName)
+                    .send(player);
             return;
         }
 
@@ -71,11 +71,11 @@ public class BalanceCMD {
         Currency currency = CurrencyRegistry.getDefaultCurrency();
         double balance = currencyPlayer.getBalance(currency);
 
-        MessageHelper.info(player, FancyEconomy.getInstance().getLang().get(
-                "balance-others",
-                "player", currencyPlayer.getUsername(),
-                "balance", currency.format(balance)
-        ));
+        FancyEconomy.getInstance().getTranslator()
+                .translate("balance-others")
+                .replace("player", currencyPlayer.getUsername())
+                .replace("balance", currency.format(balance))
+                .send(player);
     }
 
 }

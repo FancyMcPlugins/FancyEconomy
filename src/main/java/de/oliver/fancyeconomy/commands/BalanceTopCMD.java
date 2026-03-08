@@ -41,7 +41,9 @@ public class BalanceTopCMD {
         BalanceTop balanceTop = BalanceTop.getForCurrency(currency);
 
         if ((page - 1) * ENTRIES_PER_PAGE > balanceTop.getAmountEntries()) {
-            MessageHelper.warning(player, FancyEconomy.getInstance().getLang().get("balance-top-empty-page"));
+            FancyEconomy.getInstance().getTranslator()
+                    .translate("balance-top-empty-page")
+                    .send(player);
             return;
         }
 
@@ -59,10 +61,10 @@ public class BalanceTopCMD {
         }
 
         int yourPlace = balanceTop.getPlayerPlace(player.getUniqueId());
-        MessageHelper.info(player, FancyEconomy.getInstance().getLang().get(
-                "balancetop-your-place",
-                "place", yourPlace > 0 ? String.valueOf(yourPlace) : "N/A"
-        ));
+        FancyEconomy.getInstance().getTranslator()
+                .translate("balancetop-your-place")
+                .replace("place", yourPlace > 0 ? String.valueOf(yourPlace) : "N/A")
+                .send(player);
     }
 
 }

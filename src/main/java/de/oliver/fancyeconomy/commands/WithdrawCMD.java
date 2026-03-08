@@ -34,7 +34,9 @@ public class WithdrawCMD {
         Currency currency = CurrencyRegistry.getDefaultCurrency();
 
         if (!currency.isWithdrawable()) {
-            MessageHelper.error(player, FancyEconomy.getInstance().getLang().get("not-withdrawable"));
+            FancyEconomy.getInstance().getTranslator()
+                    .translate("not-withdrawable")
+                    .send(player);
             return;
         }
 
@@ -45,30 +47,34 @@ public class WithdrawCMD {
         double maxWithdrawAmount = FancyEconomy.getInstance().getFancyEconomyConfig().getMaxWithdrawAmount();
 
         if (amount < minWithdrawAmount) {
-            MessageHelper.error(player, FancyEconomy.getInstance().getLang().get(
-                    "min-withdrawable",
-                    "amount", currency.format(minWithdrawAmount)
-            ));
+            FancyEconomy.getInstance().getTranslator()
+                    .translate("min-withdrawable")
+                    .replace("amount", currency.format(minWithdrawAmount))
+                    .send(player);
             return;
         }
 
         if (amount > maxWithdrawAmount) {
-            MessageHelper.error(player, FancyEconomy.getInstance().getLang().get(
-                    "max-withdrawable",
-                    "amount", currency.format(maxWithdrawAmount)
-            ));
+            FancyEconomy.getInstance().getTranslator()
+                    .translate("max-withdrawable")
+                    .replace("amount", currency.format(maxWithdrawAmount))
+                    .send(player);
             return;
         }
 
         boolean allowNegativeBalance = FancyEconomy.getInstance().getFancyEconomyConfig().allowNegativeBalance();
         if (!allowNegativeBalance && currencyPlayer.getBalance(currency) < amount) {
-            MessageHelper.error(player, FancyEconomy.getInstance().getLang().get("not-enough-money"));
+            FancyEconomy.getInstance().getTranslator()
+                    .translate("not-enough-money")
+                    .send(player);
             return;
         }
 
         double maxNegativeBalance = FancyEconomy.getInstance().getFancyEconomyConfig().getMaxNegativeBalance();
         if (allowNegativeBalance && currencyPlayer.getBalance(currency) - maxNegativeBalance < amount) {
-            MessageHelper.error(player, FancyEconomy.getInstance().getLang().get("not-enough-money"));
+            FancyEconomy.getInstance().getTranslator()
+                    .translate("not-enough-money")
+                    .send(player);
             return;
         }
 
@@ -76,15 +82,17 @@ public class WithdrawCMD {
 
         HashMap<Integer, ItemStack> leftOver = player.getInventory().addItem(withdrawItem);
         if (leftOver.size() > 0) {
-            MessageHelper.error(player, FancyEconomy.getInstance().getLang().get("no-inventory-space"));
+            FancyEconomy.getInstance().getTranslator()
+                    .translate("no-inventory-space")
+                    .send(player);
             return;
         }
 
         currencyPlayer.removeBalance(currency, amount);
 
-        MessageHelper.success(player, FancyEconomy.getInstance().getLang().get(
-                "withdraw-success",
-                "amount", currency.format(amount)
-        ));
+        FancyEconomy.getInstance().getTranslator()
+                .translate("withdraw-success")
+                .replace("amount", currency.format(amount))
+                .send(player);
     }
 }
