@@ -1,32 +1,41 @@
-![](fancyeconomy_title.png)
+![FancyEconomy Banner](https://fancyinnovations.com/logos-and-banners/fancyeconomy-banner.png)
 
 # 
 
-![Latest Version](https://img.shields.io/github/v/release/FancyMcPlugins/FancyEconomy?style=flat-square)
+<div style="display: flex; justify-content:space-evenly">
+
+![Latest Version](https://fancyspaces.net/api/v1/badges/latest-version?space_id=fancyeconomy)
+
 [![Discord](https://img.shields.io/discord/899740810956910683?color=7289da&logo=Discord&label=Discord&style=flat-square)](https://discord.gg/ZUgYCEJUEx)
+
 ![GitHub Downloads](https://img.shields.io/github/downloads/FancyMcPlugins/FancyEconomy/total?logo=GitHub&style=flat-square)
-[![Downloads](https://img.shields.io/modrinth/dt/fancyeconomy?color=00AF5C&label=modrinth&style=flat&logo=modrinth)](https://modrinth.com/plugin/fancyeconomy/versions)
 
-**-------------------------------------------**
+[![Modrinth Downloads](https://img.shields.io/modrinth/dt/fancyeconomy?color=00AF5C&label=modrinth&style=flat&logo=modrinth)](https://modrinth.com/plugin/fancyeconomy/versions)
 
-**This plugin is no longer being supported, developed and maintained. There will be only updates for real high critical security issues. Do not expect any new feature or bug fixed.**
+[![FancySpaces Downloads](https://fancyspaces.net/api/v1/badges/downloads?space_id=fancyeconomy)](https://fancyspaces.net/spaces/fancyeconomy)
 
-**-------------------------------------------**
+</div>
 
-Simple economy plugin that lets you add multiple currencies
+Simple economy plugin that lets you add multiple currencies.
 
-**Only supported for 1.20.1** _(might work in other versions too tho)_<br>
-_Using [paper](https://papermc.io/downloads) is highly recommended_
+**Only supported for Paper and Folia 1.21.11**. <br>
+_The plugin might also work in older versions and using forks of Paper._
 
-Vault and PlaceholderAPI is supported.
+## Features
+
+* Multiple currencies
+* MySQL or SQLite storage
+* Withdraw money notes
+* Vault integration
+* Placeholders for PlaceholderAPI
 
 ## Get the plugin
 
 You can download the latest versions at the following places:
 
-- https://hangar.papermc.io/Oliver/FancyEconomy
-- https://modrinth.com/plugin/fancyeconomy
-- https://github.com/FancyMcPlugins/FancyEconomy/releases
+- FancySpaces: https://fancyspaces.net/spaces/fancyeconomy
+- Modrinth: https://modrinth.com/plugin/fancyeconomy
+- Hangar: https://hangar.papermc.io/Oliver/FancyEconomy
 - Build from source
 
 ## Commands
@@ -54,19 +63,19 @@ For each currency there will a command:
 
 ## Permissions
 
-`FancyEconomy.balance` - access to the /balance command<br>
-`FancyEconomy.pay` - access to the /pay command<br>
-`FancyEconomy.withdraw` - access to the /withdraw command<br>
-`FancyEconomy.admin` - access to the /FancyEconomy command<br>
-`FancyEconomy.<currency>` - access to the /(currency) balance|pay commands<br>
-`FancyEconomy.<currency>.admin` - access to the /(currency) set|add|remove commands<br>
+- `FancyEconomy.balance` - access to the /balance command<br>
+- `FancyEconomy.pay` - access to the /pay command<br>
+- `FancyEconomy.withdraw` - access to the /withdraw command<br>
+- `FancyEconomy.admin` - access to the /FancyEconomy command<br>
+- `FancyEconomy.<currency>` - access to the /(currency) balance|pay commands<br>
+- `FancyEconomy.<currency>.admin` - access to the /(currency) set|add|remove commands<br>
 
 ## Placeholders
 
-`%FancyEconomy_balance%` - displays the player's balance (default currency)<br>
-`%FancyEconomy_balance_raw%` - displays the player's balance in a raw format (e.g. "5127422587,43")<br>
-`%FancyEconomy_balance_<currency>%` - displays the player's balance for a certain currency
-`%FancyEconomy_balance_raw_<currency>%` - displays the player's balance for a certain currency in a raw format
+- `%FancyEconomy_balance%` - displays the player's balance (default currency)<br>
+- `%FancyEconomy_balance_raw%` - displays the player's balance in a raw format (e.g. "5127422587,43")<br>
+- `%FancyEconomy_balance_<currency>%` - displays the player's balance for a certain currency
+- `%FancyEconomy_balance_raw_<currency>%` - displays the player's balance for a certain currency in a raw format
 
 ## Build from source
 

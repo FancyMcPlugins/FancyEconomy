@@ -44,9 +44,6 @@ dependencies {
     implementation("dev.jorel:commandapi-paper-shade:$commandapiVersion")
     compileOnly("dev.jorel:commandapi-paper-annotations:$commandapiVersion")
     annotationProcessor("dev.jorel:commandapi-paper-annotations:$commandapiVersion")
-
-    implementation("io.github.revxrsal:lamp.common:4.0.0-rc.12")
-    implementation("io.github.revxrsal:lamp.bukkit:4.0.0-rc.12")
 }
 
 paper {
