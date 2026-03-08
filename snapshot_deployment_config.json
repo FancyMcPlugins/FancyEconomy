@@ -1,0 +1,14 @@
+{
+  "project_name": "FancyEconomy",
+  "plugin_jar_path": "build/libs/FancyEconomy-%VERSION%.jar",
+  "changelog_path": "CHANGELOG-SNAPSHOT.md",
+  "version_path": "VERSION",
+  "fancyspaces": {
+    "space_id": "MX6Cna3z",
+    "platform": "paper",
+    "channel": "beta",
+    "supported_versions": [
+      "1.21.11"
+    ]
+  }
+}

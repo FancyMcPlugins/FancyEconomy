@@ -56,7 +56,7 @@ paper {
     loader = "de.oliver.fancyeconomy.FancyEconomyLoader"
     foliaSupported = true
     version = getFEVersion()
-    description = "Simple and lightweight economy plugin with support for multiple currencies and a powerful API"
+    description = "Simple and lightweight economy plugin with support for multiple currencies"
     apiVersion = "1.19"
     load = BukkitPluginDescription.PluginLoadOrder.POSTWORLD
     serverDependencies {
@@ -89,29 +89,51 @@ tasks {
     publishing {
         repositories {
             maven {
-                name = "fancypluginsReleases"
-                url = uri("https://repo.fancyinnovations.com/releases")
-                credentials(PasswordCredentials::class)
+                name = "fancyspacesReleases"
+                url = uri("https://maven.fancyspaces.net/fancyinnovations/releases")
+
+                credentials(HttpHeaderCredentials::class) {
+                    name = "Authorization"
+                    value = "ApiKey " + providers
+                        .gradleProperty("fancyspacesApiKey")
+                        .orElse(
+                            providers
+                                .environmentVariable("FANCYSPACES_API_KEY")
+                                .orElse("")
+                        )
+                        .get()
+                }
+
                 authentication {
-                    isAllowInsecureProtocol = true
-                    create<BasicAuthentication>("basic")
+                    create<HttpHeaderAuthentication>("header")
                 }
             }
 
             maven {
-                name = "fancypluginsSnapshots"
-                url = uri("https://repo.fancyinnovations.com/snapshots")
-                credentials(PasswordCredentials::class)
+                name = "fancyspacesSnapshots"
+                url = uri("https://maven.fancyspaces.net/fancyinnovations/snapshots")
+
+                credentials(HttpHeaderCredentials::class) {
+                    name = "Authorization"
+                    value = "ApiKey " + providers
+                        .gradleProperty("fancyspacesApiKey")
+                        .orElse(
+                            providers
+                                .environmentVariable("FANCYSPACES_API_KEY")
+                                .orElse("")
+                        )
+                        .get()
+                }
+
                 authentication {
-                    isAllowInsecureProtocol = true
-                    create<BasicAuthentication>("basic")
+                    create<HttpHeaderAuthentication>("header")
                 }
             }
         }
         publications {
             create<MavenPublication>("maven") {
-                groupId = project.group.toString()
-                artifactId = project.name
+                groupId = "de.oliver"
+                artifactId = "fancyeconomy"
                 version = getFEVersion()
                 from(project.components["java"])
             }
