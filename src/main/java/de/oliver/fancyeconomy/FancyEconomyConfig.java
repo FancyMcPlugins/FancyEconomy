@@ -66,6 +66,7 @@ public class FancyEconomyConfig {
             config.set("currencies.money.symbol", "$");
         }
 
+        CurrencyRegistry.CURRENCIES.clear();
         for (String name : config.getConfigurationSection("currencies").getKeys(false)) {
             String symbol = (String) ConfigHelper.getOrDefault(config, "currencies." + name + ".symbol", "$");
 
