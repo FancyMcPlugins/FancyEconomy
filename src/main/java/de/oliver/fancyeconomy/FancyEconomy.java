@@ -153,6 +153,9 @@ public class FancyEconomy extends JavaPlugin {
         translator.setSelectedLanguage(lang);
 
         database = config.getDatabase();
+        if (database == null) {
+            getLogger().severe("Unsupported database type");
+        }
         database.connect();
         createDatabaseTables();
 
@@ -180,7 +183,9 @@ public class FancyEconomy extends JavaPlugin {
             player.save(true);
         }
 
-        database.close();
+        if (database != null) {
+            database.close();
+        }
     }
 
     private void registerCommands() {
