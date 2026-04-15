@@ -213,7 +213,6 @@ public class FancyEconomy extends JavaPlugin {
             new CommandAPICommand(currency.name())
                     .withPermission("fancyeconomy." + currency.name())
                     .withArguments(
-                            new LiteralArgument("bal").setListed(false),
                             new LiteralArgument("balance").setListed(false)
                     )
                     .executesPlayer((sender, args) -> {
@@ -225,7 +224,6 @@ public class FancyEconomy extends JavaPlugin {
             new CommandAPICommand(currency.name())
                     .withPermission("fancyeconomy." + currency.name())
                     .withArguments(
-                            new LiteralArgument("bal").setListed(false),
                             new LiteralArgument("balance").setListed(false)
                     )
                     .withArguments(new StringArgument("targetName").includeSuggestions(allPlayersSuggestion))
