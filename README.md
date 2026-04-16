@@ -16,6 +16,10 @@
 
 </div>
 
+**IMPORTANT: The code for FancyEconomy has been migrated to our new monorepo.
+
+Link to monorepo: https://github.com/FancyInnovations/FancyPlugins**
+
 Simple economy plugin that lets you add multiple currencies.
 
 **Only supported for Paper and Folia 1.21.11**. <br>
